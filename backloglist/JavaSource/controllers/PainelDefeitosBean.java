@@ -55,9 +55,7 @@ public class PainelDefeitosBean {
 	
 	public void buscarDefeitosAtivos() {
 		
-		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();
-											
-		System.out.println(this.listaDefeitos.size());
+		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();											
 		
 	}
 	
@@ -73,7 +71,7 @@ public class PainelDefeitosBean {
 
 			if (statusValue != 0) {
 
-				buscarDefeitosAtivos();
+				listaDefeitos.remove(defeito);
 				
 			}
 
