@@ -1,9 +1,8 @@
 package controllers;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,10 +19,23 @@ import util.JSFUtil;
 @Singleton
 public class PainelDefeitosBean {
 	
-	public List<Defeito> listaDefeitos;
+	public List<Defeito> listaDefeitos;	
 	
-	public ScheduledExecutorService scheduler;
-
+	
+	Timer timer = new Timer();
+	
+	TimerTask task = new TimerTask() {
+		
+		@Override
+		public void run() {
+			
+			buscarDefeitosAtivos();
+			
+		}
+	};
+	
+	
+	
 	@EJB
 	private AtendimentoServico atendimentoServico;	
 			
@@ -35,8 +47,8 @@ public class PainelDefeitosBean {
 	public void init() {
 		
 		buscarDefeitosAtivos();
-		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new Tasks(), 0, 1, TimeUnit.SECONDS);
+		
+		timer.scheduleAtFixedRate(task, 60000, 60000);
 		
 	}	
 	
