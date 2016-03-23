@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<title><ui:insert name="tituloPagina">Altere o título da página</ui:insert></title>
+	<ui:insert name="estilos">
+		<ui:include src="/recursos/template/estilos.xhtml" />
+	</ui:insert>
+	<ui:insert name="scripts">
+		<ui:include src="/recursos/template/scripts.xhtml" />
+	</ui:insert>
+</h:head>
+
+<h:body>
+
+	<ui:insert name="eventos">
+		<!-- 		<f:metadata> -->
+		<!-- 			<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" /> -->
+		<!-- 		</f:metadata> -->
+	</ui:insert>
+
+	<div id="topo" class="gradienteTelefonica">
+		<div class="marca">
+			<ui:insert name="tituloSistema">
+				<a href="#"> <span>BacklogList</span> <span class="linhaDif">_</span></a>
+			</ui:insert>			
+		</div>
+		
+	</div>	
+	
+	<div id="corpo">
+		<div class="barraLateral">
+			<ui:include src="/recursos/template/menu.xhtml" />
+		</div>
+
+		<h:form>
+			<div class="conteudo">
+				<div id="conteudoTopo">
+
+					<h1>
+						<ui:insert name="tituloPrincipal">Título Principal</ui:insert>
+					</h1>
+					<p>
+						<ui:insert name="tituloSecundario">título secundário miniaturizado</ui:insert>
+					</p>
+				</div>
+				<div id="mensagens">
+					<ui:insert name="mensagens">
+						<p:messages globalOnly="true" autoUpdate="true" closable="true" />
+					</ui:insert>
+				</div>
+				<div class="barraAcoes">
+					<ui:insert name="botoesAcao">
+						Aqui ficam os botões
+					</ui:insert>
+				</div>
+				<div id="principal">
+					<ui:insert name="conteudo">Espaço para os formulários</ui:insert>
+				</div>
+				<div class="barraAcoes">
+					<ui:insert name="botoesAcao">
+						Aqui ficam os botões
+				</ui:insert>
+				</div>
+			</div>
+
+		</h:form>
+
+	</div>
+
+
+
+
+
+
+
+</h:body>
+</html>

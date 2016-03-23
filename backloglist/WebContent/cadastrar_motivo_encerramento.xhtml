@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Cadastrar Motivos Encerramento
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Cadastrar Motivos Encerramento</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:panel id="basic" header="Basic" style="margin-bottom:20px">
+
+			<p:fieldset legend="Cadastro" toggleable="true" toggleSpeed="500">
+			
+					<h:panelGrid columns="4" cellpadding="10">
+
+						<p:outputLabel for="n0" value="Motivo Encerramento: " />
+						<p:inputText id="n0"
+							value="#{motivoEncerramentoBean.motivoEncerramento.motivo}" />
+						<p:message for="n0" />
+
+						<p:commandButton
+							action="#{motivoEncerramentoBean.cadastrarMotivosEncerramento()}"
+							value="Cadastrar!" update="@form" />
+
+					</h:panelGrid>
+
+			</p:fieldset>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		Relatórios
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-bar-chart-o"> </i> Relatórios		
+	</ui:define>
+
+	<ui:define name="tituloSecundario">
+	</ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:panelGrid columns="3" style="margin-bottom: 15px;">
+			<p:outputLabel for="dataInicio" value="Data Início: " />
+			<p:outputLabel for="dataFim" value="Data Fim: " />
+			<p:outputLabel for="busca" value="" />
+			<p:calendar id="dataInicio" value="#{relatorioBean.dataInicio}"
+				pattern="dd/MM/yyyy" mask="true" />
+			<p:calendar id="dataFim" value="#{relatorioBean.dataFim}"
+				pattern="dd/MM/yyyy" mask="true" />
+
+			<p:commandButton id="busca" value="Buscar"
+				action="#{relatorioBean.listarDefeitosEncerradosPorSupervisor()}"
+				update="relats" />
+
+		</h:panelGrid>
+
+		<p:dataTable id="relats" var="relatorio" emptyMessage="Preencha as datas para obter os defeitos encerrados"
+			value="#{relatorioBean.listaDeDefeito}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+			paginator="true" rows="5" style="margin-bottom:20px"
+			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+			<f:facet name="header">
+	            	Defeitos encerrados	            
+				</f:facet>
+
+			<f:facet name="{Exporters}">
+				<h:commandLink>
+					<i class="fa fa-download"></i> 
+						Exportar base
+						<p:dataExporter type="xls" target="relats"
+						fileName="Relatorio_Encerrado" />
+				</h:commandLink>
+			</f:facet>
+
+			<p:column headerText="SS">
+				<h:outputText value="#{relatorio.ss}" />
+			</p:column>
+
+			<p:column headerText="Tipificação">
+				<h:outputText value="#{relatorio.tipificacao}" />
+			</p:column>
+
+			<p:column headerText="Motivo Encerramento">
+				<h:outputText rendered="#{relatorio.status==2}"
+					value="#{relatorio.motivoEncerramento.motivo}" />
+				<h:outputText rendered="#{relatorio.status==3}"
+					value="Enviado a campo" />
+			</p:column>
+
+			<p:column headerText="Colaborador">
+				<h:outputText value="#{relatorio.usuario.login}" />
+			</p:column>
+
+			<p:column headerText="Data de Abertura">
+				<h:outputText value="#{relatorio.dataAbertura.toLocaleString()}" />
+			</p:column>
+
+			<p:column headerText="Data de Vencimento">
+				<h:outputText value="#{relatorio.dataVencimento.toLocaleString()}" />
+			</p:column>
+
+			<p:column headerText="Data de Encerramento">
+				<h:outputText value="#{relatorio.dataEncerrado.toLocaleString()}" />
+			</p:column>
+
+		</p:dataTable>
+		<p:chart id="graphsStatus" type="pie" model="#{relatorioBean.graficoStatus}"
+			style="width:45%;height:300px; float: left;" />
+
+		<p:chart id="graphsMotivos" type="pie" model="#{relatorioBean.graficoMotivos}"
+			style="width:45%;height:300px; float: right;" />
+			
+		<p:poll interval="30" listener="#{relatorioBean.init()}" update="graphsStatus"/>
+		<p:poll interval="35" listener="#{relatorioBean.init()}" update="graphsMotivos"/>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Defeitos
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Defeitos</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+	
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="form">
+			<p:dataTable id="data" var="def" value="#{atendimentoBean.listarDefeitosColaborador()}" emptyMessage="Você não possui defeitos associados"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="10" style="margin-bottom:20px"
+				currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+				<p:column headerText="SS">
+					<h:outputText value="#{def.ss}" />
+				</p:column>
+
+				<p:column headerText="Tipificação">
+					<h:outputText value="#{def.tipificacao}" />
+				</p:column>
+
+				<p:column headerText="Data abertura">
+					<h:outputText value="#{def.dataAbertura.toLocaleString()}" />
+				</p:column>
+
+				<p:column headerText="Data vencimento">
+					<h:outputText value="#{def.dataVencimento.toLocaleString()}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="text-align: center;">
+					<p:button outcome="detalhe_defeito" value="Tratar">
+						<f:param name="ss" value="#{def.ss}"/>
+					</p:button>					
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Lista Motivo Encerramento
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Lista Motivo Encerramento</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+		<f:event listener="#{motivoEncerramentoBean.listarMotivosEncerramentos()}" type="preRenderView"/>
+	</ui:define>
+
+	<ui:define name="conteudo">
+				
+		<p:fieldset legend="Lista" toggleable="true" toggleSpeed="500"
+			style="margin-top: 15px;">
+			<h:form id="formtutoo">
+				<p:dataTable var="mot"
+					value="#{motivoEncerramentoBean.listaDeMotivos}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10" style="margin-bottom:20px"
+					currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+					<p:column headerText="Motivo" style="text-align: center;">
+
+						<h:outputText value="#{mot.motivo}" />
+
+					</p:column>
+
+					<p:column headerText="Status" style="text-align: center;">
+
+						<h:outputText rendered="#{mot.status==1}" value="Ativo" />
+						<h:outputText rendered="#{mot.status==2}" value="Inativo" />
+
+					</p:column>
+
+					<p:column headerText="Ações" style="text-align: center;">
+
+						<p:commandButton value="Editar" onclick="PF('editaMotivo').show()"
+							update="@form:editaPanel">
+
+							<f:setPropertyActionListener value="#{mot}" target="#{motivoEncerramentoBean.motivoEncerramento}" />
+
+						</p:commandButton>
+
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog header="Editar Motivo" modal="true"
+					widgetVar="editaMotivo" height="80" width="250" resizable="false">
+
+					<p:outputPanel id="editaPanel">
+
+						<h:panelGrid columns="2"
+							rendered="#{not empty motivoEncerramentoBean.motivoEncerramento}"
+							columnClasses="label, value">
+
+							<h:outputText value="Novo nome:" />
+							<p:inputText id="nomeAlt"
+								value="#{motivoEncerramentoBean.motivoEncerramento.motivo}" />
+
+							<h:outputText for="statusDoMotivo" value="Status: " />
+							<p:selectOneMenu id="statusDoMotivo"
+								value="#{motivoEncerramentoBean.motivoEncerramento.status}">
+								<f:selectItem itemLabel="Ativo" itemValue="1" />
+								<f:selectItem itemLabel="Inativo" itemValue="2" />
+							</p:selectOneMenu>
+																					
+							<p:commandButton
+								action="#{motivoEncerramentoBean.editarMotivoEncerramento()}"
+								value="Salvar" update="@all" />
+
+							<h:inputHidden
+								value="#{motivoEncerramentoBean.motivoEncerramento.id}" />
+
+						</h:panelGrid>
+
+
+					</p:outputPanel>
+
+				</p:dialog>
+
+			</h:form>
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+</html>

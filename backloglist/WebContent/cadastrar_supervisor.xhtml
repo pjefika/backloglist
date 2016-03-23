@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Cadastrar Motivos Encerramento
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Cadastrar Supervisor</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:panel id="basic" header="Basic" style="margin-bottom:20px">
+
+			<p:fieldset legend="Cadastro" toggleable="true" toggleSpeed="500">
+
+				<h:panelGrid columns="3" cellpadding="10">
+
+					<p:outputLabel for="n0" value="Supervisor: " />
+					<p:inputText id="n0"
+						value="#{supervisorBean.supervisor.nomeSupervisor}" />
+					<p:message for="n0" />
+
+					<p:outputLabel for="n1" value="Matricula:  " />
+					<p:inputText id="n1" value="#{supervisorBean.supervisor.matricula}" />
+					<p:message for="n1" />
+
+					<p:commandButton action="#{supervisorBean.cadastrarSupervisor()}"
+						value="Cadastrar!" update="@form" />
+
+				</h:panelGrid>
+
+			</p:fieldset>
+		</p:panel>
+		<p:panel>
+			<p:dataTable id="supervisores" var="supers"
+				value="#{supervisorBean.listarSupervisores()}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="10" style="margin-bottom:20px"
+				currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+				<f:facet name="header">
+	            	Lista de supervisores	            
+				</f:facet>
+
+				<p:column headerText="Matricula">
+					<h:outputText value="#{supers.matricula}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{supers.nomeSupervisor}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
+</html>

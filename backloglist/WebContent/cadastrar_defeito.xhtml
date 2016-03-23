@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Cadastrar defeitos / Retirar
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Cadastrar defeitos / Retirar</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+
+			<p:panel id="basic" header="Basic" style="margin-bottom:20px">
+				<h:panelGrid columns="3" cellpadding="10">
+
+					<p:outputLabel for="n0" value="SS:" />
+					<p:inputText id="n0" value="#{atendimentoBean.defeito.ss}" />
+					<p:message for="n0" />
+
+					<p:outputLabel for="n2" value="Tipificacao:" />
+					<p:inputText id="n2" value="#{atendimentoBean.defeito.tipificacao}" />
+					<p:message for="n2" />
+
+					<p:outputLabel for="n3" value="Data abertura:" />
+					<p:calendar id="n3" value="#{atendimentoBean.defeito.dataAbertura}"
+						pattern="dd/MM/yyyy HH:mm" mask="true" />
+					<p:message for="n3" />
+
+					<p:outputLabel for="n4" value="Data Vencimento:" />
+					<p:calendar id="n4" value="#{atendimentoBean.defeito.dataVencimento}"
+						pattern="dd/MM/yyyy HH:mm" mask="true" />
+					<p:message for="n4" />
+
+					<p:commandButton action="#{atendimentoBean.CadastrarDefeito()}"
+						value="Cadastrar!" update="@form" />
+
+
+				</h:panelGrid>
+			</p:panel>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

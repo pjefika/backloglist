@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Lista Motivo Encerramento
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Lista Motivo Encerramento</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="frmTutoo">
+
+			<p:panel id="panelTutoo" header="Consulta">
+
+				<h:panelGrid columns="3" style="margin-bottom: 15px">
+
+					<p:outputLabel for="n0" value="Login ou SS: " />
+					<p:inputText id="n0" value="#{logBean.loginOUss}" />
+
+					<p:commandButton action="#{logBean.listarLogDefeitoSS()}"
+						value="Consultar" update="frmTutoo:panelTutoo" />
+
+				</h:panelGrid>
+
+				<p:dataTable id="defeitosData" var="log"
+					value="#{logBean.listaLogDefeito}" emptyMessage="Preencha o campo com Login ou SS"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10" style="margin-bottom:20px"
+					currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+					<p:column headerText="Usuário" style="text-align: center;">
+						<h:outputText value="#{log.usuario.login}" />
+					</p:column>
+					
+					<p:column headerText="SS" style="text-align: center;">
+						<h:outputText value="#{log.defeito.ss}" />
+					</p:column>
+					
+					<p:column headerText="Acão" style="text-align: center;">
+						<h:outputText value="#{log.acao}" />
+					</p:column>
+					
+					<p:column headerText="Hora da Ação" style="text-align: center;">
+						<h:outputText value="#{log.horaAcao.toLocaleString()}" />
+					</p:column>
+				</p:dataTable>
+
+
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

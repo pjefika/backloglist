@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Detalhes do defeito
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i>Detalhes do defeito</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:viewParam name="ss" value="#{atendimentoBean.defeito.ss}"></f:viewParam>
+			<f:event
+				listener="#{atendimentoBean.consultarDefeitoOperadorPorSS()}"
+				type="preRenderView" />
+		</f:metadata>
+		<h:form>
+			<p:panel id="basic" header="Detalhes" style="margin-bottom:20px;"
+				rendered="#{not empty atendimentoBean.defeito.usuario}">
+
+				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">
+					<p:panelGrid columns="2">
+
+						<p:outputLabel value="SS: " />
+						<h:outputText value="#{atendimentoBean.defeito.ss}" />
+						<p:outputLabel value="Tipificação " />
+						<h:outputText value="#{atendimentoBean.defeito.tipificacao}" />
+						<p:outputLabel value="Data abertura: " />
+						<h:outputText
+							value="#{atendimentoBean.defeito.dataAbertura.toLocaleString()}" />
+						<p:outputLabel value="Data fechamento: " />
+						<h:outputText
+							value="#{atendimentoBean.defeito.dataVencimento.toLocaleString()}" />
+
+					</p:panelGrid>
+				</p:fieldset>
+
+				<p:fieldset legend="Fulltest" toggleable="true" toggleSpeed="500"
+					style="margin-top: 15px;">
+
+					<h:form id="fulltest">
+						<p:commandButton value="Realizar Fulltest"
+							action="#{atendimentoBean.realizarFulltest()}" update="fulltest" />
+						<p:panelGrid columns="2" cellspacing="10">
+
+						</p:panelGrid>
+
+					</h:form>
+
+				</p:fieldset>
+
+				<p:fieldset legend="Ações" toggleable="true" toggleSpeed="500"
+					style="margin-top: 15px;">
+
+					<h:panelGrid columns="3">
+						<p:commandButton value="Encerrar" onclick="PF('dlg2').show();" />
+
+						<p:commandButton value="Enviar para fila" type="button"
+							onclick="PF('fila').show();" />
+
+						<p:commandButton value="Enviar para campo" type="button"
+							onclick="PF('acao').show();" />
+
+					</h:panelGrid>
+
+					<p:dialog header="Cód. Encerramento" widgetVar="dlg2" modal="true"
+						height="100" resizable="false">
+
+						<h:panelGrid columns="2">
+							<p:outputLabel for="cods" value="Cód. Encerramento:" />
+							<p:selectOneMenu id="cods"
+								value="#{atendimentoBean.defeito.motivoEncerramento}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItems
+									value="#{atendimentoBean.listarMotivosEncerramentos()}"
+									var="motivoEncerrado" itemLabel="#{motivoEncerrado.motivo}"
+									itemValue="#{motivoEncerrado}" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Confirmar"
+								action="#{atendimentoBean.encerrarDefeito()}" update="@all"
+								style="margin-top: 15px;" />
+
+						</h:panelGrid>
+					</p:dialog>
+
+					<p:dialog header="Ação" widgetVar="acao" modal="true" height="50"
+						resizable="false">
+
+						<h:panelGrid columns="2">
+						
+							<h:outputText value="Deseja realmente enviar o defeito a campo?" />
+							<br />
+
+							<p:commandButton value="Sim"
+								action="#{atendimentoBean.enviarCampo()}" ajax="true" />
+								
+							<p:commandButton value="Não" type="button"
+							onclick="PF('acao').hide();" />
+
+						</h:panelGrid>
+						
+					</p:dialog>
+					
+					<p:dialog header="Ação" widgetVar="fila" modal="true" height="50"
+						resizable="false">
+
+						<h:panelGrid columns="2">
+						
+							<h:outputText value="Deseja realmente voltar o defeito para a fila?" />
+							<br />
+
+							<p:commandButton value="Sim"
+							action="#{atendimentoBean.voltarDefeitoParaFila()}" ajax="true" />
+								
+							<p:commandButton value="Não" type="button"
+							onclick="PF('fila').hide();" />
+
+						</h:panelGrid>
+						
+					</p:dialog>
+
+
+				</p:fieldset>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>
+</html>

@@ -1,0 +1,66 @@
+ <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Lista de defeito
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Lista de defeito</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:poll interval="5" update="defeitosData"/>
+
+		<p:dataTable id="defeitosData" var="def"
+			value="#{painelDefeitosBean.listaDefeitos}"
+			emptyMessage="Não há defeitos disponiveis"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			paginator="true" style="margin-bottom:20px"
+			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+			<p:column headerText="SS">
+				<h:outputText value="#{def.ss}" />
+			</p:column>
+
+			<p:column headerText="Tipificação">
+				<h:outputText value="#{def.tipificacao}" />
+			</p:column>
+
+			<p:column headerText="Data abertura">
+				<h:outputText value="#{def.dataAbertura.toLocaleString()}" />
+			</p:column>
+
+			<p:column headerText="Data vencimento">
+				<h:outputText value="#{def.dataVencimento.toLocaleString()}" />
+			</p:column>
+
+			<p:column headerText="Ação" style="text-align: center;">
+
+				<p:commandButton id="assumi_defeito" value="Assumir" update="defeitosData" >
+				
+					<f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}" for="assumi_defeito" />
+
+					<f:actionListener binding="#{painelDefeitosBean.removeDefeito(def)}" for="assumi_defeito" />					
+
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

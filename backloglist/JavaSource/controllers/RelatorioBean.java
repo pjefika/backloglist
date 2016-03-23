@@ -1,0 +1,188 @@
+package controllers;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+
+import org.primefaces.model.chart.PieChartModel;
+
+import entidades.Defeito;
+import entidades.MotivoEncerramento;
+import model.MotivoEncerramentoServico;
+import model.RelatorioServico;
+
+@SuppressWarnings("serial")
+@ManagedBean(name="relatorioBean")
+@ViewScoped
+public class RelatorioBean implements Serializable{
+	
+	@ManagedProperty(value="#{loginBean}")
+	private LoginBean sessao;
+
+	private List<Defeito> listaDeDefeito;
+	
+	private List<MotivoEncerramento> motivos;
+
+	private PieChartModel GraficoStatus;
+	
+	private PieChartModel GraficoMotivos;
+	
+	private Date dataInicio;
+	
+	private Date dataFim;
+
+	@EJB
+	private RelatorioServico relatorioServico;
+
+	@EJB
+	private MotivoEncerramentoServico motivoEncerramentoServico;
+	
+	@PostConstruct
+	public void init() {
+		criarCharts();
+	}
+
+	private void criarCharts() {
+		criarGraficoStatus();
+		criarGraficoMotivos(this.motivoEncerramentoServico.listarMotivoEncerramento());
+	}
+
+	public RelatorioBean() {
+
+	}
+
+	public void listarDefeitosEncerradosPorSupervisor() {
+		
+		Calendar cal = Calendar.getInstance();			
+		
+		
+		if (this.dataFim == null) {
+			
+			this.dataFim = this.dataInicio;
+			
+			cal.setTime(this.dataFim);
+			cal.add(Calendar.DATE, 1);
+			
+			this.dataFim = cal.getTime();
+			
+		}else{
+			
+			cal.setTime(this.dataFim);
+			cal.add(Calendar.DATE, 1);
+			
+			this.dataFim = cal.getTime();
+			
+		}
+		
+		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerradosPorSupervisor(this.dataInicio, this.dataFim);
+		
+	}
+		
+
+	private void criarGraficoStatus() 
+	{
+		GraficoStatus = new PieChartModel();
+
+		GraficoStatus.set("Aberto: " + listarStatus(0), listarStatus(0));
+		GraficoStatus.set("Em Tratamento: " + listarStatus(1), listarStatus(1));
+		GraficoStatus.set("Encerrado: " + listarStatus(2), listarStatus(2));
+		GraficoStatus.set("Enviado a campo: " + listarStatus(3), listarStatus(3));
+
+		GraficoStatus.setTitle("Monitoramento");
+		GraficoStatus.setLegendPosition("w");
+		GraficoStatus.setSeriesColors("003245, 005466, 007486, 0095A7");
+
+	}
+	
+	private void criarGraficoMotivos(List<MotivoEncerramento> motivos) {
+		GraficoMotivos = new PieChartModel();
+						
+		for (MotivoEncerramento motivoEncerramento : motivos) {
+			GraficoMotivos.set(motivoEncerramento.getMotivo() + ": " + this.listarDefeitosPorMotivo(motivoEncerramento), this.listarDefeitosPorMotivo(motivoEncerramento));
+		}	
+		
+		GraficoMotivos.setTitle("Encerrados por Motivos");
+		GraficoMotivos.setLegendPosition("w");
+		GraficoMotivos.setSeriesColors("003245, 004356, 005466, 006476, 007486, 008597, 0095A7, 005B7, 0086C7, 00C6D7");
+
+	}
+
+	public Integer listarStatus(Integer status) {
+
+		return this.relatorioServico.ListarTodoOsDefeitos(status).size();
+
+	}	
+
+	public Integer listarDefeitosPorMotivo(MotivoEncerramento motivo) {			
+		
+		return this.relatorioServico.listarDefeitosPorMotivo(motivo).size();
+
+	}
+
+	/**
+	 * Getters 'n Setters
+	 * */
+	public List<Defeito> getListaDeDefeito() {
+		return listaDeDefeito;
+	}
+
+	public void setListaDeDefeito(List<Defeito> listaDeDefeito) {
+		this.listaDeDefeito = listaDeDefeito;
+	}
+
+	public List<MotivoEncerramento> getMotivos() {
+		return motivos;
+	}
+
+	public void setMotivos(List<MotivoEncerramento> motivos) {
+		this.motivos = motivos;
+	}
+
+	public PieChartModel getGraficoStatus() {
+		return GraficoStatus;
+	}
+
+	public void setGraficoStatus(PieChartModel graficoStatus) {
+		GraficoStatus = graficoStatus;
+	}
+
+	public PieChartModel getGraficoMotivos() {
+		return GraficoMotivos;
+	}
+
+	public void setGraficoMotivos(PieChartModel graficoMotivos) {
+		GraficoMotivos = graficoMotivos;
+	}
+
+	public LoginBean getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(LoginBean sessao) {
+		this.sessao = sessao;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+
+}
