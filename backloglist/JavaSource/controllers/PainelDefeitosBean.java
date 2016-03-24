@@ -48,7 +48,7 @@ public class PainelDefeitosBean {
 		
 		buscarDefeitosAtivos();
 		
-		timer.scheduleAtFixedRate(task, 60000, 60000);
+		timer.scheduleAtFixedRate(task, 65000, 65000);
 		
 	}	
 	
