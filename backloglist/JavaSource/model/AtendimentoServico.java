@@ -48,7 +48,7 @@ public class AtendimentoServico {
 	 * */
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarDefeitosAtivos() {
-
+		
 		try {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0");
 			return query.getResultList();
@@ -214,6 +214,32 @@ public class AtendimentoServico {
 		this.entityManager.persist(log);
 
 	}
-
+	
+	public void removeDefeitoAntigo(List<Defeito> defeitos) {
+						
+		for (Defeito defeito : defeitos) {			
+				
+			Date date = new Date();
+			
+			defeito.setStatus(4);
+			defeito.setDataEncerrado(date);
+			
+			this.entityManager.merge(defeito);
+			
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Defeito> listaDefeitosAntigos() {
+		
+		try {
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataAbertura < CURRENT_DATE AND d.status = 0");
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<Defeito>();
+		}
+		
+	}
 
 }

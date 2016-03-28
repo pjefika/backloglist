@@ -7,7 +7,8 @@ public enum TipoLog{
 	VOLTOUFILA("Voltar Defeito a Fila"),
 	SEMCONTATO("Sem contato"),
 	FULLTEST("Comando Fulltest"),
-	ENVIADOCAMPO("Enviado a Campo");
+	ENVIADOCAMPO("Enviado a Campo"),
+	VENCIDO("Defeito vencido");
 
 	private String acao;
 

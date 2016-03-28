@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,7 @@ public class PainelDefeitosBean {
 	
 	
 	Timer timer = new Timer();
+	Timer timerR = new Timer();
 	
 	TimerTask task = new TimerTask() {
 		
@@ -30,6 +32,16 @@ public class PainelDefeitosBean {
 		public void run() {
 			
 			buscarDefeitosAtivos();
+			
+		}
+	};
+	
+	TimerTask removeDefeitoAntigo = new TimerTask() {
+		
+		@Override
+		public void run() {
+			
+			removeDefeitoAntigo();
 			
 		}
 	};
@@ -49,7 +61,7 @@ public class PainelDefeitosBean {
 		buscarDefeitosAtivos();
 		
 		timer.scheduleAtFixedRate(task, 65000, 65000);
-		
+		timerR.scheduleAtFixedRate(removeDefeitoAntigo, 648000, 648000);
 	}	
 	
 	
@@ -76,10 +88,20 @@ public class PainelDefeitosBean {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
+	}
+	
+	
+	public void removeDefeitoAntigo() {
+				
+		List<Defeito> listaDefeitos = new ArrayList<Defeito>();
+		
+		listaDefeitos = this.atendimentoServico.listaDefeitosAntigos();
+		
+		this.atendimentoServico.removeDefeitoAntigo(listaDefeitos);
+				
 	}
 
 	public List<Defeito> getListaDefeitos() {
