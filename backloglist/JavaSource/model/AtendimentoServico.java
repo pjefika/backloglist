@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -169,7 +170,7 @@ public class AtendimentoServico {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.ss =:param1");
 			query.setParameter("param1", ss);
 			return (Defeito) query.getSingleResult();			
-		} catch (Exception e) {
+		} catch (NoResultException e) {
 			throw new Exception("Este defeito não foi integrado na ferramenta.");
 		}
 
@@ -210,8 +211,8 @@ public class AtendimentoServico {
 	public void realizarFulltest(Defeito defeito, Usuario usuario) {
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.FULLTEST, usuario);
-
 		this.entityManager.persist(log);
+		
 
 	}
 	
@@ -234,11 +235,25 @@ public class AtendimentoServico {
 	public List<Defeito> listaDefeitosAntigos() {
 		
 		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataAbertura < CURRENT_DATE AND d.status = 0");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0 AND d.dataSLATriagem > CURRENT_DATE");
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
 		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, Integer status) {
+		
+		try {			
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", status);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<Defeito>();			
+		}		
 		
 	}
 

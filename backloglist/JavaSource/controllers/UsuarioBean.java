@@ -15,6 +15,9 @@ import util.JSFUtil;
 @RequestScoped
 public class UsuarioBean {
 	
+	private String senha1;
+	private String senha2;
+	
 	private Usuario usuario;
 	
 	private Supervisor supervisor;
@@ -53,7 +56,14 @@ public class UsuarioBean {
 		
 		return this.usuarioServico.listarSupervisor();
 		
-	}	
+	}
+	
+	public void mudarSenha() {
+		
+		this.usuarioServico.mudarSenha(this.usuario);
+		
+	}
+	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -69,6 +79,22 @@ public class UsuarioBean {
 
 	public void setSupervisor(Supervisor supervisor) {
 		this.supervisor = supervisor;
+	}
+
+	public String getSenha1() {
+		return senha1;
+	}
+
+	public void setSenha1(String senha1) {
+		this.senha1 = senha1;
+	}
+
+	public String getSenha2() {
+		return senha2;
+	}
+
+	public void setSenha2(String senha2) {
+		this.senha2 = senha2;
 	}
 	
 	

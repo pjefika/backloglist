@@ -14,34 +14,39 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Defeito{
-	
+
 	@Id
 	@NotEmpty
 	@Length(min=8, max=10, message="Padrão: 8-AAAAAA")
 	private String ss;
-	
+
 	private String tipificacao;
-		
+
 	private Date dataAbertura;
-	
+
 	private Date dataVencimento;
-	
-	private Integer status;
-	
+
+	private Date dataSLATriagem;
+
+	private Date dataDeIntegracao;
+
 	private Date dataEncerrado;
-	
+
+	private Integer status;	
+
 	@ManyToOne
 	private Usuario usuario;
-	
+
 	@OneToOne
 	private MotivoEncerramento motivoEncerramento;
-	
+
 	@OneToMany(mappedBy="defeito")
 	private List<LogDefeito> logs;
-	
+
 	public Defeito() {
 
 	}
+
 
 	public String getSs() {
 		return ss;
@@ -113,6 +118,22 @@ public class Defeito{
 
 	public void setDataEncerrado(Date dataEncerrado) {
 		this.dataEncerrado = dataEncerrado;
+	}	
+
+	public Date getDataSLATriagem() {
+		return dataSLATriagem;
+	}
+
+	public void setDataSLATriagem(Date dataSLATriagem) {
+		this.dataSLATriagem = dataSLATriagem;
+	}	
+
+	public Date getDataDeIntegracao() {
+		return dataDeIntegracao;
+	}
+
+	public void setDataDeIntegracao(Date dataDeIntegracao) {
+		this.dataDeIntegracao = dataDeIntegracao;
 	}
 
 	@Override
@@ -144,6 +165,5 @@ public class Defeito{
 	public String toString() {
 		return "Defeito [ss=" + ss + "]";
 	}
-	
-	
+
 }

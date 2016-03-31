@@ -60,8 +60,9 @@ public class RelatorioBean implements Serializable{
 
 	public void listarDefeitosEncerradosPorSupervisor() {
 		
-		Calendar cal = Calendar.getInstance();			
+		System.out.println(this.dataInicio);
 		
+		Calendar cal = Calendar.getInstance();
 		
 		if (this.dataFim == null) {
 			

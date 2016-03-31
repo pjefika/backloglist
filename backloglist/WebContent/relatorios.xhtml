@@ -40,7 +40,8 @@
 
 		</h:panelGrid>
 
-		<p:dataTable id="relats" var="relatorio" emptyMessage="Preencha as datas para obter os defeitos encerrados"
+		<p:dataTable id="relats" var="relatorio"
+			emptyMessage="Preencha as datas para obter os defeitos encerrados"
 			value="#{relatorioBean.listaDeDefeito}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 			paginator="true" rows="5" style="margin-bottom:20px"
@@ -72,10 +73,14 @@
 					value="#{relatorio.motivoEncerramento.motivo}" />
 				<h:outputText rendered="#{relatorio.status==3}"
 					value="Enviado a campo" />
+				<h:outputText rendered="#{relatorio.status==4}"
+					value="Defeito Vencido" />
 			</p:column>
 
 			<p:column headerText="Colaborador">
-				<h:outputText value="#{relatorio.usuario.login}" />
+				<h:outputText rendered="#{not empty relatorio.usuario.login}"
+					value="#{relatorio.usuario.login}" />
+				<h:outputText rendered="#{relatorio.status==4}" value="Sistema" />
 			</p:column>
 
 			<p:column headerText="Data de Abertura">
@@ -91,14 +96,18 @@
 			</p:column>
 
 		</p:dataTable>
-		<p:chart id="graphsStatus" type="pie" model="#{relatorioBean.graficoStatus}"
+		<p:chart id="graphsStatus" type="pie"
+			model="#{relatorioBean.graficoStatus}"
 			style="width:45%;height:300px; float: left;" />
 
-		<p:chart id="graphsMotivos" type="pie" model="#{relatorioBean.graficoMotivos}"
+		<p:chart id="graphsMotivos" type="pie"
+			model="#{relatorioBean.graficoMotivos}"
 			style="width:45%;height:300px; float: right;" />
-			
-		<p:poll interval="30" listener="#{relatorioBean.init()}" update="graphsStatus"/>
-		<p:poll interval="35" listener="#{relatorioBean.init()}" update="graphsMotivos"/>
+
+		<p:poll interval="30" listener="#{relatorioBean.init()}"
+			update="graphsStatus" />
+		<p:poll interval="35" listener="#{relatorioBean.init()}"
+			update="graphsMotivos" />
 
 	</ui:define>
 

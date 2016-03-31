@@ -10,6 +10,7 @@
 		<class>entidades.LogDefeito</class>
 		<class>entidades.MotivoEncerramento</class>
 		<class>entidades.Supervisor</class>
+		<class>entidades.Tipificacoes</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />

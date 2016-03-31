@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Receber Defeitos
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Receber Defeitos</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:viewParam name="ss" value="#{importBean.defeito.ss}" />
+			<f:viewParam name="tipificacao" value="#{importBean.defeito.tipificacao}" />
+			<f:viewParam name="dataAbertura" value="#{importBean.defeito.dataAbertura}">
+				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+			</f:viewParam>			
+			<f:viewParam name="dataVencimento" value="#{importBean.defeito.dataVencimento}" >
+				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+			</f:viewParam>
+			
+			
+			
+			<f:event listener="#{importBean.importarDefeito()}" type="preRenderView"/>
+		</f:metadata>
+		
+<!-- 		<p:panelGrid columns="2"> -->
+			
+<!-- 			<p:outputLabel value="SS"/> -->
+<!-- 			<h:outputText value="#{importBean.defeito.ss}"/> -->
+			
+<!-- 			<p:outputLabel value="Tipificação"/> -->
+<!-- 			<h:outputText value="#{importBean.defeito.tipificacao}"/> -->
+			
+<!-- 			<p:outputLabel value="Data inicio"/> -->
+<!-- 			<h:outputText value="#{importBean.defeito.dataAbertura.toLocaleString()}"/> -->
+			
+<!-- 			<p:outputLabel value="Data fim"/> -->
+<!-- 			<h:outputText value="#{importBean.defeito.dataVencimento.toLocaleString()}"/> -->
+			
+<!-- 		</p:panelGrid> -->
+
+	</ui:define>
+</ui:composition>
+</html>

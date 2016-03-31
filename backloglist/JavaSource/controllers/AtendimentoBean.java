@@ -109,12 +109,12 @@ public class AtendimentoBean {
 		}
 
 	}
-	
+
 	/*
 	 * Envia defeito para campo.
 	 * */
 	public String enviarCampo() {
-		
+
 		try {
 			this.atendimentoServico.enviarCampo(this.defeito, this.sessao.getUsuario());
 			JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " enviado a campo.");
@@ -123,7 +123,7 @@ public class AtendimentoBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 			return null;
 		}
-		
+
 	}
 
 	public Defeito consultarDefeitoOperadorPorSS() {
@@ -155,12 +155,18 @@ public class AtendimentoBean {
 		return "busca_defeitos_carrinho.jsf";
 
 	}
-	
+
 	public void realizarFulltest() {
-		
+
 		this.atendimentoServico.realizarFulltest(this.defeito, this.sessao.getUsuario());
 		JSFUtil.addInfoMessage("Comando acionado, por favor aguarde!");
-		
+
+	}	
+
+	public Integer contagemRelatorioUsuario(Integer status) {
+
+		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), status).size();
+
 	}
 
 	public LoginBean getSessao() {

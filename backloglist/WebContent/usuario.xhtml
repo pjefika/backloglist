@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Usuário
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Usuário</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:panel id="basic" header="Painel do usuário"
+			style="margin-bottom:20px">
+
+			<p:fieldset legend="Ações" toggleable="true" toggleSpeed="500"
+				style="margin-top: 15px;">
+
+				<h:panelGrid columns="2">
+					<p:outputLabel for="n1" value="Senha: " />
+					<p:password id="n1" value="#{usuarioBean.usuario.senha}"/>
+
+					<p:outputLabel for="n2" value="Repita a Senha: " />
+					<p:password id="n2" value=""/>
+					
+					<p:commandButton value="Trocar"/>
+				</h:panelGrid>
+
+			</p:fieldset>
+
+			<p:fieldset legend="Detalhes" toggleable="true" toggleSpeed="500"
+				style="margin-top: 15px;">
+
+				<p:dataTable value="" var="def"
+					style="width: 40%;text-align:center; float: left;">
+
+					<f:facet name="header">
+						Relatório
+					</f:facet>
+
+					<p:column headerText="Defeitos em Tratamento">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuario(1)}" />
+					</p:column>
+
+					<p:column headerText="Defeitos Encerrados">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuario(2)}" />
+					</p:column>
+
+					<p:column headerText="Defeitos Enviados a Campo">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuario(3)}" />
+					</p:column>
+
+				</p:dataTable>
+
+			</p:fieldset>
+
+		</p:panel>
+
+	</ui:define>
+
+</ui:composition>
+</html>

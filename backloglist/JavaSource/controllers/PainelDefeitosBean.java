@@ -22,7 +22,6 @@ public class PainelDefeitosBean {
 	
 	public List<Defeito> listaDefeitos;	
 	
-	
 	Timer timer = new Timer();
 	Timer timerR = new Timer();
 	
@@ -44,9 +43,7 @@ public class PainelDefeitosBean {
 			removeDefeitoAntigo();
 			
 		}
-	};
-	
-	
+	};	
 	
 	@EJB
 	private AtendimentoServico atendimentoServico;	
@@ -61,7 +58,7 @@ public class PainelDefeitosBean {
 		buscarDefeitosAtivos();
 		
 		timer.scheduleAtFixedRate(task, 65000, 65000);
-		timerR.scheduleAtFixedRate(removeDefeitoAntigo, 648000, 648000);
+		timerR.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
 	}	
 	
 	
@@ -91,14 +88,13 @@ public class PainelDefeitosBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
-	}
-	
+	}	
 	
 	public void removeDefeitoAntigo() {
 				
 		List<Defeito> listaDefeitos = new ArrayList<Defeito>();
 		
-		listaDefeitos = this.atendimentoServico.listaDefeitosAntigos();
+		listaDefeitos = this.atendimentoServico.listaDefeitosAntigos();		
 		
 		this.atendimentoServico.removeDefeitoAntigo(listaDefeitos);
 				

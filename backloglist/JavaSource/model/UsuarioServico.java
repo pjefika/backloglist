@@ -66,5 +66,13 @@ public class UsuarioServico {
 		}
 		
 	}
+	
+	public void mudarSenha(Usuario usuario) {
+					
+		
+		this.entityManager.merge(usuario);
+			
+		
+	}
 
 }
