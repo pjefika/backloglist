@@ -19,35 +19,45 @@
 	<ui:define name="conteudo">
 
 		<f:metadata>
+		
 			<f:viewParam name="ss" value="#{importBean.defeito.ss}" />
-			<f:viewParam name="tipificacao" value="#{importBean.defeito.tipificacao}" />
-			<f:viewParam name="dataAbertura" value="#{importBean.defeito.dataAbertura}">
+			<f:viewParam name="instancia" value="#{importBean.defeito.instancia}" />
+			<f:viewParam name="tipificacao" value="#{importBean.nomeTipificacao}" />
+			<f:viewParam name="dataAbertura"
+				value="#{importBean.defeito.dataAbertura}">
 				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
-			</f:viewParam>			
-			<f:viewParam name="dataVencimento" value="#{importBean.defeito.dataVencimento}" >
+			</f:viewParam>
+			<f:viewParam name="dataVencimento"
+				value="#{importBean.defeito.dataVencimento}">
 				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 			</f:viewParam>
 			
 			
-			
-			<f:event listener="#{importBean.importarDefeito()}" type="preRenderView"/>
+			<f:event listener="#{importBean.validaTipificacao()}" type="preRenderView" />
+			<f:event listener="#{importBean.importarDefeito()}" type="preRenderView" />
+
 		</f:metadata>
-		
-<!-- 		<p:panelGrid columns="2"> -->
+
+		<!-- <p:panelGrid columns="2">
+
+			<p:outputLabel value="SS" />
+			<h:outputText value="#{importBean.defeito.ss}" />
 			
-<!-- 			<p:outputLabel value="SS"/> -->
-<!-- 			<h:outputText value="#{importBean.defeito.ss}"/> -->
-			
-<!-- 			<p:outputLabel value="Tipificação"/> -->
-<!-- 			<h:outputText value="#{importBean.defeito.tipificacao}"/> -->
-			
-<!-- 			<p:outputLabel value="Data inicio"/> -->
-<!-- 			<h:outputText value="#{importBean.defeito.dataAbertura.toLocaleString()}"/> -->
-			
-<!-- 			<p:outputLabel value="Data fim"/> -->
-<!-- 			<h:outputText value="#{importBean.defeito.dataVencimento.toLocaleString()}"/> -->
-			
-<!-- 		</p:panelGrid> -->
+			<p:outputLabel value="Intancia" />
+			<h:outputText value="#{importBean.defeito.instancia}" />
+
+			<p:outputLabel value="Tipificação" />
+			<h:outputText value="#{importBean.nomeTipificacao}" />
+
+			<p:outputLabel value="Data inicio" />
+			<h:outputText
+				value="#{importBean.defeito.dataAbertura.toLocaleString()}" />
+
+			<p:outputLabel value="Data fim" />
+			<h:outputText
+				value="#{importBean.defeito.dataVencimento.toLocaleString()}" />
+
+		</p:panelGrid> -->
 
 	</ui:define>
 </ui:composition>

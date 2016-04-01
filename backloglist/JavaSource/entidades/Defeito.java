@@ -18,9 +18,12 @@ public class Defeito{
 	@Id
 	@NotEmpty
 	@Length(min=8, max=10, message="Padrão: 8-AAAAAA")
-	private String ss;
-
-	private String tipificacao;
+	private String ss;	
+	
+	@ManyToOne
+	private Tipificacao tipificacao;
+	
+	private String instancia;
 
 	private Date dataAbertura;
 
@@ -54,16 +57,16 @@ public class Defeito{
 
 	public void setSs(String ss) {
 		this.ss = ss;
-	}
+	}	
 
-	public String getTipificacao() {
+	public Tipificacao getTipificacao() {
 		return tipificacao;
 	}
-
-	public void setTipificacao(String tipificacao) {
+	
+	public void setTipificacao(Tipificacao tipificacao) {
 		this.tipificacao = tipificacao;
 	}
-
+	
 	public Date getDataAbertura() {
 		return dataAbertura;
 	}
@@ -134,7 +137,16 @@ public class Defeito{
 
 	public void setDataDeIntegracao(Date dataDeIntegracao) {
 		this.dataDeIntegracao = dataDeIntegracao;
+	}	
+
+	public String getInstancia() {
+		return instancia;
 	}
+
+	public void setInstancia(String instancia) {
+		this.instancia = instancia;
+	}
+
 
 	@Override
 	public int hashCode() {

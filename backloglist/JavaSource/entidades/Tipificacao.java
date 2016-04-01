@@ -5,16 +5,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Tipificacoes {
+public class Tipificacao {
 	
 	@Id
 	@GeneratedValue
 	private Integer id;
 	
-	private String tipificacao;
+	private String nomeTipificacao;
+	
+	public Tipificacao() {
 
-	public Tipificacoes() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getId() {
@@ -25,12 +25,12 @@ public class Tipificacoes {
 		this.id = id;
 	}
 
-	public String getTipificacao() {
-		return tipificacao;
+	public String getNomeTipificacao() {
+		return nomeTipificacao;
 	}
 
-	public void setTipificacao(String tipificacao) {
-		this.tipificacao = tipificacao;
-	}	
+	public void setNomeTipificacao(String nomeTipificacao) {
+		this.nomeTipificacao = nomeTipificacao;
+	}
 
 }

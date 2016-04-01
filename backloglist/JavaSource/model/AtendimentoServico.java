@@ -49,7 +49,7 @@ public class AtendimentoServico {
 	 * */
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarDefeitosAtivos() {
-		
+
 		try {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0");
 			return query.getResultList();
@@ -156,7 +156,7 @@ public class AtendimentoServico {
 
 	}
 
-	
+
 	/**
 	 * Consulta Entidade Defeito por id SS (sem critérios);
 	 * @param ss
@@ -212,40 +212,40 @@ public class AtendimentoServico {
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.FULLTEST, usuario);
 		this.entityManager.persist(log);
-		
+
 
 	}
-	
+
 	public void removeDefeitoAntigo(List<Defeito> defeitos) {
-						
+
 		for (Defeito defeito : defeitos) {			
-				
+
 			Date date = new Date();
-			
+
 			defeito.setStatus(4);
 			defeito.setDataEncerrado(date);
-			
+
 			this.entityManager.merge(defeito);
-			
+
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listaDefeitosAntigos() {
-		
+
 		try {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0 AND d.dataSLATriagem > CURRENT_DATE");
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, Integer status) {
-		
+
 		try {			
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
 			query.setParameter("param1", usuario);
@@ -254,7 +254,7 @@ public class AtendimentoServico {
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();			
 		}		
-		
+
 	}
 
 }

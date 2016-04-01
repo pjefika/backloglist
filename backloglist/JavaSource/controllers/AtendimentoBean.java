@@ -167,7 +167,7 @@ public class AtendimentoBean {
 
 		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), status).size();
 
-	}
+	}	
 
 	public LoginBean getSessao() {
 		return sessao;
