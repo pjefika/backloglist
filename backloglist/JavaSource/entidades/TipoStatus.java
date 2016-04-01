@@ -1,15 +1,16 @@
 package entidades;
 
-public enum StatusDefeito {
+public enum TipoStatus {
 	
-	ABERTO("Defeito aberto"),
-	EMTRATAMENTO("Sendo tratada pelo colaborador"),
-	ENCERRADO("Defeito encerrado"),
-	ENVIADOACAMPO("Defeito enviado a campo pelo sistema");
+	ABERTO("0 - Defeito aberto"),
+	EMTRATAMENTO("1 - Sendo tratado pelo colaborador"),
+	ENCERRADO("2 - Defeito encerrado"),
+	ENVIADOACAMPO("3 - Defeito enviado a campo"),
+	VENCIDOSLA("4 - Vencido SLA de triagem");
 	
 	private String status;
 	
-	private StatusDefeito(String status) {
+	private TipoStatus(String status) {
 		this.status = status;
 	}
 

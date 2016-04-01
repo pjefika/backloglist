@@ -67,10 +67,21 @@ public class UsuarioServico {
 		
 	}
 	
-	public void mudarSenha(Usuario usuario) {
-					
+	public void mudarSenha(String senha1, String senha2, Usuario usuario) throws Exception {
+
+		System.out.println(senha1);
+		System.out.println(senha2);
 		
-		this.entityManager.merge(usuario);
+		if (senha1.equals(senha2)){		
+			
+			usuario.setSenha(senha1);			
+			this.entityManager.merge(usuario);
+			
+		}else{
+			
+			throw new Exception("As senhas digitadas não se coincidem.");
+			
+		}
 			
 		
 	}

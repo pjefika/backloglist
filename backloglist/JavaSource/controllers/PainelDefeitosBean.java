@@ -12,6 +12,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import entidades.Defeito;
+import entidades.TipoStatus;
 import model.AtendimentoServico;
 import util.JSFUtil;
 
@@ -20,6 +21,7 @@ import util.JSFUtil;
 @Singleton
 public class PainelDefeitosBean {
 	
+		
 	public List<Defeito> listaDefeitos;	
 	
 	Timer timer = new Timer();
@@ -76,9 +78,9 @@ public class PainelDefeitosBean {
 		try {
 			status = this.atendimentoServico.consultarSS(defeito.getSs());
 
-			int statusValue = status.getStatus();
-
-			if (statusValue != 0) {
+			TipoStatus statusValue = status.getStatus();
+			
+			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
 				listaDefeitos.remove(defeito);
 				

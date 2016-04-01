@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import entidades.Defeito;
 import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
+import entidades.TipoStatus;
 import model.AtendimentoServico;
 import model.LogDefeitoServico;
 import util.JSFUtil;
@@ -38,24 +39,7 @@ public class AtendimentoBean {
 		this.defeito = new Defeito();
 		this.logDefeito = new LogDefeito();		
 
-	}
-
-	/*
-	 * Aciona o servico para cadastrar o defeito.
-	 * */	
-	public void CadastrarDefeito() {
-
-		try {
-			this.atendimentoServico.CadastrarDefeito(this.defeito);
-			JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " cadastrado com sucesso!");
-
-			this.defeito = new Defeito();
-		} catch (Exception e) {
-			JSFUtil.addInfoMessage(e.getMessage());
-		}
-
-	}
-
+	}	
 
 	/*
 	 * Lista todos os defeitos ativos.
@@ -163,9 +147,9 @@ public class AtendimentoBean {
 
 	}	
 
-	public Integer contagemRelatorioUsuario(Integer status) {
+	public Integer contagemRelatorioUsuario(TipoStatus tipoStatus) {
 
-		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), status).size();
+		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
 	}	
 

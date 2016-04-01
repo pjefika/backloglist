@@ -14,6 +14,7 @@ import entidades.Defeito;
 import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
 import entidades.TipoLog;
+import entidades.TipoStatus;
 import entidades.Usuario;
 
 @Stateless
@@ -25,25 +26,6 @@ public class AtendimentoServico {
 	public AtendimentoServico() {
 
 	}
-
-	/*
-	 * Cadastrar defeito na tabela.
-	 * */
-	public void CadastrarDefeito(Defeito defeito) throws Exception {
-
-		try {
-
-			defeito.setStatus(0);
-			this.entityManager.persist(defeito);
-
-		} catch (Exception e) {
-
-			throw new Exception("Defeito não cadastrado!");
-
-		}
-
-	}
-
 	/*
 	 * Montar lista com todos os defeitos ativos.
 	 * */
@@ -51,7 +33,8 @@ public class AtendimentoServico {
 	public List<Defeito> listarDefeitosAtivos() {
 
 		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1");
+			query.setParameter("param1", TipoStatus.ABERTO);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
@@ -66,8 +49,9 @@ public class AtendimentoServico {
 	public List<Defeito> listarDefeitosColaborador(Usuario usuario) {
 
 		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status = 1");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
 			query.setParameter("param1", usuario);
+			query.setParameter("param2", TipoStatus.EMTRATAMENTO);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
@@ -86,14 +70,13 @@ public class AtendimentoServico {
 			throw new Exception("Não é permitido assumir mais de 2 (dois) defeitos por Usuário!");
 		}
 
-		defeito.setStatus(1);
+		defeito.setStatus(TipoStatus.EMTRATAMENTO);
 		defeito.setUsuario(usuario);
 		this.entityManager.merge(defeito);
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.ASSUMIR, usuario);
 
 		this.entityManager.persist(log);
-
 
 		return usuario;
 
@@ -107,7 +90,7 @@ public class AtendimentoServico {
 
 		Date date = new Date();
 
-		defeito.setStatus(2);
+		defeito.setStatus(TipoStatus.ENCERRADO);
 		defeito.setDataEncerrado(date);
 
 		this.entityManager.merge(defeito);			
@@ -122,7 +105,7 @@ public class AtendimentoServico {
 
 		Date date = new Date();
 
-		defeito.setStatus(3);
+		defeito.setStatus(TipoStatus.ENVIADOACAMPO);
 		defeito.setDataEncerrado(date);
 		defeito.setMotivoEncerramento(null);
 
@@ -142,9 +125,10 @@ public class AtendimentoServico {
 
 		try {
 
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.ss =:param1 AND d.usuario =:param2 AND d.status = 1");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.ss =:param1 AND d.usuario =:param2 AND d.status =:param3");
 			query.setParameter("param1", ss);
-			query.setParameter("param2", usuario);		
+			query.setParameter("param2", usuario);
+			query.setParameter("param3", TipoStatus.EMTRATAMENTO);
 
 			return (Defeito) query.getSingleResult();			
 
@@ -201,7 +185,7 @@ public class AtendimentoServico {
 
 		this.entityManager.persist(log);
 
-		defeito.setStatus(0);
+		defeito.setStatus(TipoStatus.ABERTO);
 		defeito.setUsuario(null);
 		defeito.setMotivoEncerramento(null);
 		this.entityManager.merge(defeito);		
@@ -222,7 +206,7 @@ public class AtendimentoServico {
 
 			Date date = new Date();
 
-			defeito.setStatus(4);
+			defeito.setStatus(TipoStatus.VENCIDOSLA);
 			defeito.setDataEncerrado(date);
 
 			this.entityManager.merge(defeito);
@@ -235,7 +219,8 @@ public class AtendimentoServico {
 	public List<Defeito> listaDefeitosAntigos() {
 
 		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status = 0 AND d.dataSLATriagem > CURRENT_DATE");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND d.dataSLATriagem > CURRENT_DATE");
+			query.setParameter("param1", TipoStatus.ABERTO);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
@@ -244,12 +229,12 @@ public class AtendimentoServico {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, Integer status) {
+	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, TipoStatus tipoStatus) {
 
 		try {			
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
 			query.setParameter("param1", usuario);
-			query.setParameter("param2", status);
+			query.setParameter("param2", tipoStatus);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();			

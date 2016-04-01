@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 
 import entidades.Defeito;
 import entidades.MotivoEncerramento;
+import entidades.TipoStatus;
 
 @Stateless
 public class RelatorioServico {
@@ -51,20 +52,22 @@ public class RelatorioServico {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Defeito> ListarTodoOsDefeitos(Integer status) {
+	public List<Defeito> ListarTodoOsDefeitos(TipoStatus tipoStatus) {
 
 		try {
 
-			if (status == 2 || status == 3){
+			if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)){
 
 				Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
-				query.setParameter("param1", status);
+				query.setParameter("param1", tipoStatus);
 				return query.getResultList();
+				
 			}else{
 
 				Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1");
-				query.setParameter("param1", status);
+				query.setParameter("param1", tipoStatus);
 				return query.getResultList();
+				
 			}			
 			
 		} catch (Exception e) {

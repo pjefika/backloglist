@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 import entidades.Supervisor;
 import entidades.Usuario;
@@ -14,6 +15,9 @@ import util.JSFUtil;
 @ManagedBean
 @RequestScoped
 public class UsuarioBean {
+	
+	@ManagedProperty(value="#{loginBean}")
+	private LoginBean sessao;
 	
 	private String senha1;
 	private String senha2;
@@ -34,9 +38,9 @@ public class UsuarioBean {
 	public void cadastrarOperador() {
 		
 		try {
-			this.usuario.setSenha("12345gvt");
+			this.usuario.setSenha("12345");
 			this.usuarioServico.cadastrarOperador(this.usuario, this.supervisor);
-			JSFUtil.addInfoMessage("Usuário criado com sucesso, senha padrão: 12345gvt");
+			JSFUtil.addInfoMessage("Usuário criado com sucesso, senha padrão: 1234");
 			
 			this.usuario = new Usuario();
 			
@@ -58,9 +62,14 @@ public class UsuarioBean {
 		
 	}
 	
-	public void mudarSenha() {
+	public void mudarSenha() {		
 		
-		this.usuarioServico.mudarSenha(this.usuario);
+		try {
+			this.usuarioServico.mudarSenha(this.senha1, this.senha2, this.sessao.getUsuario());
+			JSFUtil.addInfoMessage("Senha trocada com sucesso, utilize-a em seu proximo Logon");
+		} catch (Exception e) {
+			JSFUtil.addErrorMessage(e.getMessage());
+		}
 		
 	}
 	
@@ -96,7 +105,13 @@ public class UsuarioBean {
 	public void setSenha2(String senha2) {
 		this.senha2 = senha2;
 	}
-	
-	
+
+	public LoginBean getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(LoginBean sessao) {
+		this.sessao = sessao;
+	}
 
 }

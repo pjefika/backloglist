@@ -15,6 +15,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 import entidades.Defeito;
 import entidades.MotivoEncerramento;
+import entidades.TipoStatus;
 import model.MotivoEncerramentoServico;
 import model.RelatorioServico;
 
@@ -91,10 +92,11 @@ public class RelatorioBean implements Serializable{
 	{
 		GraficoStatus = new PieChartModel();
 
-		GraficoStatus.set("Aberto: " + listarStatus(0), listarStatus(0));
-		GraficoStatus.set("Em Tratamento: " + listarStatus(1), listarStatus(1));
-		GraficoStatus.set("Encerrado: " + listarStatus(2), listarStatus(2));
-		GraficoStatus.set("Enviado a campo: " + listarStatus(3), listarStatus(3));
+		GraficoStatus.set("Aberto: " + listarStatus(TipoStatus.ABERTO), listarStatus(TipoStatus.ABERTO));
+		GraficoStatus.set("Em Tratamento: " + listarStatus(TipoStatus.EMTRATAMENTO), listarStatus(TipoStatus.EMTRATAMENTO));
+		GraficoStatus.set("Encerrado: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
+		GraficoStatus.set("Enviado a campo: " + listarStatus(TipoStatus.ENVIADOACAMPO), listarStatus(TipoStatus.ENVIADOACAMPO));
+		GraficoStatus.set("Vencido SLA: " + listarStatus(TipoStatus.VENCIDOSLA), listarStatus(TipoStatus.VENCIDOSLA));
 
 		GraficoStatus.setTitle("Monitoramento");
 		GraficoStatus.setLegendPosition("w");
@@ -115,9 +117,9 @@ public class RelatorioBean implements Serializable{
 
 	}
 
-	public Integer listarStatus(Integer status) {
+	public Integer listarStatus(TipoStatus tipoStatus) {
 
-		return this.relatorioServico.ListarTodoOsDefeitos(status).size();
+		return this.relatorioServico.ListarTodoOsDefeitos(tipoStatus).size();
 
 	}	
 

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,9 +36,10 @@ public class Defeito{
 	private Date dataDeIntegracao;
 
 	private Date dataEncerrado;
-
-	private Integer status;	
-
+	
+	@Enumerated(EnumType.STRING)
+	private TipoStatus status;
+	
 	@ManyToOne
 	private Usuario usuario;
 
@@ -83,11 +86,12 @@ public class Defeito{
 		this.dataVencimento = dataVencimento;
 	}
 
-	public Integer getStatus() {
+	public TipoStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+
+	public void setStatus(TipoStatus status) {
 		this.status = status;
 	}
 

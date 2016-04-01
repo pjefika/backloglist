@@ -46,6 +46,12 @@ public class ImportBean {
 				
 	}
 	
+	public void salvaLogIntegracao() {
+		
+		
+		
+	}
+	
 	public Defeito getDefeito() {
 		return defeito;
 	}

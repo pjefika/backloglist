@@ -9,7 +9,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import entidades.Defeito;
+import entidades.LogIntegracao;
 import entidades.Tipificacao;
+import entidades.TipoLogIntegracao;
+import entidades.TipoStatus;
 
 @Stateless
 public class ImportServico {
@@ -30,6 +33,7 @@ public class ImportServico {
 		try {
 
 			this.atendimentoServico.consultarSS(defeito.getSs());
+			salvaLogIntegracao(defeito, TipoLogIntegracao.DEFEITOEXISTENTE);
 
 		} catch (Exception e) {
 
@@ -43,11 +47,12 @@ public class ImportServico {
 
 			defeito.setDataSLATriagem(sla);
 			defeito.setDataDeIntegracao(dataIntegracao);
-			defeito.setStatus(0);
+			defeito.setStatus(TipoStatus.ABERTO);
 
 			defeito.setTipificacao(tipificacao);
 
 			this.entityManager.persist(defeito);
+			salvaLogIntegracao(defeito, TipoLogIntegracao.INTEGRADO);
 
 		}
 	}
@@ -72,6 +77,20 @@ public class ImportServico {
 
 		return tipificacao;		
 
+	}
+	
+	public void salvaLogIntegracao(Defeito defeito, TipoLogIntegracao tipoLogIntegracao) {
+				
+		LogIntegracao logIntegracao = new LogIntegracao();
+		Date data = new Date();
+		
+		logIntegracao.setDefeito(defeito);
+		logIntegracao.setHoraAcao(data);
+		logIntegracao.setTipoLogIntegracao(tipoLogIntegracao);
+		
+		
+		this.entityManager.persist(logIntegracao);
+		
 	}
 
 }
