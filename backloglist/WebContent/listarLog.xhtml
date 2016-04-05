@@ -37,23 +37,28 @@
 				</h:panelGrid>
 
 				<p:dataTable id="defeitosData" var="log"
-					value="#{logBean.listaLogDefeito}" emptyMessage="Preencha o campo com Login ou SS"
+					value="#{logBean.listaLogDefeito}"
+					emptyMessage="Preencha o campo com Login ou SS"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					paginator="true" rows="10" style="margin-bottom:20px"
 					currentPageReportTemplate="[{startRecord} de {endRecord}]">
 
 					<p:column headerText="Usuário" style="text-align: center;">
-						<h:outputText value="#{log.usuario.login}" />
+						<h:outputText rendered="#{not empty log.usuario.login}"
+							value="#{log.usuario.login}" />
+
+						<h:outputText rendered="#{empty log.usuario.login}"
+							value="Sistema" />
 					</p:column>
-					
+
 					<p:column headerText="SS" style="text-align: center;">
 						<h:outputText value="#{log.defeito.ss}" />
 					</p:column>
-					
+
 					<p:column headerText="Acão" style="text-align: center;">
 						<h:outputText value="#{log.acao}" />
 					</p:column>
-					
+
 					<p:column headerText="Hora da Ação" style="text-align: center;">
 						<h:outputText value="#{log.horaAcao.toLocaleString()}" />
 					</p:column>

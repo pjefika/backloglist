@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import entidades.Defeito;
 import entidades.TipoStatus;
 import model.AtendimentoServico;
+import model.RotinasServicos;
 import util.JSFUtil;
 
 @ManagedBean
@@ -24,10 +25,11 @@ public class PainelDefeitosBean {
 		
 	public List<Defeito> listaDefeitos;	
 	
-	Timer timer = new Timer();
-	Timer timerR = new Timer();
+	Timer timerBuscaDefeitosAtivos = new Timer();
+	Timer timerRemoveDefeitoAntigo = new Timer();
+	Timer timerVoltaDefeitoParaFila = new Timer();	
 	
-	TimerTask task = new TimerTask() {
+	TimerTask buscaDefeitoAtivos = new TimerTask() {
 		
 		@Override
 		public void run() {
@@ -45,10 +47,23 @@ public class PainelDefeitosBean {
 			removeDefeitoAntigo();
 			
 		}
-	};	
+	};
+	
+	TimerTask voltaDefeitoParaFila = new TimerTask() {
+		
+		@Override
+		public void run() {
+			
+			voltaDefeito();
+			
+		}
+	};
 	
 	@EJB
 	private AtendimentoServico atendimentoServico;	
+	
+	@EJB
+	private RotinasServicos rotinasServicos;
 			
 	public PainelDefeitosBean() {
 
@@ -59,8 +74,9 @@ public class PainelDefeitosBean {
 		
 		buscarDefeitosAtivos();
 		
-		timer.scheduleAtFixedRate(task, 65000, 65000);
-		timerR.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
+		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 65000, 65000);
+		timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
+		timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 	}	
 	
 	
@@ -68,10 +84,32 @@ public class PainelDefeitosBean {
 		
 		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();											
 		
+	}	
+	
+	public void removeDefeitoAntigo() {
+				
+		List<Defeito> listaDefeitosAntigos = new ArrayList<Defeito>();
+		
+		listaDefeitosAntigos = this.atendimentoServico.listaDefeitosAntigos();
+				
+		this.atendimentoServico.removeDefeitoAntigo(listaDefeitosAntigos);
+		
+		for (Defeito defeito : listaDefeitosAntigos) {
+			
+			this.listaDefeitos.remove(defeito);
+			
+		}
+						
 	}
 	
-
-	public void removeDefeito(Defeito defeito) {
+	public void voltaDefeito() {
+				
+		this.rotinasServicos.voltarDefeitoParaFila(this.rotinasServicos.listarDefeitosAssumidos());
+		
+		
+	}	
+	
+	public void removeDefeitoAoAssumir(Defeito defeito) {
 
 		Defeito status = new Defeito();		
 
@@ -82,7 +120,7 @@ public class PainelDefeitosBean {
 			
 			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
-				listaDefeitos.remove(defeito);
+				this.listaDefeitos.remove(defeito);
 				
 			}
 
@@ -90,16 +128,6 @@ public class PainelDefeitosBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
-	}	
-	
-	public void removeDefeitoAntigo() {
-				
-		List<Defeito> listaDefeitos = new ArrayList<Defeito>();
-		
-		listaDefeitos = this.atendimentoServico.listaDefeitosAntigos();		
-		
-		this.atendimentoServico.removeDefeitoAntigo(listaDefeitos);
-				
 	}
 
 	public List<Defeito> getListaDefeitos() {

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class Defeito{
 	private Date dataAbertura;
 
 	private Date dataVencimento;
-
+	
 	private Date dataSLATriagem;
 
 	private Date dataDeIntegracao;
@@ -48,6 +49,9 @@ public class Defeito{
 
 	@OneToMany(mappedBy="defeito")
 	private List<LogDefeito> logs;
+	
+	@OneToMany(mappedBy="defeito", fetch=FetchType.EAGER)
+	private List<ComentariosDefeitos> comentarios;
 
 	public Defeito() {
 
@@ -151,6 +155,14 @@ public class Defeito{
 		this.instancia = instancia;
 	}
 
+	public List<ComentariosDefeitos> getComentarios() {
+		return comentarios;
+	}
+
+
+	public void setComentarios(List<ComentariosDefeitos> comentarios) {
+		this.comentarios = comentarios;
+	}
 
 	@Override
 	public int hashCode() {

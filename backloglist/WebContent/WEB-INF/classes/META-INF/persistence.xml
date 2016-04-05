@@ -11,6 +11,8 @@
 		<class>entidades.MotivoEncerramento</class>
 		<class>entidades.Supervisor</class>
 		<class>entidades.Tipificacao</class>
+		<class>entidades.LogIntegracao</class>
+		<class>entidades.ComentariosDefeitos</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />

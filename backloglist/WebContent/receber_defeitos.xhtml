@@ -25,11 +25,11 @@
 			<f:viewParam name="tipificacao" value="#{importBean.nomeTipificacao}" />
 			<f:viewParam name="dataAbertura"
 				value="#{importBean.defeito.dataAbertura}">
-				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-03:00"/>
 			</f:viewParam>
 			<f:viewParam name="dataVencimento"
 				value="#{importBean.defeito.dataVencimento}">
-				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" timeZone="GMT-03:00"/>
 			</f:viewParam>
 			
 			

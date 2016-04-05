@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import entidades.ComentariosDefeitos;
 import entidades.Defeito;
 import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
@@ -210,6 +211,14 @@ public class AtendimentoServico {
 			defeito.setDataEncerrado(date);
 
 			this.entityManager.merge(defeito);
+			
+			Usuario usuario = new Usuario();
+			
+			usuario = null;
+			
+			LogDefeito log = new LogDefeito(defeito, TipoLog.VENCIDO, usuario);
+			
+			this.entityManager.persist(log);
 
 		}
 
@@ -219,7 +228,7 @@ public class AtendimentoServico {
 	public List<Defeito> listaDefeitosAntigos() {
 
 		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND d.dataSLATriagem > CURRENT_DATE");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND CURRENT_DATE > d.dataSLATriagem");
 			query.setParameter("param1", TipoStatus.ABERTO);
 			return query.getResultList();
 		} catch (Exception e) {
@@ -232,7 +241,7 @@ public class AtendimentoServico {
 	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, TipoStatus tipoStatus) {
 
 		try {			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2 AND d.dataDeIntegracao > CURRENT_DATE");
 			query.setParameter("param1", usuario);
 			query.setParameter("param2", tipoStatus);
 			return query.getResultList();
@@ -240,6 +249,21 @@ public class AtendimentoServico {
 			return new ArrayList<Defeito>();			
 		}		
 
+	}
+	
+	public void inserirComentario(Defeito defeito, String detalhes) {		
+		
+		ComentariosDefeitos comentariosDefeitos = new ComentariosDefeitos();
+		
+		Date dataDeAgr = new Date();
+								
+		comentariosDefeitos.setDefeito(defeito);
+		comentariosDefeitos.setComentario(detalhes);
+		comentariosDefeitos.setUsuario(defeito.getUsuario());
+		comentariosDefeitos.setData(dataDeAgr);
+		
+		this.entityManager.persist(comentariosDefeitos);
+		
 	}
 
 }

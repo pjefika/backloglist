@@ -2,13 +2,13 @@ package entidades;
 
 public enum TipoLog{
 
-	ASSUMIR("Assumir Defeito"), 
-	ENCERRAR("Encerramento Defeito"),
-	VOLTOUFILA("Voltar Defeito a Fila"),
-	SEMCONTATO("Sem contato"),
-	FULLTEST("Comando Fulltest"),
-	ENVIADOCAMPO("Enviado a Campo"),
-	VENCIDO("Defeito vencido");
+	ASSUMIR("ASSUMIR"), 
+	ENCERRAR("ENCERRAR"),
+	VOLTOUFILA("VOLTOUFILA"),
+	SEMCONTATO("SEMCONTATO"),
+	FULLTEST("FULLTEST"),
+	ENVIADOCAMPO("ENVIADOCAMPO"),
+	VENCIDO("VENCIDO");
 
 	private String acao;
 

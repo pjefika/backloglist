@@ -42,7 +42,7 @@
 				<h:outputText value="#{def.dataAbertura.toLocaleString()}" />
 			</p:column>
 
-			<p:column headerText="Data vencimento">
+			<p:column headerText="Data vencimento SLA">
 				<h:outputText value="#{def.dataSLATriagem.toLocaleString()}" />
 			</p:column>
 
@@ -52,7 +52,7 @@
 				
 					<f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}" for="assumi_defeito" />
 
-					<f:actionListener binding="#{painelDefeitosBean.removeDefeito(def)}" for="assumi_defeito" />					
+					<f:actionListener binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}" for="assumi_defeito" />					
 
 				</p:commandButton>
 			</p:column>

@@ -19,7 +19,7 @@
 	<ui:define name="conteudo">
 
 		<f:metadata>
-			<f:viewParam name="ss" value="#{atendimentoBean.defeito.ss}"/>
+			<f:viewParam name="ss" value="#{atendimentoBean.defeito.ss}" />
 			<f:event
 				listener="#{atendimentoBean.consultarDefeitoOperadorPorSS()}"
 				type="preRenderView" />
@@ -28,13 +28,36 @@
 			<p:panel id="basic" header="Detalhes" style="margin-bottom:20px;"
 				rendered="#{not empty atendimentoBean.defeito.usuario}">
 
-				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">
-					<p:panelGrid columns="2">
+				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">			
+
+					<p:panel style="float: right; width: 50%; overflow-y: auto; height: 300px;" id="comentarios">
+					
+						<p:outputLabel value="Comentários:" style="font-weight: bold;"/>
+						<br/>
+					
+						<ui:repeat value="#{atendimentoBean.defeito.comentarios}"
+							var="coments">
+							
+							<h:outputText value="#{coments.data.toLocaleString()} " style="font-weight: bold;"/>
+							<h:outputText value="#{coments.usuario.login} " style="font-weight: bold;"/>
+							<h:outputText value="#{coments.comentario}"/>
+							<br/>		
+							
+						</ui:repeat>
+						
+					</p:panel>
+
+
+
+					<p:panelGrid columns="2" style="margin-bottom: 15px;">
 
 						<p:outputLabel value="SS: " />
 						<h:outputText value="#{atendimentoBean.defeito.ss}" />
+						<p:outputLabel value="Instância: " />
+						<h:outputText value="#{atendimentoBean.defeito.instancia}" />
 						<p:outputLabel value="Tipificação " />
-						<h:outputText value="#{atendimentoBean.defeito.tipificacao.nomeTipificacao}" />
+						<h:outputText
+							value="#{atendimentoBean.defeito.tipificacao.nomeTipificacao}" />
 						<p:outputLabel value="Data abertura: " />
 						<h:outputText
 							value="#{atendimentoBean.defeito.dataAbertura.toLocaleString()}" />
@@ -43,21 +66,18 @@
 							value="#{atendimentoBean.defeito.dataSLATriagem.toLocaleString()}" />
 
 					</p:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Detalhes:" />
+						<p:inputTextarea rows="5" cols="30"
+							value="#{atendimentoBean.detalhesDefeito}" id="text_coments" maxlength="500" counterTemplate="{0} caracteres restantes" counter="display"/>
+						<h:outputText id="display" />
+
+						<p:commandButton value="Inserir comentario"
+							action="#{atendimentoBean.inserirComentario()}" update="text_coments, comentarios" />
+					</h:panelGrid>
+
 				</p:fieldset>
-
-				<!--  <p:fieldset legend="Fulltest" toggleable="true" toggleSpeed="500"
-					style="margin-top: 15px;">
-
-					<h:form id="fulltest">
-						<p:commandButton value="Realizar Fulltest"
-							action="#{atendimentoBean.realizarFulltest()}" update="fulltest" />
-						<p:panelGrid columns="2" cellspacing="10">
-
-						</p:panelGrid>
-
-					</h:form>
-
-				</p:fieldset> -->
 
 				<p:fieldset legend="Ações" toggleable="true" toggleSpeed="500"
 					style="margin-top: 15px;">
@@ -98,36 +118,37 @@
 						resizable="false">
 
 						<h:panelGrid columns="2">
-						
+
 							<h:outputText value="Deseja realmente enviar o defeito a campo?" />
 							<br />
 
 							<p:commandButton value="Sim"
 								action="#{atendimentoBean.enviarCampo()}" ajax="true" />
-								
+
 							<p:commandButton value="Não" type="button"
-							onclick="PF('acao').hide();" />
+								onclick="PF('acao').hide();" />
 
 						</h:panelGrid>
-						
+
 					</p:dialog>
-					
+
 					<p:dialog header="Ação" widgetVar="fila" modal="true" height="50"
 						resizable="false">
 
 						<h:panelGrid columns="2">
-						
-							<h:outputText value="Deseja realmente voltar o defeito para a fila?" />
+
+							<h:outputText
+								value="Deseja realmente voltar o defeito para a fila?" />
 							<br />
 
 							<p:commandButton value="Sim"
-							action="#{atendimentoBean.voltarDefeitoParaFila()}" ajax="true" />
-								
+								action="#{atendimentoBean.voltarDefeitoParaFila()}" ajax="true" />
+
 							<p:commandButton value="Não" type="button"
-							onclick="PF('fila').hide();" />
+								onclick="PF('fila').hide();" />
 
 						</h:panelGrid>
-						
+
 					</p:dialog>
 
 

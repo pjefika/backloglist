@@ -34,9 +34,7 @@ public class LogBean {
 		
 	}
 
-	public void listarLogDefeitoSS() {
-
-		
+	public void listarLogDefeitoSS() {		
 		
 		try {
 			this.listaLogDefeito = this.logServico.listarLogDefeitoSS(this.loginOUss, this.sessao.getUsuario());

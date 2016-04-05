@@ -26,17 +26,17 @@
 
 				<h:panelGrid columns="2">
 					<p:outputLabel for="n1" value="Senha: " />
-					<p:password id="n1" value="#{usuarioBean.usuario.senha}"/>
+					<p:password id="n1" value="#{usuarioBean.senha1}"/>
 
 					<p:outputLabel for="n2" value="Repita a Senha: " />
-					<p:password id="n2" value=""/>
+					<p:password id="n2" value="#{usuarioBean.senha2}"/>
 					
-					<p:commandButton value="Trocar"/>
+					<p:commandButton value="Trocar" action="#{usuarioBean.mudarSenha()}"/>
 				</h:panelGrid>
 
 			</p:fieldset>
 
-			<p:fieldset legend="Detalhes" toggleable="true" toggleSpeed="500"
+			<p:fieldset legend="Relatório diário" toggleable="true" toggleSpeed="500"
 				style="margin-top: 15px;">
 
 				<p:dataTable value="" var="def"
@@ -48,17 +48,17 @@
 
 					<p:column headerText="Defeitos em Tratamento">
 						<h:outputText
-							value="#{atendimentoBean.contagemRelatorioUsuario(1)}" />
+							value="#{atendimentoBean.contagemRelatorioUsuario('EMTRATAMENTO')}" />
 					</p:column>
 
 					<p:column headerText="Defeitos Encerrados">
 						<h:outputText
-							value="#{atendimentoBean.contagemRelatorioUsuario(2)}" />
+							value="#{atendimentoBean.contagemRelatorioUsuario('ENCERRADO')}" />
 					</p:column>
 
 					<p:column headerText="Defeitos Enviados a Campo">
 						<h:outputText
-							value="#{atendimentoBean.contagemRelatorioUsuario(3)}" />
+							value="#{atendimentoBean.contagemRelatorioUsuario('ENVIADOACAMPO')}" />
 					</p:column>
 
 				</p:dataTable>

@@ -65,22 +65,13 @@
 			</p:column>
 
 			<p:column headerText="Tipificação">
-				<h:outputText value="#{relatorio.tipificacao}" />
-			</p:column>
-
-			<p:column headerText="Motivo Encerramento">
-				<h:outputText rendered="#{relatorio.status==2}"
-					value="#{relatorio.motivoEncerramento.motivo}" />
-				<h:outputText rendered="#{relatorio.status==3}"
-					value="Enviado a campo" />
-				<h:outputText rendered="#{relatorio.status==4}"
-					value="Defeito Vencido" />
+				<h:outputText value="#{relatorio.tipificacao.nomeTipificacao}" />
 			</p:column>
 
 			<p:column headerText="Colaborador">
 				<h:outputText rendered="#{not empty relatorio.usuario.login}"
 					value="#{relatorio.usuario.login}" />
-				<h:outputText rendered="#{relatorio.status==4}" value="Sistema" />
+				<h:outputText rendered="#{relatorio.status=='VENCIDOSLA'}" value="Sistema" />
 			</p:column>
 
 			<p:column headerText="Data de Abertura">

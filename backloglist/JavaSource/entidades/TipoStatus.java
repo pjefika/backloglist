@@ -2,11 +2,11 @@ package entidades;
 
 public enum TipoStatus {
 	
-	ABERTO("0 - Defeito aberto"),
-	EMTRATAMENTO("1 - Sendo tratado pelo colaborador"),
-	ENCERRADO("2 - Defeito encerrado"),
-	ENVIADOACAMPO("3 - Defeito enviado a campo"),
-	VENCIDOSLA("4 - Vencido SLA de triagem");
+	ABERTO("ABERTO"),
+	EMTRATAMENTO("EMTRATAMENTO"),
+	ENCERRADO("ENCERRADO"),
+	ENVIADOACAMPO("ENVIADOACAMPO"),
+	VENCIDOSLA("VENCIDOSLA");
 	
 	private String status;
 	

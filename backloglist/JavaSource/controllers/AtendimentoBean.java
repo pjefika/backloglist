@@ -33,6 +33,8 @@ public class AtendimentoBean {
 
 	@EJB
 	private LogDefeitoServico logDefeitoServico;
+	
+	private String detalhesDefeito;
 
 	public AtendimentoBean() {
 
@@ -151,7 +153,14 @@ public class AtendimentoBean {
 
 		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
-	}	
+	}
+	
+	public void inserirComentario() {
+		
+		this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
+		this.detalhesDefeito = null;		
+		
+	}
 
 	public LoginBean getSessao() {
 		return sessao;
@@ -185,4 +194,12 @@ public class AtendimentoBean {
 		this.defeitosDisponiveis = defeitosDisponiveis;
 	}
 
+	public String getDetalhesDefeito() {
+		return detalhesDefeito;
+	}
+
+	public void setDetalhesDefeito(String detalhesDefeito) {
+		this.detalhesDefeito = detalhesDefeito;
+	}
+	
 }

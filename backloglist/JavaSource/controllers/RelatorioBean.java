@@ -60,9 +60,7 @@ public class RelatorioBean implements Serializable{
 	}
 
 	public void listarDefeitosEncerradosPorSupervisor() {
-		
-		System.out.println(this.dataInicio);
-		
+				
 		Calendar cal = Calendar.getInstance();
 		
 		if (this.dataFim == null) {
@@ -84,7 +82,7 @@ public class RelatorioBean implements Serializable{
 		}
 		
 		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerradosPorSupervisor(this.dataInicio, this.dataFim);
-		
+				
 	}
 		
 
@@ -100,7 +98,7 @@ public class RelatorioBean implements Serializable{
 
 		GraficoStatus.setTitle("Monitoramento");
 		GraficoStatus.setLegendPosition("w");
-		GraficoStatus.setSeriesColors("003245, 005466, 007486, 0095A7");
+		GraficoStatus.setSeriesColors("003245, 005466, 007486, 0095A7, 00B6C7");
 
 	}
 	
