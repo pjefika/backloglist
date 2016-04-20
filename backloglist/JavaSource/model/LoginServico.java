@@ -39,21 +39,21 @@ public class LoginServico {
 
 	}
 
-	public void autenticaLogin(String login, String senha) throws Exception {
+	public void autenticaLogin(String login, String senha, Usuario usuario) throws Exception {
 						
 			Boolean auth = efikaUsersProxy.autenticarUsuario(login, senha);
-						
+									
 			if (!auth) {
 								
 				throw new Exception("Login e senha incorretos!");
 				
 			}
 			
-			this.comparaLogin(login);
+			this.comparaLogin(login, usuario.getNivel());
 			
 	}
 
-	public void comparaLogin(String login) {
+	public void comparaLogin(String login, Integer nivel) {
 		
 		try {
 			
@@ -63,18 +63,18 @@ public class LoginServico {
 			
 		} catch (Exception e) {
 			
-			this.salvaLogin(login);
+			this.salvaLogin(login, nivel);
 			
 		}
 
 	}
 	
-	public void salvaLogin(String login) {
+	public void salvaLogin(String login, Integer nivel) {
 
 		UsuarioEfika usuarioEfika = new UsuarioEfika();
 
 		usuarioEfika.setLogin(login);
-		usuarioEfika.setNivel(1);
+		usuarioEfika.setNivel(nivel);
 
 		this.entityManager.persist(usuarioEfika);
 

@@ -66,29 +66,14 @@ public class LoginBean implements Serializable{
 		}
 	}
 	
-	/*public String logar() {
-		
-		try {
-			this.servicoLogin.usuarioExiste(this.usuario.getLogin());
-			this.usuario = servicoLogin.consultarLogin(usuario.getLogin(), usuario.getSenha());
-			this.logado = true;
-			return "index.jsf";
-		} catch (Exception e) {
-			JSFUtil.addWarnMessage(e.getMessage());
-			this.usuario = new Usuario();
-			return "";
-		}
-		
-	}*/
-	
 	public String logar() {
 		
 		try {		
 			
 			this.usuarioWS = this.servicoLogin.buscaLogin(this.usuario.getLogin());
-			this.servicoLogin.autenticaLogin(this.usuario.getLogin(), this.senha);
-			this.logado = true;
+			this.servicoLogin.autenticaLogin(this.usuario.getLogin(), this.senha, this.usuarioWS);
 			
+			this.logado = true;			
 			return "index.jsf"; 
 			
 		} catch (Exception e) {
