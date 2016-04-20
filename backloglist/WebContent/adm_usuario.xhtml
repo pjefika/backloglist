@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Administração Usuário
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Administração Usuário</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:dataTable id="usr" var="usr"
+			value="#{usuarioBean.listarUsuarios()}"
+			emptyMessage="Lista de usuário vazia"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			paginator="true" rows="10" style="margin-bottom:20px"
+			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+			<f:facet name="header">Lista de usuários</f:facet>
+
+			<p:column headerText="Login" style="text-align: center;">
+				<h:outputText value="#{usr.login}" />
+			</p:column>
+
+			<p:column headerText="Nível" style="text-align: center;">
+				<h:outputText value="#{usr.nivel}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
+</html>

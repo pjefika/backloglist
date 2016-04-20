@@ -282,7 +282,7 @@ public class AtendimentoServico {
 
 		}else{
 
-			throw new Exception("Por favor preencha o campo comentario!");
+			throw new Exception("Por favor preencha o campo detalhes!");
 
 		}
 
