@@ -25,13 +25,13 @@ public class LogDefeito{
 	private Defeito defeito;	
 	
 	@ManyToOne
-	private Usuario usuario;
+	private UsuarioEfika usuario;
 
 	public LogDefeito() {
 		this.horaAcao = new Date();
 	}
 
-	public LogDefeito(Defeito defeito, TipoLog acao, Usuario usuario) {
+	public LogDefeito(Defeito defeito, TipoLog acao, UsuarioEfika usuario) {
 		this.defeito = defeito;
 		this.acao = acao;
 		this.usuario = usuario;
@@ -71,11 +71,11 @@ public class LogDefeito{
 		this.defeito = defeito;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioEfika getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioEfika usuario) {
 		this.usuario = usuario;
 	}
 }

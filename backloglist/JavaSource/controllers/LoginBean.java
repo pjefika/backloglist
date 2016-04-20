@@ -6,9 +6,10 @@ import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import entidades.Usuario;
+import entidades.UsuarioEfika;
 import model.LoginServico;
 import util.JSFUtil;
+import webservices.Usuario;
 
 import java.io.Serializable;
 
@@ -17,7 +18,11 @@ import java.io.Serializable;
 @SessionScoped
 public class LoginBean implements Serializable{
 		
-	private Usuario usuario;
+	private UsuarioEfika usuario;
+	
+	private Usuario usuarioWS;
+	
+	private String senha;
 	
 	@EJB
 	private LoginServico servicoLogin;
@@ -25,7 +30,7 @@ public class LoginBean implements Serializable{
 	private boolean logado;
 	
 	public LoginBean() {
-		this.usuario = new Usuario();
+		this.usuario = new UsuarioEfika();
 		this.logado = false;
 	}
 	
@@ -41,7 +46,7 @@ public class LoginBean implements Serializable{
 	
 	public Boolean is_Admin(){
 								
-		return this.usuario.getNivel() > 1;
+		return this.usuarioWS.getNivel() > 5;
 		
 	}
 	
@@ -57,11 +62,11 @@ public class LoginBean implements Serializable{
 				nav.performNavigation("restrito.jsf");
 			}
 		} catch (Exception e) {
-			this.usuario = new Usuario();
+			this.usuario = new UsuarioEfika();
 		}
 	}
 	
-	public String logar() {
+	/*public String logar() {
 		
 		try {
 			this.servicoLogin.usuarioExiste(this.usuario.getLogin());
@@ -74,20 +79,40 @@ public class LoginBean implements Serializable{
 			return "";
 		}
 		
+	}*/
+	
+	public String logar() {
+		
+		try {		
+			
+			this.usuarioWS = this.servicoLogin.buscaLogin(this.usuario.getLogin());
+			this.servicoLogin.autenticaLogin(this.usuario.getLogin(), this.senha);
+			this.logado = true;
+			
+			return "index.jsf"; 
+			
+		} catch (Exception e) {
+			
+			JSFUtil.addErrorMessage(e.getMessage());
+			this.usuario = new UsuarioEfika();
+			return "";
+			
+		}
+		
 	}
 	
 	public void deslogar() {
 		
-		this.usuario = new Usuario();
+		this.usuario = new UsuarioEfika();
 		this.logado = false;
 		
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioEfika getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioEfika usuario) {
 		this.usuario = usuario;
 	}
 
@@ -97,6 +122,22 @@ public class LoginBean implements Serializable{
 
 	public void setLogado(boolean logado) {
 		this.logado = logado;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Usuario getUsuarioWS() {
+		return usuarioWS;
+	}
+
+	public void setUsuarioWS(Usuario usuarioWS) {
+		this.usuarioWS = usuarioWS;
 	}
 
 }

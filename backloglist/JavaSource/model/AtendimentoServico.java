@@ -16,7 +16,7 @@ import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
 import entidades.TipoLog;
 import entidades.TipoStatus;
-import entidades.Usuario;
+import entidades.UsuarioEfika;
 
 @Stateless
 public class AtendimentoServico {
@@ -47,7 +47,7 @@ public class AtendimentoServico {
 	 * Montar lista com todos os defeitos ativos que estão assumidos pelo colaborador.
 	 * */
 	@SuppressWarnings("unchecked")
-	public List<Defeito> listarDefeitosColaborador(Usuario usuario) {
+	public List<Defeito> listarDefeitosColaborador(UsuarioEfika usuario) {
 
 		try {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
@@ -63,7 +63,7 @@ public class AtendimentoServico {
 	/*
 	 * Assumir defeito da lista
 	 * */	
-	public Usuario assumirDefeito(Defeito defeito, Usuario usuario) throws Exception {
+	public UsuarioEfika assumirDefeito(Defeito defeito, UsuarioEfika usuario) throws Exception {
 
 		usuario.setAssumidos(this.listarDefeitosColaborador(usuario));
 
@@ -87,7 +87,7 @@ public class AtendimentoServico {
 	/*
 	 * Finalizar atendimento do defeito.
 	 * */	
-	public void encerrarDefeito(Defeito defeito, Usuario usuario) throws Exception {
+	public void encerrarDefeito(Defeito defeito, UsuarioEfika usuario) throws Exception {
 
 
 		try {
@@ -114,7 +114,7 @@ public class AtendimentoServico {
 
 	}
 
-	public void enviarCampo(Defeito defeito, Usuario usuario) {
+	public void enviarCampo(Defeito defeito, UsuarioEfika usuario) {
 
 		Date date = new Date();
 
@@ -134,7 +134,7 @@ public class AtendimentoServico {
 	/*
 	 * Consulta defeito por operador ss especifica
 	 * */	
-	public Defeito consultarDefeitoOperadorPorSS(String ss, Usuario usuario) throws Exception {
+	public Defeito consultarDefeitoOperadorPorSS(String ss, UsuarioEfika usuario) throws Exception {
 
 		try {
 
@@ -192,7 +192,7 @@ public class AtendimentoServico {
 
 	}
 
-	public void voltarDefeitoParaFila(Defeito defeito, Usuario usuario) {		
+	public void voltarDefeitoParaFila(Defeito defeito, UsuarioEfika usuario) {		
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.VOLTOUFILA, usuario);
 
@@ -205,7 +205,7 @@ public class AtendimentoServico {
 
 	}
 
-	public void realizarFulltest(Defeito defeito, Usuario usuario) {
+	public void realizarFulltest(Defeito defeito, UsuarioEfika usuario) {
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.FULLTEST, usuario);
 		this.entityManager.persist(log);
@@ -224,7 +224,7 @@ public class AtendimentoServico {
 
 			this.entityManager.merge(defeito);
 
-			Usuario usuario = new Usuario();
+			UsuarioEfika usuario = new UsuarioEfika();
 
 			usuario = null;
 
@@ -250,7 +250,7 @@ public class AtendimentoServico {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Defeito> listarRelatorioDoUsuario(Usuario usuario, TipoStatus tipoStatus) {
+	public List<Defeito> listarRelatorioDoUsuario(UsuarioEfika usuario, TipoStatus tipoStatus) {
 
 		try {			
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2 AND d.dataDeIntegracao > CURRENT_DATE");

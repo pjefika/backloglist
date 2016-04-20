@@ -24,7 +24,7 @@ public class ComentariosDefeitos {
 	private Defeito defeito;
 	
 	@ManyToOne
-	private Usuario usuario;
+	private UsuarioEfika usuario;
 	
 	private Date data;
 
@@ -56,11 +56,11 @@ public class ComentariosDefeitos {
 		this.defeito = defeito;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioEfika getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioEfika usuario) {
 		this.usuario = usuario;
 	}
 

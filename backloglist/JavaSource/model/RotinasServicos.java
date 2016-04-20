@@ -13,7 +13,7 @@ import entidades.Defeito;
 import entidades.LogDefeito;
 import entidades.TipoLog;
 import entidades.TipoStatus;
-import entidades.Usuario;
+import entidades.UsuarioEfika;
 
 @Stateless
 public class RotinasServicos {
@@ -70,7 +70,7 @@ public class RotinasServicos {
 						
 			if (cal > umaHraMseg) {
 				
-				Usuario usuario = new Usuario();
+				UsuarioEfika usuario = new UsuarioEfika();
 				usuario = null;
 				
 				LogDefeito log = new LogDefeito(defeito, TipoLog.VOLTOUFILA, usuario);

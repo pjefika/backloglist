@@ -42,7 +42,7 @@ public class Defeito{
 	private TipoStatus status;
 	
 	@ManyToOne
-	private Usuario usuario;
+	private UsuarioEfika usuario;
 
 	@OneToOne
 	private MotivoEncerramento motivoEncerramento;
@@ -99,11 +99,11 @@ public class Defeito{
 		this.status = status;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioEfika getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioEfika usuario) {
 		this.usuario = usuario;
 	}
 

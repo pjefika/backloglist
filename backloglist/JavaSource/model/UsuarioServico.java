@@ -8,8 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import entidades.Supervisor;
-import entidades.Usuario;
+import entidades.UsuarioEfika;
 
 @Stateless
 public class UsuarioServico {
@@ -20,70 +19,17 @@ public class UsuarioServico {
 	public UsuarioServico() {
 		
 	}
-	
-	public void cadastrarOperador(Usuario usuario, Supervisor supervisor) throws Exception {
-		
-		try {			
-			this.entityManager.persist(usuario);
 			
-			if(usuario.getNivel()==2){
-				
-				supervisor.setMatricula(usuario.getLogin());
-				
-				supervisor.setNomeSupervisor(usuario.getNome());
-				
-				this.entityManager.persist(supervisor);
-			}else{
-				
-			}
-			
-		} catch (Exception e) {
-			throw new Exception("Erro ao cadastrar operador!");
-		}
-		
-	}
-	
 	@SuppressWarnings("unchecked")
-	public List<Supervisor> listarSupervisor() {
-		
-		try {			
-			Query query = this.entityManager.createQuery("FROM Supervisor s");
-			return query.getResultList();			
-		} catch (Exception e) {
-			return new ArrayList<Supervisor>();
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Usuario> listarUsuarios() {	
+	public List<UsuarioEfika> listarUsuarios() {	
 		
 		try {
-			Query query = this.entityManager.createQuery("FROM Usuario u");
+			Query query = this.entityManager.createQuery("FROM UsuarioEfika u");
 			return query.getResultList();			
 		} catch (Exception e) {
-			return new ArrayList<Usuario>();
+			return new ArrayList<UsuarioEfika>();
 		}
 		
 	}
 	
-	public void mudarSenha(String senha1, String senha2, Usuario usuario) throws Exception {
-
-		System.out.println(senha1);
-		System.out.println(senha2);
-		
-		if (senha1.equals(senha2)){		
-			
-			usuario.setSenha(senha1);			
-			this.entityManager.merge(usuario);
-			
-		}else{
-			
-			throw new Exception("As senhas digitadas não se coincidem.");
-			
-		}
-			
-		
-	}
-
 }

@@ -104,8 +104,7 @@ public class PainelDefeitosBean {
 	
 	public void voltaDefeito() {
 				
-		this.rotinasServicos.voltarDefeitoParaFila(this.rotinasServicos.listarDefeitosAssumidos());
-		
+		this.rotinasServicos.voltarDefeitoParaFila(this.rotinasServicos.listarDefeitosAssumidos());		
 		
 	}	
 	
@@ -114,6 +113,7 @@ public class PainelDefeitosBean {
 		Defeito status = new Defeito();		
 
 		try {
+			
 			status = this.atendimentoServico.consultarSS(defeito.getSs());
 
 			TipoStatus statusValue = status.getStatus();

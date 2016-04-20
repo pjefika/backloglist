@@ -6,13 +6,13 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/BancoDS</jta-data-source>
 		<class>entidades.Defeito</class>
-		<class>entidades.Usuario</class>
 		<class>entidades.LogDefeito</class>
 		<class>entidades.MotivoEncerramento</class>
 		<class>entidades.Supervisor</class>
 		<class>entidades.Tipificacao</class>
 		<class>entidades.LogIntegracao</class>
 		<class>entidades.ComentariosDefeitos</class>
+		<class>entidades.UsuarioEfika</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />

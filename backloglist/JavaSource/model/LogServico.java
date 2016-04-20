@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import entidades.LogDefeito;
-import entidades.Usuario;
+import entidades.UsuarioEfika;
 
 @Stateless
 public class LogServico {
@@ -21,24 +21,15 @@ public class LogServico {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<LogDefeito> listarLogDefeitoSS(String loginOUss, Usuario usuario) throws Exception {
+	public List<LogDefeito> listarLogDefeitoSS(String loginOUss, UsuarioEfika usuario) throws Exception {
 		
 		try {
 			
-			if (usuario.getNivel() == 3){
-				Query query = this.entityManager.createQuery("FROM LogDefeito l WHERE l.defeito.ss =:param1 OR l.usuario.login =:param1");
-				query.setParameter("param1", loginOUss);
-				return query.getResultList();
-			}else{
-				Query query = this.entityManager.createQuery("FROM LogDefeito l WHERE l.defeito.ss =:param1 OR l.usuario.login =:param1 AND l.usuario.supervisor.matricula =:param2");
-				query.setParameter("param1", loginOUss);
-				query.setParameter("param2", usuario.getLogin());
-				return query.getResultList();
-			}
+			Query query = this.entityManager.createQuery("FROM LogDefeito l WHERE l.defeito.ss =:param1 OR l.usuario.login =:param1");
+			query.setParameter("param1", loginOUss);
+			return query.getResultList();			
 			
-		} catch (Exception e) {
-			
-			//return new ArrayList<LogDefeito>();
+		} catch (Exception e) {			
 			
 			throw new Exception("Colaborador/Defeito não encontrado ou o mesmo não está abaixo de sua supervisão!");
 			
