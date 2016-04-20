@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+
 @Entity
 public class ComentariosDefeitos {
 	

@@ -8,44 +8,36 @@
 <ui:composition>
 
 	<ul id="menu">
-		<li>
-			<a href="index.jsf"> <i class="fa fa-home" /> Início</a>
-		</li>
+		<li><a href="index.jsf"> <i class="fa fa-home" /> Início
+		</a></li>
 		<!-- Opções so aparece para usuários logados -->
 		<p:outputPanel rendered="#{loginBean.logado}">
-			<li>
-				<a href="busca_defeitos.jsf"> <i
-					class="fa fa-align-justify" /> Defeitos Disponíveis</a>
-			</li>
-			<li>
-				<a href="busca_defeitos_carrinho.jsf"> <i
-					class="fa fa-align-justify" /> Meus Defeitos</a>
-			</li>
+			<li><a href="busca_defeitos.jsf"> <i
+					class="fa fa-align-justify" /> Defeitos Disponíveis
+			</a></li>
+			<li><a href="busca_defeitos_carrinho.jsf"> <i
+					class="fa fa-align-justify" /> Meus Defeitos
+			</a></li>
+			<li><a href="usuario.jsf"> <i class="fa fa-align-justify" />Usuário
+			</a></li>
 			<!-- Opções so aparecem para usuários com permissão de administrador ou nivel 3 -->
 			<p:outputPanel rendered="#{loginBean.is_Admin()}">
-				<li>
-					<a href="cadastrar_motivo_encerramento.jsf"> <i
-						class="fa fa-align-justify" /> Cadastrar Motivos Encerramento</a>
-				</li>
-				<li>
-					<a href="listar_motivos_encerramento.jsf"> <i
-						class="fa fa-align-justify" /> Listar Motivos Encerramento</a>
-				</li>				
-				<li>
-					<a href="cadastrar_operador.jsf"> <i class="fa fa-align-justify"/>Cadastrar Usuários</a>
-				</li>				
-				<li>
-					<a href="listarLog.jsf"> <i class="fa fa-align-justify"/>Logs</a>
-				</li>
-				<li>
-					<a href="relatorios.jsf"> <i class="fa fa-bar-chart-o"/>Relatórios</a>
-				</li>
-				<li>
-					<a href="usuario.jsf"> <i class="fa fa-align-justify"/>Usuário</a>
-				</li>
-				<li>
-					<a href="enviar_defeito.jsf"> <i class="fa fa-align-justify"/>Enviar Defeito</a>
-				</li>
+				<li><a href="cadastrar_motivo_encerramento.jsf"> <i
+						class="fa fa-align-justify" /> Cadastrar Motivos Encerramento
+				</a></li>
+				<li><a href="listar_motivos_encerramento.jsf"> <i
+						class="fa fa-align-justify" /> Listar Motivos Encerramento
+				</a></li>
+				<li><a href="cadastrar_operador.jsf"> <i
+						class="fa fa-align-justify" />Cadastrar Usuários
+				</a></li>
+				<li><a href="listarLog.jsf"> <i class="fa fa-align-justify" />Logs
+				</a></li>
+				<li><a href="relatorios.jsf"> <i class="fa fa-bar-chart-o" />Relatórios
+				</a></li>
+				<li><a href="enviar_defeito.jsf"> <i
+						class="fa fa-align-justify" />Enviar Defeito
+				</a></li>
 			</p:outputPanel>
 
 		</p:outputPanel>

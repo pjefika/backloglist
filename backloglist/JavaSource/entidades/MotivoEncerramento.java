@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 @Entity
 public class MotivoEncerramento{
 
@@ -26,16 +25,14 @@ public class MotivoEncerramento{
 
 	public void setId(Integer id) {		
 		this.id = id;
-	}
+	}	
 
 	public String getMotivo() {
 		return motivo;
 	}
 
 	public void setMotivo(String motivo) {
-
 		this.motivo = motivo;
-		
 	}	
 
 	public Integer getStatus() {

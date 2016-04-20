@@ -87,18 +87,30 @@ public class AtendimentoServico {
 	/*
 	 * Finalizar atendimento do defeito.
 	 * */	
-	public void encerrarDefeito(Defeito defeito, Usuario usuario) {
+	public void encerrarDefeito(Defeito defeito, Usuario usuario) throws Exception {
 
-		Date date = new Date();
 
-		defeito.setStatus(TipoStatus.ENCERRADO);
-		defeito.setDataEncerrado(date);
+		try {
 
-		this.entityManager.merge(defeito);			
+			defeito.getMotivoEncerramento().getMotivo().isEmpty();
 
-		LogDefeito log = new LogDefeito(defeito, TipoLog.ENCERRAR, usuario);
+			Date date = new Date();
 
-		this.entityManager.persist(log);
+			defeito.setStatus(TipoStatus.ENCERRADO);
+			defeito.setDataEncerrado(date);
+
+			this.entityManager.merge(defeito);			
+
+			LogDefeito log = new LogDefeito(defeito, TipoLog.ENCERRAR, usuario);
+
+			this.entityManager.persist(log);
+		} catch (Exception e) {
+
+			throw new Exception("Por favor selecione o motivo, se não existir motivo contate o administrador!");
+
+		}
+
+
 
 	}
 
@@ -211,13 +223,13 @@ public class AtendimentoServico {
 			defeito.setDataEncerrado(date);
 
 			this.entityManager.merge(defeito);
-			
+
 			Usuario usuario = new Usuario();
-			
+
 			usuario = null;
-			
+
 			LogDefeito log = new LogDefeito(defeito, TipoLog.VENCIDO, usuario);
-			
+
 			this.entityManager.persist(log);
 
 		}
@@ -250,20 +262,30 @@ public class AtendimentoServico {
 		}		
 
 	}
-	
-	public void inserirComentario(Defeito defeito, String detalhes) {		
-		
-		ComentariosDefeitos comentariosDefeitos = new ComentariosDefeitos();
-		
-		Date dataDeAgr = new Date();
-								
-		comentariosDefeitos.setDefeito(defeito);
-		comentariosDefeitos.setComentario(detalhes);
-		comentariosDefeitos.setUsuario(defeito.getUsuario());
-		comentariosDefeitos.setData(dataDeAgr);
-		
-		this.entityManager.persist(comentariosDefeitos);
-		
+
+	public void inserirComentario(Defeito defeito, String detalhes) throws Exception {
+
+
+		if (!detalhes.isEmpty()){
+			
+			ComentariosDefeitos comentariosDefeitos = new ComentariosDefeitos();
+
+			Date dataDeAgr = new Date();
+
+			comentariosDefeitos.setDefeito(defeito);
+			comentariosDefeitos.setComentario(detalhes);
+			comentariosDefeitos.setUsuario(defeito.getUsuario());
+			comentariosDefeitos.setData(dataDeAgr);
+
+			this.entityManager.persist(comentariosDefeitos);
+
+
+		}else{
+
+			throw new Exception("Por favor preencha o campo comentario!");
+
+		}
+
 	}
 
 }

@@ -157,8 +157,14 @@ public class AtendimentoBean {
 	
 	public void inserirComentario() {
 		
-		this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
-		this.detalhesDefeito = null;		
+		try {
+						
+			this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
+			this.detalhesDefeito = null;
+			
+		} catch (Exception e) {
+			JSFUtil.addErrorMessage(e.getMessage());
+		}		
 		
 	}
 

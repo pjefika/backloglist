@@ -35,8 +35,7 @@ public class MotivoEncerramentoBean {
 	
 	public void cadastrarMotivosEncerramento() {
 		
-		try {					
-			
+		try {			
 			this.motivoEncerramentoServico.cadastrarMotivosEncerramento(this.motivoEncerramento);
 			JSFUtil.addInfoMessage("Motivo cadastrado com sucesso!");
 			
