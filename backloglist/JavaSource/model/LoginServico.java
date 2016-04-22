@@ -21,62 +21,80 @@ public class LoginServico {
 	public LoginServico() {
 
 		this.efikaUsersProxy = new EfikaUsersProxy();
-		
+
 	}
 
 
-	public Usuario buscaLogin(String login) throws Exception {
-						
+	public Usuario buscaLoginWS(String login) throws Exception {
+
 		Usuario usuarioWS = efikaUsersProxy.consultarUsuario(login);
-		
+
 		if (usuarioWS == null){
-			
+
 			throw new Exception("Usuário não encontrado, se você não possui login de acesso utilize a opção \"Solicite o seu acesso\" na pagina http://efika/web");
-			
+
 		}	
-		
+
 		return usuarioWS;		
 
 	}
 
-	public void autenticaLogin(String login, String senha, Usuario usuario) throws Exception {
-						
-			Boolean auth = efikaUsersProxy.autenticarUsuario(login, senha);
-									
-			if (!auth) {
-								
-				throw new Exception("Login e senha incorretos!");
-				
-			}
-			
-			this.comparaLogin(login, usuario.getNivel());
-			
-	}
+	public void autenticaLogin(Usuario usuario, String senha) throws Exception {
 
-	public void comparaLogin(String login, Integer nivel) {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
-			query.setParameter("param1", login);		
-			query.getSingleResult();
-			
-		} catch (Exception e) {
-			
-			this.salvaLogin(login, nivel);
-			
+		Boolean auth = efikaUsersProxy.autenticarUsuario(usuario.getLogin(), senha);
+
+		if (!auth) {
+
+			throw new Exception("Login e senha incorretos, se você esqueceu da sua senha utilize a opção \"Esqueci minha senha\" na pagina http://efika/web");
+
 		}
+
+		this.buscaLogin(usuario);
 
 	}
 	
-	public void salvaLogin(String login, Integer nivel) {
+	public void buscaLogin(Usuario usuario) {
+
+		try {
+
+			Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login =:param1");
+			query.setParameter("param1", usuario.getLogin());	
+
+			UsuarioEfika usuarioEfika = (UsuarioEfika) query.getSingleResult();
+
+			if (usuarioEfika.getNivel() != usuario.getNivel()) {
+
+				usuarioEfika.setNivel(usuario.getNivel());
+
+				this.updateLogin(usuarioEfika);
+
+			}else{
+				
+				
+			}
+
+		} catch (Exception e) {
+
+			this.salvaLogin(usuario);
+
+		}
+
+	}	
+
+	public void salvaLogin(Usuario usuario) {
 
 		UsuarioEfika usuarioEfika = new UsuarioEfika();
 
-		usuarioEfika.setLogin(login);
-		usuarioEfika.setNivel(nivel);
+		usuarioEfika.setLogin(usuario.getLogin());
+		usuarioEfika.setNivel(usuario.getNivel());		
 
 		this.entityManager.persist(usuarioEfika);
+
+	}
+
+	public void updateLogin(UsuarioEfika usuarioEfika) {		
+
+		this.entityManager.merge(usuarioEfika);		
 
 	}
 

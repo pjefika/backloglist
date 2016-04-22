@@ -70,8 +70,8 @@ public class LoginBean implements Serializable{
 		
 		try {		
 			
-			this.usuarioWS = this.servicoLogin.buscaLogin(this.usuario.getLogin());
-			this.servicoLogin.autenticaLogin(this.usuario.getLogin(), this.senha, this.usuarioWS);
+			this.usuarioWS = this.servicoLogin.buscaLoginWS(this.usuario.getLogin());
+			this.servicoLogin.autenticaLogin(this.usuarioWS, this.senha);
 			
 			this.logado = true;			
 			return "index.jsf"; 
