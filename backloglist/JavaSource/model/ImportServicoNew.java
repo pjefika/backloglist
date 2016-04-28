@@ -82,15 +82,15 @@ public class ImportServicoNew {
 			Tipificacao tipificacao = new Tipificacao();		
 
 			row = (String[]) object;				
-			
+
 			try {
-				
+
 				String ss = row[0];
-				
+
 				this.atendimentoServico.consultarSSIntegracaoEspecifico(ss);
-				
+
 			} catch (Exception e) {
-				
+
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 				Date dataAbertura = formatter.parse(row[3]);			
@@ -108,7 +108,7 @@ public class ImportServicoNew {
 			}
 
 		}
-		
+
 		csvReader.close();
 	}
 
@@ -149,7 +149,7 @@ public class ImportServicoNew {
 
 	public void fulltest(DefeitoIntegracao defeitosIntegracao) throws Exception {		
 
-		System.out.println("Entrou Fulltest");
+		System.out.println("Realizando Fulltest");
 
 		URL link;
 
@@ -164,64 +164,76 @@ public class ImportServicoNew {
 			resultado.add(inputLine.trim());
 		}
 
-		String cadastroInicio = "<cadastro>";
-		String cadastroFim = "</cadastro>";		
-		String cadastro = resultado.get(4).substring(resultado.get(4).lastIndexOf(cadastroInicio) + cadastroInicio.length(), resultado.get(4).lastIndexOf(cadastroFim));
+		try {
+			String cadastroInicio = "<cadastro>";
+			String cadastroFim = "</cadastro>";		
+			String cadastro = resultado.get(4).substring(resultado.get(4).lastIndexOf(cadastroInicio) + cadastroInicio.length(), resultado.get(4).lastIndexOf(cadastroFim));
 
-		String sincronismoInicio = "<sincronismo>";
-		String sincronismoFim = "</sincronismo>";	
-		String sincronismo = resultado.get(5).substring(resultado.get(5).lastIndexOf(sincronismoInicio) + sincronismoInicio.length(), resultado.get(5).lastIndexOf(sincronismoFim));	
+			String sincronismoInicio = "<sincronismo>";
+			String sincronismoFim = "</sincronismo>";	
+			String sincronismo = resultado.get(5).substring(resultado.get(5).lastIndexOf(sincronismoInicio) + sincronismoInicio.length(), resultado.get(5).lastIndexOf(sincronismoFim));	
 
-		String parametrosInicio = "<parametros>";
-		String parametrosFim = "</parametros>";	
-		String parametros = resultado.get(6).substring(resultado.get(6).lastIndexOf(parametrosInicio) + parametrosInicio.length(), resultado.get(6).lastIndexOf(parametrosFim));
+			String parametrosInicio = "<parametros>";
+			String parametrosFim = "</parametros>";	
+			String parametros = resultado.get(6).substring(resultado.get(6).lastIndexOf(parametrosInicio) + parametrosInicio.length(), resultado.get(6).lastIndexOf(parametrosFim));
 
-		String redeInicio = "<rede>";
-		String redeFim = "</rede>";
-		String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
+			String redeInicio = "<rede>";
+			String redeFim = "</rede>";
+			String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
 
-		if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
+			if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
 
-			System.out.println("All Fulltest Ok");
+				System.out.println("Fulltest OK");
 
-			Defeito defeito = new Defeito();
+				Defeito defeito = new Defeito();
 
-			defeito.setSs(defeitosIntegracao.getSs());
-			defeito.setTipificacao(defeitosIntegracao.getTipificacao());
-			defeito.setInstancia(defeitosIntegracao.getInstancia());
-			defeito.setDataAbertura(defeitosIntegracao.getDataAbertura());
-			defeito.setDataVencimento(defeitosIntegracao.getDataVencimento());
+				defeito.setSs(defeitosIntegracao.getSs());
+				defeito.setTipificacao(defeitosIntegracao.getTipificacao());
+				defeito.setInstancia(defeitosIntegracao.getInstancia());
+				defeito.setDataAbertura(defeitosIntegracao.getDataAbertura());
+				defeito.setDataVencimento(defeitosIntegracao.getDataVencimento());
 
-			Long diferenca = defeito.getDataVencimento().getTime() - defeito.getDataAbertura().getTime();
+				Long diferenca = defeito.getDataVencimento().getTime() - defeito.getDataAbertura().getTime();
 
-			Double porcentagem = 0.025;
-			diferenca = (long) (diferenca * porcentagem);
+				Double porcentagem = 0.025;
+				diferenca = (long) (diferenca * porcentagem);
 
-			diferenca = defeito.getDataAbertura().getTime() + diferenca;
+				diferenca = defeito.getDataAbertura().getTime() + diferenca;
 
-			Date sla = new Date(diferenca);
+				Date sla = new Date(diferenca);
 
-			Date dataIntegracao = new Date();
+				Date dataIntegracao = new Date();
 
-			defeito.setDataSLATriagem(sla);
-			defeito.setDataDeIntegracao(dataIntegracao);
-			defeito.setStatus(TipoStatus.ABERTO);
+				defeito.setDataSLATriagem(sla);
+				defeito.setDataDeIntegracao(dataIntegracao);
+				defeito.setStatus(TipoStatus.ABERTO);
 
-			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
+				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 
-			this.entityManager.merge(defeitosIntegracao);			
-			this.entityManager.persist(defeito);
-			salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
+				this.entityManager.merge(defeitosIntegracao);			
+				this.entityManager.persist(defeito);
+				salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
 
-		}else{
+			}else{
 
-			System.out.println("Fulltest negativo");
+				System.out.println("Fulltest NOK");
+
+				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
+				this.entityManager.merge(defeitosIntegracao);
+				this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
+
+			}	
+		} catch (Exception e) {
+			
+			System.out.println("Fulltest NOK/Problema ao tratar retorno");
 
 			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 			this.entityManager.merge(defeitosIntegracao);
 			this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
+			
+		}
 
-		}		
+
 
 		in.close();
 
