@@ -1,13 +1,16 @@
 package controllers;
 
-
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
 import entidades.Defeito;
 import entidades.Tipificacao;
 import model.ImportServico;
+import model.ImportServicoNew;
 import util.JSFUtil;
 
 @ManagedBean
@@ -22,6 +25,9 @@ public class ImportBean {
 	
 	@EJB
 	private ImportServico importServico;
+	
+	@EJB
+	private ImportServicoNew importServicoNew;
 
 	public ImportBean() {
 		
@@ -33,7 +39,11 @@ public class ImportBean {
 	public void importarDefeito() {
 		
 		try {
-			this.importServico.importarDefeito(this.defeito, this.tipificacao);
+			
+			this.defeito.setTipificacao(this.tipificacao);
+			
+			this.importServico.importarDefeito(this.defeito);
+			
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}		
@@ -46,9 +56,19 @@ public class ImportBean {
 				
 	}
 	
-	public void salvaLogIntegracao() {
+	public void uploadFile(FileUploadEvent event) {
 		
-		
+		UploadedFile file = event.getFile();
+				
+		try {
+			
+			this.importServicoNew.salvaLote(file);
+			
+			JSFUtil.addInfoMessage("Lote carregado com sucesso");
+			
+		} catch (Exception e) {
+			JSFUtil.addErrorMessage(e.getMessage());
+		}
 		
 	}
 	

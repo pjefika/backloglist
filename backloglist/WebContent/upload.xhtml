@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Painel Usuário
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Painel Usuário</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">	
+
+		<h:form>
+			<p:fileUpload fileUploadListener="#{importBean.uploadFile}" mode="advanced"
+				dragDropSupport="true" multiple="true" update="messages" 
+				sizeLimit="100000" fileLimit="5" allowTypes="/(\.|\/)(csv)$/" />
+			<p:growl id="messages" showDetail="true" />
+		</h:form>	
+
+	</ui:define>
+
+</ui:composition>
+</html>

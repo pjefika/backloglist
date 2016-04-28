@@ -21,13 +21,13 @@ public class Defeito{
 	@Id
 	@NotEmpty
 	@Length(min=8, max=10, message="Padrão: 8-AAAAAA")
-	private String ss;	
+	private String ss;
 	
 	@ManyToOne
 	private Tipificacao tipificacao;
 	
 	private String instancia;
-
+	
 	private Date dataAbertura;
 
 	private Date dataVencimento;

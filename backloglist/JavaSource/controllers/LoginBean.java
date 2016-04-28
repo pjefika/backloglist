@@ -46,7 +46,7 @@ public class LoginBean implements Serializable{
 	
 	public Boolean is_Admin(){
 								
-		return this.usuarioWS.getNivel() > 5;
+		return this.usuarioWS.getNivel() > 6;
 		
 	}
 	

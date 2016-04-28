@@ -17,9 +17,9 @@ public class LogIntegracao {
 	private Integer id;	
 		
 	private Date horaAcao;
-	
+		
 	@ManyToOne
-	private Defeito defeito;
+	private DefeitoIntegracao defeitoIntegracao;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoLogIntegracao tipoLogIntegracao;
@@ -36,12 +36,12 @@ public class LogIntegracao {
 		this.horaAcao = horaAcao;
 	}
 
-	public Defeito getDefeito() {
-		return defeito;
+	public DefeitoIntegracao getDefeitoIntegracao() {
+		return defeitoIntegracao;
 	}
 
-	public void setDefeito(Defeito defeito) {
-		this.defeito = defeito;
+	public void setDefeitoIntegracao(DefeitoIntegracao defeitoIntegracao) {
+		this.defeitoIntegracao = defeitoIntegracao;
 	}
 
 	public TipoLogIntegracao getTipoLogIntegracao() {

@@ -21,10 +21,7 @@
 			<li><a href="usuario.jsf"> <i class="fa fa-align-justify" />Painel Usuário
 			</a></li>
 			<!-- Opções so aparecem para usuários com permissão de administrador ou nivel 3 -->
-			<p:outputPanel rendered="#{loginBean.is_Admin()}">
-				<li><a href="adm_usuario.jsf"> <i
-						class="fa fa-align-justify" /> Adm. Usuário
-				</a></li>
+			<p:outputPanel rendered="#{loginBean.is_Admin()}">				
 				<li><a href="cadastrar_motivo_encerramento.jsf"> <i
 						class="fa fa-align-justify" /> Cadastrar Motivos Encerramento
 				</a></li>
@@ -34,9 +31,9 @@
 				<li><a href="listarLog.jsf"> <i class="fa fa-align-justify" />Logs
 				</a></li>
 				<li><a href="relatorios.jsf"> <i class="fa fa-bar-chart-o" />Relatórios
-				</a></li>
-				<li><a href="enviar_defeito.jsf"> <i
-						class="fa fa-align-justify" />Enviar Defeito
+				</a></li>			
+				<li><a href="upload.jsf"> <i
+						class="fa fa-align-justify" />Upload
 				</a></li>
 			</p:outputPanel>
 

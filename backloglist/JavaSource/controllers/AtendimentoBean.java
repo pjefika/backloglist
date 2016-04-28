@@ -93,7 +93,6 @@ public class AtendimentoBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 			return null;
 		}
-
 	}
 
 	/*

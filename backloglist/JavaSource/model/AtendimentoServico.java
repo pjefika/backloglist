@@ -12,6 +12,7 @@ import javax.persistence.Query;
 
 import entidades.ComentariosDefeitos;
 import entidades.Defeito;
+import entidades.DefeitoIntegracao;
 import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
 import entidades.TipoLog;
@@ -61,8 +62,7 @@ public class AtendimentoServico {
 	}
 
 	/*
-	 * Assumir defeito da lista
-	 * */	
+	 * Assumir defeito da lista	 * */	
 	public UsuarioEfika assumirDefeito(Defeito defeito, UsuarioEfika usuario) throws Exception {
 
 		usuario.setAssumidos(this.listarDefeitosColaborador(usuario));
@@ -171,7 +171,37 @@ public class AtendimentoServico {
 			throw new Exception("Este defeito não foi integrado na ferramenta.");
 		}
 
-	}	
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DefeitoIntegracao> consultarSSIntegracao() throws Exception {
+
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");		
+			query.setParameter("param1", TipoStatus.ABERTO);
+			query.setMaxResults(1);
+			return (List<DefeitoIntegracao>) query.getResultList();
+			
+		} catch (Exception e) {
+			
+			throw new Exception("Não possui defeitos para serem integrados!");
+			
+		}
+
+	}
+	
+	public DefeitoIntegracao consultarSSIntegracaoEspecifico(String ss) throws Exception {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.ss =:param1");
+			query.setParameter("param1", ss);
+			return (DefeitoIntegracao) query.getSingleResult();			
+		} catch (NoResultException e) {
+			throw new Exception("Este defeito não foi integrado na ferramenta.");
+		}
+
+	}
 
 	/*
 	 * Lista os motivos de encerramentos.
@@ -267,7 +297,7 @@ public class AtendimentoServico {
 
 
 		if (!detalhes.isEmpty()){
-			
+
 			ComentariosDefeitos comentariosDefeitos = new ComentariosDefeitos();
 
 			Date dataDeAgr = new Date();
