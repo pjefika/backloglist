@@ -78,12 +78,12 @@
 				<h:outputText value="#{relatorio.dataAbertura.toLocaleString()}" />
 			</p:column>
 
-			<p:column headerText="Data de Vencimento">
-				<h:outputText value="#{relatorio.dataVencimento.toLocaleString()}" />
-			</p:column>
-
 			<p:column headerText="Data de Encerramento">
 				<h:outputText value="#{relatorio.dataEncerrado.toLocaleString()}" />
+			</p:column>
+			
+			<p:column headerText="DQTT">
+				<h:outputText value="#{relatorio.encerradoAdm}" style="text-transform: uppercase"/>
 			</p:column>
 
 		</p:dataTable>
@@ -99,7 +99,8 @@
 			update="graphsStatus" />
 		<p:poll interval="35" listener="#{relatorioBean.init()}"
 			update="graphsMotivos" />
-
+		
+		
 	</ui:define>
 
 </ui:composition>

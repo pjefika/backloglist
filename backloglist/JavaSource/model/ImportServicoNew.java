@@ -24,6 +24,7 @@ import com.opencsv.CSVReader;
 import entidades.Defeito;
 import entidades.DefeitoIntegracao;
 import entidades.LogIntegracao;
+import entidades.Lote;
 import entidades.Tipificacao;
 import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
@@ -74,12 +75,23 @@ public class ImportServicoNew {
 
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
 		List content = csvReader.readAll();
-
+		
+		List<DefeitoIntegracao> listaDefeitoIntegracao = new ArrayList<DefeitoIntegracao>();
+		
+		Lote lote = new Lote();
+		
+		Date date = new Date();
+		
+		lote.setNome(nomeArquivo);
+		lote.setHoraIntegrado(date);		
+		
+		this.entityManager.persist(lote);
 
 		for (Object object : content) {			
 
 			DefeitoIntegracao defeito = new DefeitoIntegracao();
-			Tipificacao tipificacao = new Tipificacao();		
+			Tipificacao tipificacao = new Tipificacao();
+			
 
 			row = (String[]) object;				
 
@@ -94,22 +106,37 @@ public class ImportServicoNew {
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 				Date dataAbertura = formatter.parse(row[3]);			
-				Date dataVencimento = formatter.parse(row[4]);				
-
+				Date dataVencimento = formatter.parse(row[4]);
+				
 				defeito.setSs(row[0]);
 				defeito.setInstancia(row[2]);
 				tipificacao = this.acaoTipificacao(row[1].trim());
 				defeito.setTipificacao(tipificacao);
 				defeito.setDataAbertura(dataAbertura);
 				defeito.setDataVencimento(dataVencimento);
-				defeito.setStatus(TipoStatus.ABERTO);				
-
-				this.entityManager.persist(defeito);
+				defeito.setStatus(TipoStatus.ABERTO);
+				defeito.setLote(lote);
+				
+				listaDefeitoIntegracao.add(defeito);
+				
+				this.salvaDefeitosIntegracao(listaDefeitoIntegracao);
 			}
 
 		}
+		
+		
 
 		csvReader.close();
+	}
+	
+	public void salvaDefeitosIntegracao(List<DefeitoIntegracao> defeitos) {
+		
+		for (DefeitoIntegracao defeitoIntegracao : defeitos) {
+			
+			this.entityManager.persist(defeitoIntegracao);
+			
+		}
+		
 	}
 
 	public Tipificacao acaoTipificacao(String nomeTipificacao) {
@@ -154,7 +181,7 @@ public class ImportServicoNew {
 		URL link;
 
 		link = new URL("http://efika/novosite/modulos/backloglist/services/loadInstanciaBackloglist.php?instancia=" + defeitosIntegracao.getInstancia());
-
+		
 		BufferedReader in = new BufferedReader(new InputStreamReader(link.openStream()));
 
 		String inputLine;
@@ -182,9 +209,7 @@ public class ImportServicoNew {
 			String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
 
 			if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
-
-				System.out.println("Fulltest OK");
-
+				
 				Defeito defeito = new Defeito();
 
 				defeito.setSs(defeitosIntegracao.getSs());
@@ -193,12 +218,12 @@ public class ImportServicoNew {
 				defeito.setDataAbertura(defeitosIntegracao.getDataAbertura());
 				defeito.setDataVencimento(defeitosIntegracao.getDataVencimento());
 
-				Long diferenca = defeito.getDataVencimento().getTime() - defeito.getDataAbertura().getTime();
+				Long diferenca = defeito.getDataVencimento().getTime() - defeito.getDataDeIntegracao().getTime();
 
 				Double porcentagem = 0.025;
 				diferenca = (long) (diferenca * porcentagem);
 
-				diferenca = defeito.getDataAbertura().getTime() + diferenca;
+				diferenca = defeito.getDataDeIntegracao().getTime() + diferenca;
 
 				Date sla = new Date(diferenca);
 
@@ -207,32 +232,38 @@ public class ImportServicoNew {
 				defeito.setDataSLATriagem(sla);
 				defeito.setDataDeIntegracao(dataIntegracao);
 				defeito.setStatus(TipoStatus.ABERTO);
+				defeito.setEncerradoAdm(false);				
 
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 
 				this.entityManager.merge(defeitosIntegracao);			
 				this.entityManager.persist(defeito);
 				salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
+				
+				System.out.println("Fulltest OK");
 
-			}else{
-
+			}else{			
+				
 				System.out.println("Fulltest NOK");
-
+				
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 				this.entityManager.merge(defeitosIntegracao);
 				this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
+				
+				
 
 			}	
 		} catch (Exception e) {
 			
 			System.out.println("Fulltest NOK/Problema ao tratar retorno");
-
+			
 			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 			this.entityManager.merge(defeitosIntegracao);
 			this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
 			
+			
+			
 		}
-
 
 
 		in.close();
@@ -245,6 +276,5 @@ public class ImportServicoNew {
 		this.entityManager.merge(defeitoIntegracao);
 
 	}
-
-
+		
 }

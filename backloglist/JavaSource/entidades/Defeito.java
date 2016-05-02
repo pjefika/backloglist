@@ -52,6 +52,8 @@ public class Defeito{
 	
 	@OneToMany(mappedBy="defeito", fetch=FetchType.EAGER)
 	private List<ComentariosDefeitos> comentarios;
+	
+	private Boolean encerradoAdm;
 
 	public Defeito() {
 
@@ -162,6 +164,15 @@ public class Defeito{
 
 	public void setComentarios(List<ComentariosDefeitos> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public Boolean getEncerradoAdm() {
+		return encerradoAdm;
+	}
+
+
+	public void setEncerradoAdm(Boolean encerradoAdm) {
+		this.encerradoAdm = encerradoAdm;
 	}
 
 	@Override

@@ -12,8 +12,6 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import entidades.Defeito;
-import entidades.DefeitoIntegracao;
-import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
 import model.AtendimentoServico;
 import model.ImportServicoNew;
@@ -31,7 +29,6 @@ public class PainelDefeitosBean {
 	Timer timerBuscaDefeitosAtivos = new Timer();
 	Timer timerRemoveDefeitoAntigo = new Timer();
 	Timer timerVoltaDefeitoParaFila = new Timer();
-	Timer timerFulltestDefeitosImportados = new Timer();
 
 	TimerTask buscaDefeitoAtivos = new TimerTask() {
 
@@ -63,16 +60,6 @@ public class PainelDefeitosBean {
 		}
 	};
 
-	TimerTask FulltestDefeitosImportados = new TimerTask() {
-
-		@Override
-		public void run() {
-
-			consultaSS();
-
-		}
-	};
-
 	@EJB
 	private AtendimentoServico atendimentoServico;	
 
@@ -93,8 +80,7 @@ public class PainelDefeitosBean {
 
 		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 65000, 65000);
 		timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
-		timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
-		timerFulltestDefeitosImportados.scheduleAtFixedRate(FulltestDefeitosImportados, 30000, 30000);
+		//timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 
 	}	
 
@@ -147,47 +133,8 @@ public class PainelDefeitosBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
-	}	
-
-	public void consultaSS() {
-
-		DefeitoIntegracao defeitosIntegracao = new DefeitoIntegracao();
-
-		try {
-
-			defeitosIntegracao = this.atendimentoServico.consultarSSIntegracao().get(0);
-
-			this.atendimentoServico.consultarSS(defeitosIntegracao.getSs());
-
-			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.DEFEITOEXISTENTE);
-
-		} catch (Exception e) {
-
-			if (!defeitosIntegracao.getInstancia().isEmpty()) {
-				
-				realizarFulltest(defeitosIntegracao);
-				
-			}
-			
-		}	
-
 	}
-
-	public void realizarFulltest(DefeitoIntegracao defeitoIntegracao) {
-
-		try {
-			//O mesmo está fazendo de um em um em threads, não há necessidade de trocar de status ao realizar fulltest;
-			//this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
-			this.importServicoNew.fulltest(defeitoIntegracao);
-
-		} catch (Exception e) {			
-
-			e.printStackTrace();
-
-		}
-
-	}
-
+	
 	public List<Defeito> getListaDefeitos() {
 		return listaDefeitos;
 	}

@@ -292,6 +292,24 @@ public class AtendimentoServico {
 		}		
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Defeito> listarDefeitosEncerradosDQTT(UsuarioEfika usuario) {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.dataDeIntegracao > CURRENT_DATE");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", true);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<Defeito>();
+			
+		}
+		
+	}
 
 	public void inserirComentario(Defeito defeito, String detalhes) throws Exception {
 

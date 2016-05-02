@@ -26,12 +26,17 @@
 
 			<p:fieldset legend="Cadastro" toggleable="true" toggleSpeed="500">
 			
-					<h:panelGrid columns="4" cellpadding="10">
+					<h:panelGrid columns="3" cellpadding="10">
 
 						<p:outputLabel for="n0" value="Motivo Encerramento: " />
 						<p:inputText id="n0"
 							value="#{motivoEncerramentoBean.motivoEncerramento.motivo}" />
 						<p:message for="n0" />
+						
+						<p:outputLabel for="n1" value="Cód. Encerramento: " />
+						<p:inputText id="n1"
+							value="#{motivoEncerramentoBean.motivoEncerramento.codEncerramento}" />
+						<p:message for="n1" />
 
 						<p:commandButton
 							action="#{motivoEncerramentoBean.cadastrarMotivosEncerramento()}"

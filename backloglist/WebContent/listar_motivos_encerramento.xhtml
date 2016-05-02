@@ -44,7 +44,12 @@
 						<h:outputText rendered="#{mot.status==2}" value="Inativo" />
 
 					</p:column>
+					
+					<p:column headerText="Cód. Encerramento" style="text-align: center;">
 
+						<h:outputText value="#{mot.codEncerramento}" />
+
+					</p:column>
 					<p:column headerText="Ações" style="text-align: center;">
 
 						<p:commandButton value="Editar" onclick="PF('editaMotivo').show()"

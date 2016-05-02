@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public class MotivoEncerramento{
 
@@ -11,9 +13,13 @@ public class MotivoEncerramento{
 	@GeneratedValue
 	private Integer id;
 
+	@NotEmpty
 	private String motivo;
 
 	private Integer status;
+	
+	@NotEmpty
+	private String codEncerramento;
 
 	public MotivoEncerramento() {
 
@@ -41,6 +47,14 @@ public class MotivoEncerramento{
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getCodEncerramento() {
+		return codEncerramento;
+	}
+
+	public void setCodEncerramento(String codEncerramento) {
+		this.codEncerramento = codEncerramento;
 	}
 
 	@Override

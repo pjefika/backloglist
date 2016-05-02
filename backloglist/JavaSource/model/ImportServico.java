@@ -65,6 +65,7 @@ public class ImportServico {
 
 			defeito.setDataSLATriagem(sla);
 			defeito.setDataDeIntegracao(dataIntegracao);
+			defeito.setEncerradoAdm(false);
 			defeito.setStatus(TipoStatus.ABERTO);
 			
 			//defeito.setTipificacao(tipificacao);

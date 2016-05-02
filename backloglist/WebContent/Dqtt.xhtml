@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Defeitos Encerrados
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i> Defeitos Encerrados</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:fileUpload fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
+				mode="advanced" dragDropSupport="true" multiple="true"
+				update="messages" sizeLimit="50000" fileLimit="5"
+				allowTypes="/(\.|\/)(csv)$/" />
+			<p:growl id="messages" showDetail="true" />
+		</h:form>
+
+		<p:dataTable id="defeitosData" var="def"
+			value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdm()}"
+			emptyMessage="Não há defeitos disponiveis"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+			paginator="true" style="margin-bottom:20px" rows="10"
+			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+			<f:facet name="{Exporters}">
+				<h:commandLink>
+					<i class="fa fa-download"></i> 
+						Exportar
+						<p:dataExporter type="xls" target="defeitosData"
+						fileName="Encerrar_DQTT" />
+				</h:commandLink>
+			</f:facet>
+
+			<p:column headerText="SS">
+				<h:outputText value="#{def.ss}" />
+			</p:column>
+
+			<p:column headerText="Cód. Encerramento">
+				<h:outputText value="#{def.motivoEncerramento.codEncerramento}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -25,6 +25,9 @@ public class DefeitoIntegracao {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoStatus status;
+	
+	@ManyToOne
+	private Lote lote;
 
 	public DefeitoIntegracao() {
 		
@@ -76,5 +79,14 @@ public class DefeitoIntegracao {
 
 	public void setStatus(TipoStatus status) {
 		this.status = status;
-	}	
+	}
+
+	public Lote getLote() {
+		return lote;
+	}
+
+	public void setLote(Lote lote) {
+		this.lote = lote;
+	}
+
 }

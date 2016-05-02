@@ -154,6 +154,12 @@ public class AtendimentoBean {
 
 	}
 	
+	public Integer contagemDefeitoEncerradoDQTT() {
+		
+		return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
+		
+	}
+	
 	public void inserirComentario() {
 		
 		try {

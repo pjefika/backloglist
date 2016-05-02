@@ -5,7 +5,8 @@ public enum TipoLogIntegracao {
 	INTEGRADO("Defeito integrado com sucesso"),
 	DEFEITOEXISTENTE("Defeito ja existe na base"),
 	ERROINTEGRADO("Erro ao integrar defeito"),
-	NEGATIVAFULLTEST("Full test negativo");
+	NEGATIVAFULLTEST("Full test negativo"),
+	EMTRATAMENTO("Defeito em tratamento Fulltest");
 	
 	private String acao;
 	

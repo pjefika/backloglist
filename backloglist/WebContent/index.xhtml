@@ -17,11 +17,16 @@
 	<ui:define name="botoesAcao"></ui:define>
 
 	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:event listener="#{fulltestBean.iniciaBean()}" type="preRenderView" />
+		</f:metadata>
+
 		<h:form id="formInicio">
 			<p:panel id="panelInicio" header="Início" style="margin-bottom:20px">
 
-				<h:outputText value="Tratamento de defeitos BacklogList" />			
-				
+				<h:outputText value="Tratamento de defeitos BacklogList" />
+
 				<div style="margin-top: 25px;">
 					<p:outputPanel rendered="#{!loginBean.logado}">
 						<h:outputText value="Logar: " />
@@ -38,7 +43,7 @@
 
 								<p:commandButton value="Entrar" action="#{loginBean.logar()}"
 									update="@all" />
-									
+
 							</h:panelGrid>
 						</p:panel>
 					</p:outputPanel>
