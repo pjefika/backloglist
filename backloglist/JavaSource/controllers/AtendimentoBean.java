@@ -1,11 +1,14 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import entidades.Defeito;
 import entidades.LogDefeito;
@@ -33,7 +36,7 @@ public class AtendimentoBean {
 
 	@EJB
 	private LogDefeitoServico logDefeitoServico;
-	
+
 	private String detalhesDefeito;
 
 	public AtendimentoBean() {
@@ -72,10 +75,24 @@ public class AtendimentoBean {
 
 		try {
 			this.sessao.setUsuario(this.atendimentoServico.assumirDefeito(defeito, sessao.getUsuario()));
-			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");			
+			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
+			this.redirecionaDetalhesDefeito(defeito);
+						
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
+
+	}
+	
+	public void redirecionaDetalhesDefeito(Defeito defeito) {
+
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "/detalhe_defeito.jsf?ss=" + defeito.getSs());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 
 	}
 
@@ -153,24 +170,24 @@ public class AtendimentoBean {
 		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
 	}
-	
+
 	public Integer contagemDefeitoEncerradoDQTT() {
-		
+
 		return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
-		
+
 	}
-	
+
 	public void inserirComentario() {
-		
+
 		try {
-						
+
 			this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
 			this.detalhesDefeito = null;
-			
+
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}		
-		
+
 	}
 
 	public LoginBean getSessao() {
@@ -212,5 +229,5 @@ public class AtendimentoBean {
 	public void setDetalhesDefeito(String detalhesDefeito) {
 		this.detalhesDefeito = detalhesDefeito;
 	}
-	
+
 }

@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -21,7 +21,7 @@
 
 	<ui:define name="conteudo">
 
-		<p:poll interval="5" update="defeitosData"/>
+		<p:poll interval="5" update="defeitosData" />
 
 		<p:dataTable id="defeitosData" var="def"
 			value="#{painelDefeitosBean.listaDefeitos}"
@@ -44,12 +44,15 @@
 
 			<p:column headerText="Ação" style="text-align: center;">
 
-				<p:commandButton id="assumi_defeito" value="Assumir" update="defeitosData" >
-				
-					<f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}" for="assumi_defeito" />
+				<p:commandButton id="assumi_defeito" value="Assumir" ajax="false">
 
-					<f:actionListener binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}" for="assumi_defeito" />					
+					<f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}"
+						for="assumi_defeito" />
 
+					<f:actionListener
+						binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}"
+						for="assumi_defeito" />
+											
 				</p:commandButton>
 			</p:column>
 

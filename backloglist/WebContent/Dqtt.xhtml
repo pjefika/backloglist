@@ -16,9 +16,14 @@
 
 	<ui:define name="botoesAcao"></ui:define>
 
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
 	<ui:define name="conteudo">
 		<h:form>
-			<p:fileUpload fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
+			<p:fileUpload
+				fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
 				mode="advanced" dragDropSupport="true" multiple="true"
 				update="messages" sizeLimit="50000" fileLimit="5"
 				allowTypes="/(\.|\/)(csv)$/" />
@@ -29,7 +34,7 @@
 			value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdm()}"
 			emptyMessage="Não há defeitos disponiveis"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-			paginator="true" style="margin-bottom:20px" rows="10"
+			paginator="true" style="margin-top:20px;" rows="10"
 			currentPageReportTemplate="[{startRecord} de {endRecord}]">
 
 			<f:facet name="{Exporters}">
@@ -50,6 +55,8 @@
 			</p:column>
 
 		</p:dataTable>
+
+		<p:poll interval="10" update="defeitosData" />
 
 	</ui:define>
 

@@ -4,103 +4,110 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
 <ui:composition template="/recursos/template/template.xhtml">
 
 	<ui:define name="tituloPagina">
-		 Lista Motivo Encerramento
+		 Listar e Editar Motivos Encerramento
 	</ui:define>
 	<ui:define name="tituloPrincipal">
-		<i class="fa fa-dashboard"> </i> Lista Motivo Encerramento</ui:define>
+		<i class="fa fa-dashboard"> </i> Listar e Editar Motivos Encerramento</ui:define>
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
 
 	<ui:define name="eventos">
-		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
-		<f:event listener="#{motivoEncerramentoBean.listarMotivosEncerramentos()}" type="preRenderView"/>
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
 	</ui:define>
 
 	<ui:define name="conteudo">
-				
-		<p:fieldset legend="Lista" toggleable="true" toggleSpeed="500"
-			style="margin-top: 15px;">
-			<h:form id="formtutoo">
-				<p:dataTable var="mot"
-					value="#{motivoEncerramentoBean.listaDeMotivos}"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-					paginator="true" rows="10" style="margin-bottom:20px"
-					currentPageReportTemplate="[{startRecord} de {endRecord}]">
 
-					<p:column headerText="Motivo" style="text-align: center;">
+		<p:panel header="Listar e Editar Motivos de Encerramento">
+			<p:fieldset legend="Lista" toggleable="true" toggleSpeed="500"
+				style="margin-top: 15px;">
+				<h:form>
+					<p:dataTable var="mot"
+						value="#{motivoBean.listaMotivoEncerramento()}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						paginator="true" rows="10" style="margin-bottom:20px"
+						currentPageReportTemplate="[{startRecord} de {endRecord}]">
 
-						<h:outputText value="#{mot.motivo}" />
+						<p:column headerText="Motivo" style="text-align: center;">
 
-					</p:column>
+							<h:outputText value="#{mot.motivo}" />
 
-					<p:column headerText="Status" style="text-align: center;">
+						</p:column>
 
-						<h:outputText rendered="#{mot.status==1}" value="Ativo" />
-						<h:outputText rendered="#{mot.status==2}" value="Inativo" />
+						<p:column headerText="Status" style="text-align: center;">
 
-					</p:column>
-					
-					<p:column headerText="Cód. Encerramento" style="text-align: center;">
+							<h:outputText rendered="#{mot.status==1}" value="Ativo" />
+							<h:outputText rendered="#{mot.status==2}" value="Inativo" />
 
-						<h:outputText value="#{mot.codEncerramento}" />
+						</p:column>
 
-					</p:column>
-					<p:column headerText="Ações" style="text-align: center;">
+						<p:column headerText="Cód. Encerramento"
+							style="text-align: center;">
 
-						<p:commandButton value="Editar" onclick="PF('editaMotivo').show()"
-							update="@form:editaPanel">
+							<h:outputText value="#{mot.codEncerramento}" />
 
-							<f:setPropertyActionListener value="#{mot}" target="#{motivoEncerramentoBean.motivoEncerramento}" />
+						</p:column>
+						<p:column headerText="Ações" style="text-align: center;">
 
-						</p:commandButton>
+							<p:commandButton value="Editar"
+								onclick="PF('editaMotivo').show()" update="@form:editaPanel"
+								process="@this">
 
-					</p:column>
+								<f:setPropertyActionListener value="#{mot}"
+									target="#{motivoBean.motivoEncerramento}" />
 
-				</p:dataTable>
+							</p:commandButton>
 
-				<p:dialog header="Editar Motivo" modal="true"
-					widgetVar="editaMotivo" height="80" width="250" resizable="false">
+						</p:column>
 
-					<p:outputPanel id="editaPanel">
+					</p:dataTable>
 
-						<h:panelGrid columns="2"
-							rendered="#{not empty motivoEncerramentoBean.motivoEncerramento}"
-							columnClasses="label, value">
+					<p:dialog header="Editar Motivo" modal="true"
+						widgetVar="editaMotivo" height="120" width="250" resizable="false">
 
-							<h:outputText value="Novo nome:" />
-							<p:inputText id="nomeAlt"
-								value="#{motivoEncerramentoBean.motivoEncerramento.motivo}" />
+						<p:outputPanel id="editaPanel">
 
-							<h:outputText for="statusDoMotivo" value="Status: " />
-							<p:selectOneMenu id="statusDoMotivo"
-								value="#{motivoEncerramentoBean.motivoEncerramento.status}">
-								<f:selectItem itemLabel="Ativo" itemValue="1" />
-								<f:selectItem itemLabel="Inativo" itemValue="2" />
-							</p:selectOneMenu>
-																					
-							<p:commandButton
-								action="#{motivoEncerramentoBean.editarMotivoEncerramento()}"
-								value="Salvar" update="@all" />
+							<h:panelGrid columns="2"
+								rendered="#{not empty motivoBean.motivoEncerramento}"
+								columnClasses="label, value">
 
-							<h:inputHidden
-								value="#{motivoEncerramentoBean.motivoEncerramento.id}" />
+								<h:outputText value="Novo nome:" />
+								<p:inputText id="nomeAlt"
+									value="#{motivoBean.motivoEncerramento.motivo}" />
 
-						</h:panelGrid>
+								<h:outputText value="Novo Cód. Encerramento:" />
+								<p:inputText id="codEncerramento"
+									value="#{motivoBean.motivoEncerramento.codEncerramento}" />
+
+								<h:outputText for="statusDoMotivo" value="Status: " />
+								<p:selectOneMenu id="statusDoMotivo"
+									value="#{motivoBean.motivoEncerramento.status}">
+									<f:selectItem itemLabel="Ativo" itemValue="1" />
+									<f:selectItem itemLabel="Inativo" itemValue="2" />
+								</p:selectOneMenu>
+
+								<p:commandButton
+									action="#{motivoBean.editarMotivoEncerramento()}"
+									value="Salvar" update="@all" />
+
+								<h:inputHidden value="#{motivoBean.motivoEncerramento.id}" />
+
+							</h:panelGrid>
 
 
-					</p:outputPanel>
+						</p:outputPanel>
 
-				</p:dialog>
+					</p:dialog>
 
-			</h:form>
-		</p:fieldset>
+				</h:form>
+			</p:fieldset>
+
+		</p:panel>
+
 
 	</ui:define>
-
 </ui:composition>
 </html>

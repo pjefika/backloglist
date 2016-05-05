@@ -133,8 +133,8 @@ public class PainelDefeitosBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
-	}
-	
+	}	
+
 	public List<Defeito> getListaDefeitos() {
 		return listaDefeitos;
 	}

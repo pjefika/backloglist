@@ -4,11 +4,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-
 <ui:composition template="/recursos/template/template.xhtml">
 
 	<ui:define name="tituloPagina">
-		 Cadastrar Motivos Encerramento
+		Cadastrar Motivos Encerramento
 	</ui:define>
 	<ui:define name="tituloPrincipal">
 		<i class="fa fa-dashboard"> </i> Cadastrar Motivos Encerramento</ui:define>
@@ -17,36 +16,36 @@
 	<ui:define name="botoesAcao"></ui:define>
 
 	<ui:define name="eventos">
-		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
 	</ui:define>
 
 	<ui:define name="conteudo">
 
-		<p:panel id="basic" header="Basic" style="margin-bottom:20px">
+		<p:panel header="Listar e Editar Motivos de Encerramento">
 
 			<p:fieldset legend="Cadastro" toggleable="true" toggleSpeed="500">
-			
-					<h:panelGrid columns="3" cellpadding="10">
 
-						<p:outputLabel for="n0" value="Motivo Encerramento: " />
-						<p:inputText id="n0"
-							value="#{motivoEncerramentoBean.motivoEncerramento.motivo}" />
-						<p:message for="n0" />
-						
-						<p:outputLabel for="n1" value="Cód. Encerramento: " />
-						<p:inputText id="n1"
-							value="#{motivoEncerramentoBean.motivoEncerramento.codEncerramento}" />
-						<p:message for="n1" />
+				<h:panelGrid columns="3" cellpadding="10">
 
-						<p:commandButton
-							action="#{motivoEncerramentoBean.cadastrarMotivosEncerramento()}"
-							value="Cadastrar!" update="@form" />
+					<p:outputLabel for="n0" value="Motivo Encerramento: " />
+					<p:inputText id="n0"
+						value="#{motivoBean.motivoEncerramento.motivo}" />
+					<p:message for="n0" />
 
-					</h:panelGrid>
+					<p:outputLabel for="n1" value="Cód. Encerramento: " />
+					<p:inputText id="n1"
+						value="#{motivoBean.motivoEncerramento.codEncerramento}" />
+					<p:message for="n1" />
+
+					<p:commandButton
+						action="#{motivoBean.cadastrarMotivoEncerramento()}"
+						value="Cadastrar!" update="@form" />
+
+				</h:panelGrid>
 
 			</p:fieldset>
+
 		</p:panel>
 	</ui:define>
-
 </ui:composition>
 </html>

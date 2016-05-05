@@ -13,7 +13,7 @@ import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
 import model.AtendimentoServico;
 import model.LogServico;
-import model.MotivoEncerramentoServico;
+import model.MotivoServico;
 
 
 @javax.jws.WebService(serviceName = "Backloglist")
@@ -28,7 +28,7 @@ public class BackloglistProxy {
 	private LogServico logServico;
 	
 	@EJB
-	private MotivoEncerramentoServico motivoServico;	
+	private MotivoServico motivoServico;	
 
 	@WebMethod(operationName = "ConsultarDetalhesSS")
 	public Defeito ConsultarDetalhesSS(@WebParam(name = "ss") String ss) throws Exception {
@@ -68,7 +68,7 @@ public class BackloglistProxy {
 	@WebMethod(operationName = "ListarMotivoEncerramento")
 	public List<MotivoEncerramento> ListarMotivoEncerramento() {
 				
-		return this.motivoServico.listarMotivoEncerramento();
+		return this.motivoServico.listaMotivoEncerramento();
 		
 	}
 }

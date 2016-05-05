@@ -15,6 +15,10 @@
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
+	
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+	</ui:define>
 
 	<ui:define name="conteudo">
 
@@ -40,16 +44,16 @@
 						<h:outputText
 							value="#{atendimentoBean.contagemRelatorioUsuario('ENCERRADO')}" />
 					</p:column>
-
-					<p:column headerText="Defeitos Enviados a Campo">
-						<h:outputText
-							value="#{atendimentoBean.contagemRelatorioUsuario('ENVIADOACAMPO')}" />
-					</p:column>
 					
 					<p:column headerText="Defeitos Encerrados DQTT">
 						<h:outputText
 							value="#{atendimentoBean.contagemDefeitoEncerradoDQTT()}" />
 					</p:column>
+
+					<p:column headerText="Defeitos Enviados a Campo">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuario('ENVIADOACAMPO')}" />
+					</p:column>					
 
 				</p:dataTable>
 

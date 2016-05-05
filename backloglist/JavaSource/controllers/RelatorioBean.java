@@ -17,7 +17,7 @@ import entidades.Defeito;
 import entidades.Lote;
 import entidades.MotivoEncerramento;
 import entidades.TipoStatus;
-import model.MotivoEncerramentoServico;
+import model.MotivoServico;
 import model.RelatorioServico;
 
 @SuppressWarnings("serial")
@@ -44,7 +44,7 @@ public class RelatorioBean implements Serializable{
 	private RelatorioServico relatorioServico;
 
 	@EJB
-	private MotivoEncerramentoServico motivoEncerramentoServico;
+	private MotivoServico motivoEncerramentoServico;
 
 	@PostConstruct
 	public void init() {
@@ -53,7 +53,7 @@ public class RelatorioBean implements Serializable{
 
 	private void criarCharts() {
 		criarGraficoStatus();
-		criarGraficoMotivos(this.motivoEncerramentoServico.listarMotivoEncerramento());
+		criarGraficoMotivos(this.motivoEncerramentoServico.listaMotivoEncerramento());
 	}
 
 	public RelatorioBean() {
