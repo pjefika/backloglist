@@ -11,7 +11,7 @@
 		 Início
 	</ui:define>
 	<ui:define name="tituloPrincipal">
-		<i class="fa fa-dashboard"> </i> Início</ui:define>
+		<i class="fa fa-home"> </i> Início</ui:define>
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
@@ -23,37 +23,27 @@
 		</f:metadata>
 
 		<h:form id="formInicio">
-			<p:panel id="panelInicio" header="Início" style="margin-bottom:20px">
+			<p:panel id="panelInicio" header="Início"
+				style="margin-bottom:20px">
+				<p:outputPanel rendered="#{!loginBean.logado}">
+					<h:panelGrid columns="3">
+						<label for="login">Login: </label>
+						<p:inputText id="login" value="#{loginBean.usuario.login}" />
+						<p:message for="login" />
 
-				<h:outputText value="Tratamento de defeitos BacklogList" />
+						<label for="senha">Senha: </label>
+						<p:password id="senha" value="#{loginBean.senha}" />
+						<p:message for="senha" />
 
-				<div style="margin-top: 25px;">
-					<p:outputPanel rendered="#{!loginBean.logado}">
-						<h:outputText value="Logar: " />
-						<p:panel style="width: 20%;">
-							<h:panelGrid columns="3">
-
-								<label for="login">Login: </label>
-								<p:inputText id="login" value="#{loginBean.usuario.login}" />
-								<p:message for="login" />
-
-								<label for="senha">Senha: </label>
-								<p:password id="senha" value="#{loginBean.senha}" />
-								<p:message for="senha" />
-
-								<p:commandButton value="Entrar" action="#{loginBean.logar()}"
-									update="@all" />
-
-							</h:panelGrid>
-						</p:panel>
-					</p:outputPanel>
-
-					<p:outputPanel rendered="#{loginBean.logado}">
-						<p:commandButton value="Sair" action="#{loginBean.deslogar()}"
+						<p:commandButton value="Entrar" action="#{loginBean.logar()}"
 							update="@all" />
-					</p:outputPanel>
-				</div>
 
+					</h:panelGrid>
+				</p:outputPanel>
+				<p:outputPanel rendered="#{loginBean.logado}">
+					<p:commandButton value="Sair" action="#{loginBean.deslogar()}"
+						update="@all" />
+				</p:outputPanel>
 			</p:panel>
 		</h:form>
 	</ui:define>

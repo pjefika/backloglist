@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="vu">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/BancoDS</jta-data-source>
+		<jta-data-source>java:/co</jta-data-source>
 		<class>entidades.Defeito</class>
 		<class>entidades.LogDefeito</class>
 		<class>entidades.MotivoEncerramento</class>
