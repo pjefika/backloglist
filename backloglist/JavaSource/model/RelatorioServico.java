@@ -85,7 +85,7 @@ public class RelatorioServico {
 		
 		try {
 			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.encerradoAdm =:param1");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1");
 			query.setParameter("param1", true);
 			return query.getResultList();
 			

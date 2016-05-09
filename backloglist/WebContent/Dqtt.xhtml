@@ -8,55 +8,70 @@
 <ui:composition template="/recursos/template/template.xhtml">
 
 	<ui:define name="tituloPagina">
-		 Defeitos Encerrados
+		 DQTT
 	</ui:define>
 	<ui:define name="tituloPrincipal">
-		<i class="fa fa-dashboard"> </i> Defeitos Encerrados</ui:define>
+		<i class="fa fa-dashboard"> </i> DQTT</ui:define>
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
 
 	<ui:define name="eventos">
-		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+		<f:event listener="#{loginBean.validaSubAdmin()}" type="preRenderView" />
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form>
-			<p:fileUpload
-				fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
-				mode="advanced" dragDropSupport="true" multiple="true"
-				update="messages" sizeLimit="50000" fileLimit="5"
-				allowTypes="/(\.|\/)(csv)$/" />
-			<p:growl id="messages" showDetail="true" />
-		</h:form>
 
-		<p:dataTable id="defeitosData" var="def"
-			value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdm()}"
-			emptyMessage="Não há defeitos disponiveis"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-			paginator="true" style="margin-top:20px;" rows="10"
-			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+		<p:panel header="Observações">
 
-			<f:facet name="{Exporters}">
-				<h:commandLink>
-					<i class="fa fa-download"></i> 
+			<h:outputText
+				value="Ao fazer o Upload do arquivo CSV certifique-se de que o arquivo está no modelo correto."/>
+			<br/>
+			<h:outputText
+				value="Na primeira coluna inserir a SS, na segunda coluna true ou false. Se encerrado via DQTT então insira true se não false."/>
+				
+			<br/>
+			<br/>
+						
+			<h:form>
+				<p:fileUpload
+					fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
+					mode="advanced" dragDropSupport="true" multiple="true"
+					update="messages" sizeLimit="50000" fileLimit="5"
+					allowTypes="/(\.|\/)(csv)$/" label="Escolher Arquivo"
+					cancelLabel="Cancelar" />
+				<p:growl id="messages" showDetail="true" />
+			</h:form>
+
+			<p:dataTable id="defeitosData" var="def"
+				value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdm()}"
+				emptyMessage="Não há defeitos disponiveis"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+				paginator="true" style="margin-top:20px;" rows="10"
+				currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+				<f:facet name="{Exporters}">
+					<h:commandLink>
+						<i class="fa fa-download"></i> 
 						Exportar
 						<p:dataExporter type="xls" target="defeitosData"
-						fileName="Encerrar_DQTT" />
-				</h:commandLink>
-			</f:facet>
+							fileName="Encerrar_DQTT" />
+					</h:commandLink>
+				</f:facet>
 
-			<p:column headerText="SS">
-				<h:outputText value="#{def.ss}" />
-			</p:column>
+				<p:column headerText="SS">
+					<h:outputText value="#{def.ss}" />
+				</p:column>
 
-			<p:column headerText="Cód. Encerramento">
-				<h:outputText value="#{def.motivoEncerramento.codEncerramento}" />
-			</p:column>
+				<p:column headerText="Cód. Encerramento">
+					<h:outputText value="#{def.motivoEncerramento.codEncerramento}" />
+				</p:column>
 
-		</p:dataTable>
+			</p:dataTable>
 
-		<p:poll interval="10" update="defeitosData" />
+			<p:poll interval="10" update="defeitosData" />
+
+		</p:panel>
 
 	</ui:define>
 

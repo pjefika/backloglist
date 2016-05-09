@@ -11,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(name="backloglist_Defeito")
 public class Defeito{
 
 	@Id
@@ -32,8 +34,6 @@ public class Defeito{
 
 	private Date dataVencimento;
 	
-	private Date dataSLATriagem;
-
 	private Date dataDeIntegracao;
 
 	private Date dataEncerrado;
@@ -54,6 +54,8 @@ public class Defeito{
 	private List<ComentariosDefeitos> comentarios;
 	
 	private Boolean encerradoAdm;
+	
+	private Boolean encerradoDQTT;
 
 	public Defeito() {
 
@@ -133,14 +135,6 @@ public class Defeito{
 		this.dataEncerrado = dataEncerrado;
 	}	
 
-	public Date getDataSLATriagem() {
-		return dataSLATriagem;
-	}
-
-	public void setDataSLATriagem(Date dataSLATriagem) {
-		this.dataSLATriagem = dataSLATriagem;
-	}	
-
 	public Date getDataDeIntegracao() {
 		return dataDeIntegracao;
 	}
@@ -173,6 +167,15 @@ public class Defeito{
 
 	public void setEncerradoAdm(Boolean encerradoAdm) {
 		this.encerradoAdm = encerradoAdm;
+	}
+
+	public Boolean getEncerradoDQTT() {
+		return encerradoDQTT;
+	}
+
+
+	public void setEncerradoDQTT(Boolean encerradoDQTT) {
+		this.encerradoDQTT = encerradoDQTT;
 	}
 
 	@Override

@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(name="backloglist_UsuarioEfika")
 public class UsuarioEfika{
 	
 	@Id

@@ -172,7 +172,7 @@ ul#menu li a {
 	color: #eee;
 	display: block;
 	padding: 10px;
-	font-size: 1.0em;
+	font-size: 0.8em;
 	border-bottom: 1px solid #003245;
 	-webkit-transition: 0.1s;
 	-moz-transition: 0.1s;
@@ -183,7 +183,7 @@ ul#menu li a {
 ul#menu li a:HOVER {
 	background-color: #0095A7;
 	color: #fff;
-	font-size: 1.1em;
+	font-size: 0.9em;
 	-webkit-transition: 0.1s;
 	-transition: 0.1s;
 	-o-transition: 0.1s;
@@ -193,7 +193,7 @@ ul#menu li a:HOVER {
 ul#menu li a.selected {
 	background-color: #0095A7;
 	color: #fff;
-	font-size: 1.1em;
+	font-size: 0.9em;
 }
 
 .selectedTriangle {

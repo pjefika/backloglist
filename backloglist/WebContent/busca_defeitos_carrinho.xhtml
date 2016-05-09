@@ -15,15 +15,18 @@
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
-	
+
 	<ui:define name="eventos">
 		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
 	</ui:define>
 
 	<ui:define name="conteudo">
-
+	
 		<h:form id="form">
-			<p:dataTable id="data" var="def" value="#{atendimentoBean.listarDefeitosColaborador()}" emptyMessage="Você não possui defeitos associados"
+			<p:dataTable id="data" var="def" selectionMode="single"
+				rowKey="#{def.ss}"
+				value="#{atendimentoBean.listarDefeitosColaborador()}"
+				emptyMessage="Você não possui defeitos associados"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 				paginator="true" rows="10" style="margin-bottom:20px"
 				currentPageReportTemplate="[{startRecord} de {endRecord}]">
@@ -42,8 +45,8 @@
 
 				<p:column headerText="Ação" style="text-align: center;">
 					<p:button outcome="detalhe_defeito" value="Tratar">
-						<f:param name="ss" value="#{def.ss}"/>
-					</p:button>					
+						<f:param name="ss" value="#{def.ss}" />
+					</p:button>
 				</p:column>
 			</p:dataTable>
 

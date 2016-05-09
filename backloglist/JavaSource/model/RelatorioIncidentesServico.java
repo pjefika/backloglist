@@ -93,23 +93,43 @@ public class RelatorioIncidentesServico {
 		for (Object object : content) {
 
 			Defeito defeito = new Defeito();
-			
+
 			row = (String[]) object;
 
 			String ss = row[0];		
-			
+
 			try {
-				
-				defeito = this.buscaDefeitoEspecifico(ss);
-				
-				defeito.setEncerradoAdm(true);
+
+				if (!row[0].isEmpty() && !row[1].isEmpty()){
+
+					defeito = this.buscaDefeitoEspecifico(ss);
+
+					defeito.setEncerradoAdm(true);
+
+					if (row[1].equalsIgnoreCase("true")){
+
+						defeito.setEncerradoDQTT(true);
+
+					}else if(row[1].equalsIgnoreCase("false")){
+
+						defeito.setEncerradoDQTT(false);
+
+					}
+					
+					this.entityManager.merge(defeito);
+
+				}else{
+					
+					
+					
+				}
 				
 			} catch (Exception e) {
-				
-				
-				
+
+
+
 			}
-					
+
 		}
 
 		csvReader.close();

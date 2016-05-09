@@ -27,7 +27,7 @@ public class LogServico {
 			
 			Query query = this.entityManager.createQuery("FROM LogDefeito l WHERE l.defeito.ss =:param1 OR l.usuario.login =:param1 ORDER BY l.horaAcao DESC");
 			query.setParameter("param1", loginOUss);
-			query.setMaxResults(50);
+			query.setMaxResults(70);
 			return query.getResultList();			
 			
 		} catch (Exception e) {			

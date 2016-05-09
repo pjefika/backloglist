@@ -2,6 +2,7 @@ package controllers;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.FileUploadEvent;
@@ -16,6 +17,9 @@ import util.JSFUtil;
 @ManagedBean
 @ViewScoped
 public class ImportBean {
+	
+	@ManagedProperty(value="#{loginBean}")
+	private LoginBean sessao;
 	
 	private Defeito defeito;
 	
@@ -62,7 +66,7 @@ public class ImportBean {
 				
 		try {
 			
-			this.importServicoNew.salvaLote(file);
+			this.importServicoNew.salvaLote(file, this.sessao.getUsuario());
 			
 			JSFUtil.addInfoMessage("Lote carregado com sucesso");
 			
@@ -88,4 +92,11 @@ public class ImportBean {
 		this.nomeTipificacao = nomeTipificacao;
 	}
 
+	public LoginBean getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(LoginBean sessao) {
+		this.sessao = sessao;
+	}
 }

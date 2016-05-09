@@ -46,7 +46,13 @@ public class LoginBean implements Serializable{
 	
 	public Boolean is_Admin(){
 								
-		return this.usuarioWS.getNivel() > 6;
+		return this.usuarioWS.getNivel() > 5;
+		
+	}
+	
+	public Boolean is_SubAdmin(){
+		
+		return this.usuarioWS.getNivel() > 4;
 		
 	}
 	
@@ -57,6 +63,22 @@ public class LoginBean implements Serializable{
 			FacesContext fc = FacesContext.getCurrentInstance();
 						
 			if(!this.is_Admin()){
+				ConfigurableNavigationHandler nav  = (ConfigurableNavigationHandler) 
+						fc.getApplication().getNavigationHandler();
+				nav.performNavigation("restrito.jsf");
+			}
+		} catch (Exception e) {
+			this.usuario = new UsuarioEfika();
+		}
+	}
+	
+	public void validaSubAdmin() {
+		try {
+			this.validarLogin();
+			
+			FacesContext fc = FacesContext.getCurrentInstance();
+						
+			if(!this.is_SubAdmin()){
 				ConfigurableNavigationHandler nav  = (ConfigurableNavigationHandler) 
 						fc.getApplication().getNavigationHandler();
 				nav.performNavigation("restrito.jsf");

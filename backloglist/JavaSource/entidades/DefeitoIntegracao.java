@@ -7,8 +7,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="backloglist_Defeito_Integracao")
 public class DefeitoIntegracao {
 	
 	@Id

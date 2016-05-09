@@ -298,9 +298,10 @@ public class AtendimentoServico {
 		
 		try {
 			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.dataDeIntegracao > CURRENT_DATE");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.encerradoDQTT =:param3 AND d.dataDeIntegracao > CURRENT_DATE");
 			query.setParameter("param1", usuario);
 			query.setParameter("param2", true);
+			query.setParameter("param3", true);
 			return query.getResultList();
 			
 		} catch (Exception e) {

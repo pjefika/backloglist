@@ -3,10 +3,12 @@ package entidades;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(name="backloglist_MotivoEncerramento_Defeito")
 public class MotivoEncerramento{
 
 	@Id

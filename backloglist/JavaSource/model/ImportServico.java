@@ -51,19 +51,9 @@ public class ImportServico {
 			salvaLogIntegracao(defeito, TipoLogIntegracao.DEFEITOEXISTENTE);
 
 		} catch (Exception e) {
-
-			Long diferenca = defeito.getDataVencimento().getTime() - defeito.getDataAbertura().getTime();
-
-			Double porcentagem = 0.025;
-			diferenca = (long) (diferenca * porcentagem);
-
-			diferenca = defeito.getDataAbertura().getTime() + diferenca;
-
-			Date sla = new Date(diferenca);
-
+			
 			Date dataIntegracao = new Date();
 
-			defeito.setDataSLATriagem(sla);
 			defeito.setDataDeIntegracao(dataIntegracao);
 			defeito.setEncerradoAdm(false);
 			defeito.setStatus(TipoStatus.ABERTO);

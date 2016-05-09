@@ -93,7 +93,7 @@ public class RelatorioBean implements Serializable{
 
 		GraficoStatus.set("Aberto: " + listarStatus(TipoStatus.ABERTO), listarStatus(TipoStatus.ABERTO));
 		GraficoStatus.set("Em Tratamento: " + listarStatus(TipoStatus.EMTRATAMENTO), listarStatus(TipoStatus.EMTRATAMENTO));
-		GraficoStatus.set("Encerrado: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
+		GraficoStatus.set("Encerrado Operador: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
 		GraficoStatus.set("Enviado a campo: " + listarStatus(TipoStatus.ENVIADOACAMPO), listarStatus(TipoStatus.ENVIADOACAMPO));		
 		GraficoStatus.set("Encerrado DQTT: " + listarDefeitoEncerradosDQTT(), listarDefeitoEncerradosDQTT());
 

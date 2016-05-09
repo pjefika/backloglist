@@ -8,62 +8,75 @@
 <ui:composition template="/recursos/template/template.xhtml">
 
 	<ui:define name="tituloPagina">
-		 Painel Usuário
+		 Upload Defeitos
 	</ui:define>
 	<ui:define name="tituloPrincipal">
-		<i class="fa fa-dashboard"> </i> Painel Usuário</ui:define>
+		<i class="fa fa-dashboard"> </i> Upload Defeitos</ui:define>
 	<ui:define name="tituloSecundario"></ui:define>
 
 	<ui:define name="botoesAcao"></ui:define>
 
-	<ui:define name="conteudo">	
+	<ui:define name="conteudo">
 
-		<h:form>
-			<p:fileUpload fileUploadListener="#{importBean.uploadFile}"
-				mode="advanced" dragDropSupport="true" multiple="true"
-				update="messages" sizeLimit="5000000" fileLimit="5"
-				allowTypes="/(\.|\/)(csv)$/" />
-			<p:growl id="messages" showDetail="true" />
-		</h:form>
+		<p:panel header="Observações">
 
-		<p:dataTable id="relatorioLotes" var="lotes"
-			emptyMessage="Não há lotes"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-			paginator="true" rows="10"
-			currentPageReportTemplate="[{startRecord} de {endRecord}]"
-			value="#{relatorioBean.listarLotes()}" style="margin-top: 15px;">
+			<h:outputText
+				value="Ao fazer o Upload do arquivo CSV certifique-se de que o arquivo está no modelo correto." />
+			<br />
+			<h:outputText
+				value="Na primeira coluna inserir a SS, na segunda a TIPIFICAÇÃO, na terceira a INSTANCIA, na quarta a DATA DE ABERTURA e na quinta inserir a DATA DE VENCIMENTO." />
 
-			<f:facet name="header">
+			<br />
+			<br />
+
+			<h:form>
+				<p:fileUpload fileUploadListener="#{importBean.uploadFile}"
+					mode="advanced" dragDropSupport="true" multiple="true"
+					update="messages" sizeLimit="5000000" fileLimit="5"
+					allowTypes="/(\.|\/)(csv)$/" label="Escolher Arquivo"
+					cancelLabel="Cancelar" />
+				<p:growl id="messages" showDetail="true" />
+			</h:form>
+
+			<p:dataTable id="relatorioLotes" var="lotes"
+				emptyMessage="Não há lotes"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="10"
+				currentPageReportTemplate="[{startRecord} de {endRecord}]"
+				value="#{relatorioBean.listarLotes()}" style="margin-top: 15px;">
+
+				<f:facet name="header">
 	            	Relátorios Lotes            
 			</f:facet>
 
-			<p:column headerText="Lote" style="text-align: center;">
-				<h:outputText value="#{lotes.nome}" />
-			</p:column>
+				<p:column headerText="Lote" style="text-align: center;">
+					<h:outputText value="#{lotes.nome}" />
+				</p:column>
 
-			<p:column headerText="Em fila Fulltest" style="text-align: center;">
-				<h:outputText
-					value="#{relatorioBean.listarDefeitoIntegracaoPorLote(lotes.nome, 'ABERTO')}" />
-			</p:column>
+				<p:column headerText="Em fila Fulltest" style="text-align: center;">
+					<h:outputText
+						value="#{relatorioBean.listarDefeitoIntegracaoPorLote(lotes.nome, 'ABERTO')}" />
+				</p:column>
 
-			<p:column headerText="Processado" style="text-align: center;">
-				<h:outputText
-					value="#{relatorioBean.listarDefeitoIntegracaoPorLote(lotes.nome, 'ENCERRADO')}" />
-			</p:column>
+				<p:column headerText="Processado" style="text-align: center;">
+					<h:outputText
+						value="#{relatorioBean.listarDefeitoIntegracaoPorLote(lotes.nome, 'ENCERRADO')}" />
+				</p:column>
 
-			<p:column headerText="Integrados" style="text-align: center;">
-				<h:outputText
-					value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'INTEGRADO')}" />
-			</p:column>
+				<p:column headerText="Integrados" style="text-align: center;">
+					<h:outputText
+						value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'INTEGRADO')}" />
+				</p:column>
 
-			<p:column headerText="Negativo Fulltest" style="text-align: center;">
-				<h:outputText
-					value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'NEGATIVAFULLTEST')}" />
-			</p:column>
+				<p:column headerText="Negativo Fulltest" style="text-align: center;">
+					<h:outputText
+						value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'NEGATIVAFULLTEST')}" />
+				</p:column>
 
-		</p:dataTable>
+			</p:dataTable>
 
-		<p:poll update="relatorioLotes" interval="10" />
+			<p:poll update="relatorioLotes" interval="10" />
+		</p:panel>
 
 	</ui:define>
 

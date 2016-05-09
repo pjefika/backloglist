@@ -20,11 +20,11 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-
+	
 		<p:poll interval="5" update="defeitosData" />
 
-		<p:dataTable id="defeitosData" var="def"
-			value="#{painelDefeitosBean.listaDefeitos}"
+		<p:dataTable id="defeitosData" var="def" selectionMode="single"
+			rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
 			emptyMessage="Não há defeitos disponiveis"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			paginator="true" style="margin-bottom:20px" rows="10"
@@ -52,12 +52,11 @@
 					<f:actionListener
 						binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}"
 						for="assumi_defeito" />
-											
+
 				</p:commandButton>
 			</p:column>
 
 		</p:dataTable>
-
 
 	</ui:define>
 
