@@ -82,9 +82,7 @@ public class ImportServicoNew {
 
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
 		List content = csvReader.readAll();
-
-		List<DefeitoIntegracao> listaDefeitoIntegracao = new ArrayList<DefeitoIntegracao>();
-
+		
 		Lote lote = new Lote();
 
 		Date date = new Date();
@@ -94,7 +92,7 @@ public class ImportServicoNew {
 
 		this.entityManager.persist(lote);
 
-		for (Object object : content) {			
+		for (Object object : content) {
 
 			DefeitoIntegracao defeito = new DefeitoIntegracao();
 			Tipificacao tipificacao = new Tipificacao();
@@ -137,10 +135,12 @@ public class ImportServicoNew {
 					defeito.setDataVencimento(dataVencimento);
 					defeito.setStatus(TipoStatus.ABERTO);
 					defeito.setLote(lote);
+					
+					this.entityManager.persist(defeito);
+					
+					/*listaDefeitoIntegracao.add(defeito);
 
-					listaDefeitoIntegracao.add(defeito);
-
-					this.salvaDefeitosIntegracao(listaDefeitoIntegracao);
+					this.salvaDefeitosIntegracao(listaDefeitoIntegracao);*/
 					
 				}
 

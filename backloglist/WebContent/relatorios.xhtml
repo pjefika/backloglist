@@ -74,8 +74,8 @@
 				<h:outputText rendered="#{relatorio.status=='VENCIDOSLA'}" value="Sistema" />
 			</p:column>
 
-			<p:column headerText="Data de Abertura">
-				<h:outputText value="#{relatorio.dataAbertura.toLocaleString()}" />
+			<p:column headerText="Data de Integração">
+				<h:outputText value="#{relatorio.dataDeIntegracao.toLocaleString()}" />
 			</p:column>
 
 			<p:column headerText="Data de Encerramento">
@@ -83,7 +83,7 @@
 			</p:column>
 			
 			<p:column headerText="DQTT">
-				<h:outputText value="#{relatorio.encerradoAdm}" style="text-transform: uppercase"/>
+				<h:outputText value="#{relatorio.encerradoDQTT}" style="text-transform: uppercase"/>
 			</p:column>
 
 		</p:dataTable>

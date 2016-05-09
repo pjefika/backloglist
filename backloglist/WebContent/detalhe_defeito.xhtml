@@ -28,23 +28,27 @@
 			<p:panel id="basic" header="Detalhes" style="margin-bottom:20px;"
 				rendered="#{not empty atendimentoBean.defeito.usuario}">
 
-				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">			
+				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">
 
-					<p:panel style="float: right; width: 50%; overflow-y: auto; height: 300px;" id="comentarios">
-					
-						<p:outputLabel value="Comentários:" style="font-weight: bold;"/>
-						<br/>
-					
+					<p:panel
+						style="float: right; width: 50%; overflow-y: auto; height: 300px;"
+						id="comentarios">
+
+						<p:outputLabel value="Comentários:" style="font-weight: bold;" />
+						<br />
+
 						<ui:repeat value="#{atendimentoBean.defeito.comentarios}"
 							var="coments">
-							
-							<h:outputText value="#{coments.data.toLocaleString()} " style="font-weight: bold;"/>
-							<h:outputText value="#{coments.usuario.login} " style="font-weight: bold;"/>
-							<h:outputText value="#{coments.comentario}"/>
-							<br/>		
-							
+
+							<h:outputText value="#{coments.data.toLocaleString()} "
+								style="font-weight: bold;" />
+							<h:outputText value="#{coments.usuario.login} "
+								style="font-weight: bold;" />
+							<h:outputText value="#{coments.comentario}" />
+							<br />
+
 						</ui:repeat>
-						
+
 					</p:panel>
 
 
@@ -58,23 +62,24 @@
 						<p:outputLabel value="Tipificação " />
 						<h:outputText
 							value="#{atendimentoBean.defeito.tipificacao.nomeTipificacao}" />
-						<p:outputLabel value="Data abertura: " />
+						<p:outputLabel value="Data de Integração: " />
 						<h:outputText
-							value="#{atendimentoBean.defeito.dataAbertura.toLocaleString()}" />
-						<p:outputLabel value="SLA Defeito: " />
-						<h:outputText
-							value="#{atendimentoBean.defeito.dataVencimento.toLocaleString()}" />
+							value="#{atendimentoBean.defeito.dataDeIntegracao.toLocaleString()}" />
+
 
 					</p:panelGrid>
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Detalhes:" />
 						<p:inputTextarea rows="5" cols="30"
-							value="#{atendimentoBean.detalhesDefeito}" id="text_coments" maxlength="500" counterTemplate="{0} caracteres restantes" counter="display"/>
+							value="#{atendimentoBean.detalhesDefeito}" id="text_coments"
+							maxlength="500" counterTemplate="{0} caracteres restantes"
+							counter="display" />
 						<h:outputText id="display" />
 
 						<p:commandButton value="Inserir comentario"
-							action="#{atendimentoBean.inserirComentario()}" update="text_coments, comentarios" />
+							action="#{atendimentoBean.inserirComentario()}"
+							update="text_coments, comentarios" />
 					</h:panelGrid>
 
 				</p:fieldset>
