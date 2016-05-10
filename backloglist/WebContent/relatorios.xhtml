@@ -93,11 +93,11 @@
 		</p:dataTable>
 		<p:chart id="graphsStatus" type="pie"
 			model="#{relatorioBean.graficoStatus}"
-			style="width:45%;height:300px; float: left;" />
+			style="width:45%;height:500px; float: left;" />
 
 		<p:chart id="graphsMotivos" type="pie"
 			model="#{relatorioBean.graficoMotivos}"
-			style="width:45%;height:300px; float: right;" />
+			style="width:45%;height:500px; float: right;" />
 
 		<p:poll interval="30" listener="#{relatorioBean.init()}"
 			update="graphsStatus" />

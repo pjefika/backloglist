@@ -38,6 +38,24 @@ public class MotivoServico {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<MotivoEncerramento> listaMotivoEncerramentoPorStatus() {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM MotivoEncerramento m WHERE m.status =:param1");
+			query.setParameter("param1", 1);		
+			
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<MotivoEncerramento>();
+			
+		}
+		
+	}
+	
 	public void cadastrarMotivoEncerramento(MotivoEncerramento motivoEncerramento) {
 		
 		motivoEncerramento.setStatus(1);

@@ -54,7 +54,7 @@ public class RelatorioBean implements Serializable{
 
 	private void criarCharts() {
 		criarGraficoStatus();
-		criarGraficoMotivos(this.motivoEncerramentoServico.listaMotivoEncerramento());
+		criarGraficoMotivos(this.motivoEncerramentoServico.listaMotivoEncerramentoPorStatus());
 	}
 
 	public RelatorioBean() {
