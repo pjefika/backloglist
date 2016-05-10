@@ -75,7 +75,7 @@ public class ImportBean {
 		}
 		
 	}
-	
+		
 	public Defeito getDefeito() {
 		return defeito;
 	}
