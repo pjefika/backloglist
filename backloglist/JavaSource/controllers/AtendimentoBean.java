@@ -166,7 +166,7 @@ public class AtendimentoBean {
 	}	
 
 	public Integer contagemRelatorioUsuario(TipoStatus tipoStatus) {
-
+		
 		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
 	}

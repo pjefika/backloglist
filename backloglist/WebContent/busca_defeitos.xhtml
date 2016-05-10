@@ -43,7 +43,7 @@
 			</p:column>
 
 			<p:column headerText="Data integração">
-				<h:outputText value="#{def.dataDeIntegracao.toLocaleString()}" />
+				<h:outputText value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 			</p:column>
 
 			<p:column headerText="Ação" style="text-align: center;">

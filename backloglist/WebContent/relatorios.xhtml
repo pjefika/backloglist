@@ -75,15 +75,19 @@
 			</p:column>
 
 			<p:column headerText="Data de Integração">
-				<h:outputText value="#{relatorio.dataDeIntegracao.toLocaleString()}" />
+				<h:outputText value="#{relatorioBean.formatarData(relatorio.dataDeIntegracao)}" />
 			</p:column>
 
 			<p:column headerText="Data de Encerramento">
-				<h:outputText value="#{relatorio.dataEncerrado.toLocaleString()}" />
+				<h:outputText value="#{relatorioBean.formatarData(relatorio.dataEncerrado)}" />
 			</p:column>
 			
 			<p:column headerText="DQTT">
 				<h:outputText value="#{relatorio.encerradoDQTT}" style="text-transform: uppercase"/>
+				
+				<h:outputText rendered="#{relatorio.encerradoDQTT==true||relatorio.encerradoDQTT==false}"  />
+				<h:outputText rendered="#{relatorio.usuario.login=='backlog_sistema'}" value="SISTEMA" />
+								
 			</p:column>
 
 		</p:dataTable>

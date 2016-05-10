@@ -283,7 +283,7 @@ public class AtendimentoServico {
 	public List<Defeito> listarRelatorioDoUsuario(UsuarioEfika usuario, TipoStatus tipoStatus) {
 
 		try {			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2 AND d.dataDeIntegracao > CURRENT_DATE");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2 AND d.dataEncerrado > CURRENT_DATE");
 			query.setParameter("param1", usuario);
 			query.setParameter("param2", tipoStatus);
 			return query.getResultList();
@@ -298,7 +298,7 @@ public class AtendimentoServico {
 		
 		try {
 			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.encerradoDQTT =:param3 AND d.dataDeIntegracao > CURRENT_DATE");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.encerradoDQTT =:param3 AND d.dataEncerrado > CURRENT_DATE");
 			query.setParameter("param1", usuario);
 			query.setParameter("param2", true);
 			query.setParameter("param3", true);

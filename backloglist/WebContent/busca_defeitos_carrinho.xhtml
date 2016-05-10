@@ -43,8 +43,9 @@
 					<h:outputText value="#{def.tipificacao.nomeTipificacao}" />
 				</p:column>
 
-				<p:column headerText="Data abertura">
-					<h:outputText value="#{def.dataAbertura.toLocaleString()}" />
+				<p:column headerText="Data integração">
+					<h:outputText
+						value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 				</p:column>
 
 				<p:column headerText="Ação" style="text-align: center;">

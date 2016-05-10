@@ -17,6 +17,7 @@ import com.opencsv.CSVReader;
 
 import entidades.Defeito;
 import entidades.TipoStatus;
+import entidades.UsuarioEfika;
 import util.JSFUtil;
 
 @Stateless
@@ -24,7 +25,7 @@ public class RelatorioIncidentesServico {
 
 	@PersistenceContext(unitName="vu")  
 	private EntityManager entityManager;
-
+	
 	public RelatorioIncidentesServico() {
 
 	}
@@ -96,37 +97,44 @@ public class RelatorioIncidentesServico {
 
 			row = (String[]) object;
 
-			String ss = row[0];		
+			String ss = row[0];
+			
+			String acao = row[1];			
 
 			try {
 
-				if (!row[0].isEmpty() && !row[1].isEmpty()){
+				if (!ss.isEmpty() && !acao.isEmpty()){
 
 					defeito = this.buscaDefeitoEspecifico(ss);
 
-					defeito.setEncerradoAdm(true);
+					defeito.setEncerradoAdm(true);				
 
-					if (row[1].equalsIgnoreCase("true")){
+					if (acao.trim().equalsIgnoreCase("true")){
 
 						defeito.setEncerradoDQTT(true);
 
-					}else if(row[1].equalsIgnoreCase("false")){
+					}else if(acao.trim().equalsIgnoreCase("false")){
 
 						defeito.setEncerradoDQTT(false);
 
+					}else if (acao.trim().equalsIgnoreCase("sistema")){
+						
+						//informar que sistema encerrou o defeito.
+						
+						UsuarioEfika userSis = this.buscaUsuarioSis();
+												
+						defeito.setUsuario(userSis);
+						
 					}
 					
 					this.entityManager.merge(defeito);
 
-				}else{
-					
+				}else{					
 					
 					
 				}
 				
 			} catch (Exception e) {
-
-
 
 			}
 
@@ -149,7 +157,14 @@ public class RelatorioIncidentesServico {
 
 		}
 
-
+	}
+	
+	public UsuarioEfika buscaUsuarioSis() {
+		
+		Query query = this.entityManager.createQuery("FROM UsuarioEfika u WHERE u.login=:param1");
+		query.setParameter("param1", "backlog_sistema");
+		return (UsuarioEfika) query.getSingleResult();
+		
 	}
 
 }

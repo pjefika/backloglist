@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -155,6 +156,14 @@ public class RelatorioBean implements Serializable{
 	public Integer listarFulltestDefeitoEmTratamento(String nomeLote) {
 		
 		return this.relatorioServico.listarFulltestDefeitoEmTratamento(nomeLote).size();
+		
+	}
+	
+	public String formatarData(Date data) {	
+		
+		SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		
+		return formatar.format(data);
 		
 	}
 
