@@ -89,6 +89,10 @@
 				<h:outputText rendered="#{relatorio.usuario.login=='backlog_sistema'}" value="SISTEMA" />
 								
 			</p:column>
+			
+			<p:column headerText="Cód. Encerramento">
+				<h:outputText value="#{relatorio.motivoEncerramento.motivo}" />
+			</p:column>
 
 		</p:dataTable>
 		<p:chart id="graphsStatus" type="pie"
