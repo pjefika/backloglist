@@ -106,35 +106,50 @@ public class RelatorioIncidentesServico {
 
 				if (!ss.isEmpty() && !acao.isEmpty()){					
 
-					defeito = this.buscaDefeitoEspecifico(ss);
-					
-					Date date = new Date();
-					defeito.setDataEncerrado(date);				
-
-					defeito.setEncerradoAdm(true);
+					defeito = this.buscaDefeitoEspecifico(ss);				
 
 					if (acao.trim().equalsIgnoreCase("true")){
 						
 						defeito.setStatus(TipoStatus.ENCERRADO);
 
 						defeito.setEncerradoDQTT(true);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
 
 					}else if(acao.trim().equalsIgnoreCase("false")){
 						
 						defeito.setStatus(TipoStatus.ENCERRADO);
 
 						defeito.setEncerradoDQTT(false);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
 
 					}else if (acao.trim().equalsIgnoreCase("sistema") && defeito.getStatus().equals(TipoStatus.ABERTO)){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
+						
 					}else if (acao.trim().equalsIgnoreCase("removido") && defeito.getStatus().equals(TipoStatus.ABERTO)){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();
 						defeito.setStatus(TipoStatus.REMOVIDO);						
 						defeito.setUsuario(userSis);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
 						
 					}
 					
