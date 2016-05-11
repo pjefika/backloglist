@@ -109,17 +109,19 @@ public class RelatorioIncidentesServico {
 					defeito = this.buscaDefeitoEspecifico(ss);
 					
 					Date date = new Date();
-					defeito.setDataEncerrado(date);
-										
-					defeito.setStatus(TipoStatus.ENCERRADO);
+					defeito.setDataEncerrado(date);				
 
 					defeito.setEncerradoAdm(true);
 
 					if (acao.trim().equalsIgnoreCase("true")){
+						
+						defeito.setStatus(TipoStatus.ENCERRADO);
 
 						defeito.setEncerradoDQTT(true);
 
 					}else if(acao.trim().equalsIgnoreCase("false")){
+						
+						defeito.setStatus(TipoStatus.ENCERRADO);
 
 						defeito.setEncerradoDQTT(false);
 
