@@ -61,7 +61,7 @@ public class RelatorioBean implements Serializable{
 
 	}
 
-	public void listarDefeitosEncerradosPorSupervisor() {
+	public void listarDefeitosEncerrados() {
 
 		Calendar cal = Calendar.getInstance();
 
@@ -83,7 +83,7 @@ public class RelatorioBean implements Serializable{
 
 		}
 
-		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerradosPorSupervisor(this.dataInicio, this.dataFim);
+		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerrado(this.dataInicio, this.dataFim);
 
 	}
 
@@ -94,7 +94,7 @@ public class RelatorioBean implements Serializable{
 
 		GraficoStatus.set("Aberto: " + listarStatus(TipoStatus.ABERTO), listarStatus(TipoStatus.ABERTO));
 		GraficoStatus.set("Em Tratamento: " + listarStatus(TipoStatus.EMTRATAMENTO), listarStatus(TipoStatus.EMTRATAMENTO));
-		GraficoStatus.set("Encerrado Operador: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
+		GraficoStatus.set("Encerrado Operador/Sistema: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
 		GraficoStatus.set("Enviado a campo: " + listarStatus(TipoStatus.ENVIADOACAMPO), listarStatus(TipoStatus.ENVIADOACAMPO));		
 		GraficoStatus.set("Encerrado DQTT: " + listarDefeitoEncerradosDQTT(), listarDefeitoEncerradosDQTT());
 

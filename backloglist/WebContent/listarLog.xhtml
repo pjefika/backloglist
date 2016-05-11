@@ -60,7 +60,7 @@
 					</p:column>
 
 					<p:column headerText="Hora da Ação" style="text-align: center;">
-						<h:outputText value="#{log.horaAcao.toLocaleString()}" />
+						<h:outputText value="#{relatorioBean.formatarData(log.horaAcao)}" />
 					</p:column>
 				</p:dataTable>
 

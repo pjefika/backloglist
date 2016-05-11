@@ -17,51 +17,57 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class LoginBean implements Serializable{
-		
+
 	private UsuarioEfika usuario;
-	
+
 	private Usuario usuarioWS;
-	
+
 	private String senha;
-	
+
 	@EJB
 	private LoginServico servicoLogin;
-	
+
 	private boolean logado;
-	
+
 	public LoginBean() {
 		this.usuario = new UsuarioEfika();
 		this.logado = false;
 	}
-	
+
 	public void validarLogin() {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		
+
 		if (!this.logado){
 			ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler)
 					fc.getApplication().getNavigationHandler();
 			nav.performNavigation("index.jsf");
 		}
 	}
-	
+
 	public Boolean is_Admin(){
-								
+
 		return this.usuarioWS.getNivel() > 5;
-		
+
 	}
-	
+
 	public Boolean is_SubAdmin(){
-		
+
 		return this.usuarioWS.getNivel() > 4;
-		
+
 	}
-	
+
+	public Boolean is_UserBacklog(){
+
+		return this.usuarioWS.getNivel() > 1;
+
+	}
+
 	public void validaAdmin() {
 		try {
 			this.validarLogin();
-			
+
 			FacesContext fc = FacesContext.getCurrentInstance();
-						
+
 			if(!this.is_Admin()){
 				ConfigurableNavigationHandler nav  = (ConfigurableNavigationHandler) 
 						fc.getApplication().getNavigationHandler();
@@ -71,13 +77,13 @@ public class LoginBean implements Serializable{
 			this.usuario = new UsuarioEfika();
 		}
 	}
-	
+
 	public void validaSubAdmin() {
 		try {
 			this.validarLogin();
-			
+
 			FacesContext fc = FacesContext.getCurrentInstance();
-						
+
 			if(!this.is_SubAdmin()){
 				ConfigurableNavigationHandler nav  = (ConfigurableNavigationHandler) 
 						fc.getApplication().getNavigationHandler();
@@ -87,32 +93,32 @@ public class LoginBean implements Serializable{
 			this.usuario = new UsuarioEfika();
 		}
 	}
-	
+
 	public String logar() {
-		
+
 		try {		
-			
+
 			this.usuarioWS = this.servicoLogin.buscaLoginWS(this.usuario.getLogin());
 			this.servicoLogin.autenticaLogin(this.usuarioWS, this.senha);
-			
+
 			this.logado = true;			
 			return "index.jsf"; 
-			
+
 		} catch (Exception e) {
-			
+
 			JSFUtil.addErrorMessage(e.getMessage());
 			this.usuario = new UsuarioEfika();
 			return "";
-			
+
 		}
-		
+
 	}
-	
+
 	public void deslogar() {
-		
+
 		this.usuario = new UsuarioEfika();
 		this.logado = false;
-		
+
 	}
 
 	public UsuarioEfika getUsuario() {

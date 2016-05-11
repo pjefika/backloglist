@@ -29,7 +29,7 @@ public class RelatorioServico {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Defeito> listarDefeitosEncerradosPorSupervisor(Date dataInicio, Date dataFim) {	
+	public List<Defeito> listarDefeitosEncerrado(Date dataInicio, Date dataFim) {	
 
 		try {			
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataEncerrado BETWEEN :param1 AND :param2");

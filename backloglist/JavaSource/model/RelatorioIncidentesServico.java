@@ -110,6 +110,7 @@ public class RelatorioIncidentesServico {
 					
 					Date date = new Date();
 					defeito.setDataEncerrado(date);
+										
 					defeito.setStatus(TipoStatus.ENCERRADO);
 
 					defeito.setEncerradoAdm(true);
@@ -123,9 +124,8 @@ public class RelatorioIncidentesServico {
 						defeito.setEncerradoDQTT(false);
 
 					}else if (acao.trim().equalsIgnoreCase("sistema")){
-												
-						UsuarioEfika userSis = this.buscaUsuarioSis();
-												
+						
+						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
 					}else if (acao.trim().equalsIgnoreCase("removido")){
