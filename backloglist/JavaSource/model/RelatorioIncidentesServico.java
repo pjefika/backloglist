@@ -123,12 +123,12 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoDQTT(false);
 
-					}else if (acao.trim().equalsIgnoreCase("sistema")){
+					}else if (acao.trim().equalsIgnoreCase("sistema") && defeito.getStatus().equals(TipoStatus.ABERTO)){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
-					}else if (acao.trim().equalsIgnoreCase("removido")){
+					}else if (acao.trim().equalsIgnoreCase("removido") && defeito.getStatus().equals(TipoStatus.ABERTO)){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();
 						defeito.setStatus(TipoStatus.REMOVIDO);						
