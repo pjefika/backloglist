@@ -128,7 +128,7 @@ public class RelatorioServico {
 
 		try {
 
-			Query query = this.entityManager.createQuery("FROM Lote l ORDER BY l.horaIntegrado ASC");
+			Query query = this.entityManager.createQuery("FROM Lote l ORDER BY l.horaIntegrado DESC");
 			query.setMaxResults(5);
 			return query.getResultList();
 

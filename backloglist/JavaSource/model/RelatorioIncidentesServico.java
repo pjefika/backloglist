@@ -100,7 +100,7 @@ public class RelatorioIncidentesServico {
 
 			String ss = row[0];
 			
-			String acao = row[1];			
+			String acao = row[1];
 
 			try {
 
