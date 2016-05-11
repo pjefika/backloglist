@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -103,11 +104,15 @@ public class RelatorioIncidentesServico {
 
 			try {
 
-				if (!ss.isEmpty() && !acao.isEmpty()){
+				if (!ss.isEmpty() && !acao.isEmpty()){					
 
 					defeito = this.buscaDefeitoEspecifico(ss);
+					
+					Date date = new Date();
+					defeito.setDataEncerrado(date);
+					defeito.setStatus(TipoStatus.ENCERRADO);
 
-					defeito.setEncerradoAdm(true);				
+					defeito.setEncerradoAdm(true);
 
 					if (acao.trim().equalsIgnoreCase("true")){
 
@@ -118,11 +123,15 @@ public class RelatorioIncidentesServico {
 						defeito.setEncerradoDQTT(false);
 
 					}else if (acao.trim().equalsIgnoreCase("sistema")){
-						
-						//informar que sistema encerrou o defeito.
-						
+												
 						UsuarioEfika userSis = this.buscaUsuarioSis();
 												
+						defeito.setUsuario(userSis);
+						
+					}else if (acao.trim().equalsIgnoreCase("removido")){
+						
+						UsuarioEfika userSis = this.buscaUsuarioSis();
+						defeito.setStatus(TipoStatus.REMOVIDO);						
 						defeito.setUsuario(userSis);
 						
 					}

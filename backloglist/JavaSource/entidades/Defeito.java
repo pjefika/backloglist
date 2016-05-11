@@ -56,6 +56,9 @@ public class Defeito{
 	private Boolean encerradoAdm;
 	
 	private Boolean encerradoDQTT;
+	
+	@ManyToOne
+	private ResultadoFulltest resultadoFulltest;
 
 	public Defeito() {
 
@@ -176,6 +179,15 @@ public class Defeito{
 
 	public void setEncerradoDQTT(Boolean encerradoDQTT) {
 		this.encerradoDQTT = encerradoDQTT;
+	}	
+
+	public ResultadoFulltest getResultadoFulltest() {
+		return resultadoFulltest;
+	}
+
+
+	public void setResultadoFulltest(ResultadoFulltest resultadoFulltest) {
+		this.resultadoFulltest = resultadoFulltest;
 	}
 
 	@Override

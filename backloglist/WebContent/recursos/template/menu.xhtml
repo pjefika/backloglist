@@ -12,8 +12,8 @@
 		</a></li>
 		<!-- Opções so aparece para usuários logados -->
 		<h:panelGroup rendered="#{loginBean.logado}" layout="block">
-			<li><a href="busca_defeitos.jsf"> <i
-					class="fa fa-list-ul" /> Defeitos Disponíveis
+			<li><a href="busca_defeitos.jsf"> <i class="fa fa-list-ul" />
+					Defeitos Disponíveis
 			</a></li>
 			<li><a href="busca_defeitos_carrinho.jsf"> <i
 					class="fa fa-edit" /> Meus Defeitos
@@ -22,8 +22,12 @@
 					Usuário
 			</a></li>
 			<!-- Opções so aparecem para usuários com permissão de administrador ou nivel -->
-			<h:panelGroup  rendered="#{loginBean.is_SubAdmin()}" layout="block">
-				<li><a href="Dqtt.jsf"> <i class="fa fa-download" />DQTT Upload e Download
+			<h:panelGroup rendered="#{loginBean.is_SubAdmin()}" layout="block">
+				<li><a href="Dqtt.jsf"> <i class="fa fa-download" />DQTT
+						Upload e Download
+				</a></li>
+				<li><a href="upload.jsf"> <i class="fa fa-upload" />Upload
+						Defeitos
 				</a></li>
 				<h:panelGroup rendered="#{loginBean.is_Admin()}" layout="block">
 					<li><a href="cadastrar_motivo_encerramento.jsf"> <i
@@ -34,9 +38,6 @@
 					</a></li>
 					<li><a href="listarLog.jsf"> <i
 							class="fa fa-external-link" />Logs
-					</a></li>
-					<li><a href="upload.jsf"> <i class="fa fa-upload" />Upload
-							Defeitos
 					</a></li>
 					<li><a href="relatorios.jsf"> <i class="fa fa-line-chart" />Relatórios
 					</a></li>

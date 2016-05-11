@@ -26,9 +26,18 @@
 		<p:dataTable id="defeitosData" var="def" selectionMode="single"
 			rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
 			emptyMessage="Não há defeitos disponiveis"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 			paginator="true" style="margin-bottom:20px" rows="10"
 			currentPageReportTemplate="[{startRecord} de {endRecord}]">
+			
+			<f:facet name="{Exporters}">
+				<h:commandLink>
+					<i class="fa fa-download"></i> 
+						Exportar base
+						<p:dataExporter type="xls" target="defeitosData"
+						fileName="Defeitos_Disponiveis" />
+				</h:commandLink>
+			</f:facet>
 
 			<p:column headerText="SS">
 				<h:outputText value="#{def.ss}" />
@@ -44,6 +53,10 @@
 
 			<p:column headerText="Data integração">
 				<h:outputText value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
+			</p:column>
+			
+			<p:column headerText="Fulltest rede">
+				<h:outputText value="#{def.resultadoFulltest.rede}" />
 			</p:column>
 
 			<p:column headerText="Ação" style="text-align: center;">
