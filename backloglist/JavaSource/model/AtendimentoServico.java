@@ -278,6 +278,20 @@ public class AtendimentoServico {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Defeito> listarRelatorioDoUsuarioAberto(UsuarioEfika usuario, TipoStatus tipoStatus) {
+
+		try {			
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.usuario =:param1 AND d.status =:param2");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", tipoStatus);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<Defeito>();			
+		}		
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarRelatorioDoUsuario(UsuarioEfika usuario, TipoStatus tipoStatus) {

@@ -77,13 +77,13 @@ public class AtendimentoBean {
 			this.sessao.setUsuario(this.atendimentoServico.assumirDefeito(defeito, sessao.getUsuario()));
 			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
 			this.redirecionaDetalhesDefeito(defeito);
-						
+
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
 	}
-	
+
 	public void redirecionaDetalhesDefeito(Defeito defeito) {
 
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
@@ -163,10 +163,16 @@ public class AtendimentoBean {
 		this.atendimentoServico.realizarFulltest(this.defeito, this.sessao.getUsuario());
 		JSFUtil.addInfoMessage("Comando acionado, por favor aguarde!");
 
+	}
+
+	public Integer contagemRelatorioUsuarioAberto(TipoStatus tipoStatus) {
+
+		return this.atendimentoServico.listarRelatorioDoUsuarioAberto(this.sessao.getUsuario(), tipoStatus).size();
+
 	}	
 
 	public Integer contagemRelatorioUsuario(TipoStatus tipoStatus) {
-		
+
 		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
 	}

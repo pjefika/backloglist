@@ -64,7 +64,9 @@
 							value="#{atendimentoBean.defeito.tipificacao.nomeTipificacao}" />
 						<p:outputLabel value="Data de Integração: " />
 						<h:outputText
-							value="#{atendimentoBean.defeito.dataDeIntegracao.toLocaleString()}" />
+							value="#{relatorioBean.formatarData(atendimentoBean.defeito.dataDeIntegracao)}" />
+						<p:outputLabel value="Fulltest rede " />
+						<h:outputText value="#{atendimentoBean.defeito.resultadoFulltest.rede}" />
 
 
 					</p:panelGrid>

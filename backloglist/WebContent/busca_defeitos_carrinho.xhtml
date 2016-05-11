@@ -48,6 +48,10 @@
 						value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 				</p:column>
 
+				<p:column headerText="Fulltest rede">
+					<h:outputText value="#{def.resultadoFulltest.rede}" />
+				</p:column>
+
 				<p:column headerText="Ação" style="text-align: center;">
 					<p:button outcome="detalhe_defeito" value="Tratar">
 						<f:param name="ss" value="#{def.ss}" />
