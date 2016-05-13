@@ -32,9 +32,10 @@ public class RelatorioServico {
 	public List<Defeito> listarDefeitosEncerrado(Date dataInicio, Date dataFim) {	
 
 		try {			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataEncerrado BETWEEN :param1 AND :param2");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND D.status !=:param3");
 			query.setParameter("param1", dataInicio, TemporalType.DATE);
 			query.setParameter("param2", dataFim, TemporalType.DATE);
+			query.setParameter("param3", TipoStatus.ENVIADOACAMPO);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
