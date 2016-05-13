@@ -83,13 +83,14 @@ public class ImportServicoNew {
 
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
 		List content = csvReader.readAll();
-		
+
 		Lote lote = new Lote();
 
 		Date date = new Date();
 
 		lote.setNome(nomeArquivo);
-		lote.setHoraIntegrado(date);		
+		lote.setHoraIntegrado(date);
+		lote.setStatus(TipoStatus.ATIVO);
 
 		this.entityManager.persist(lote);
 
@@ -112,20 +113,20 @@ public class ImportServicoNew {
 				} catch (Exception e) {
 
 					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-					
+
 					Date dataAbertura;
 					Date dataVencimento;
-					
+
 					if (row[3].isEmpty()) {
-						
+
 						dataAbertura = new Date();
 						dataVencimento = new Date();
-						
+
 					}else{
-						
+
 						dataAbertura = formatter.parse(row[3]);			
 						dataVencimento = formatter.parse(row[4]);
-						
+
 					}
 
 					defeito.setSs(row[0]);
@@ -136,13 +137,13 @@ public class ImportServicoNew {
 					defeito.setDataVencimento(dataVencimento);
 					defeito.setStatus(TipoStatus.ABERTO);
 					defeito.setLote(lote);
-					
+
 					this.entityManager.persist(defeito);
-					
+
 					/*listaDefeitoIntegracao.add(defeito);
 
 					this.salvaDefeitosIntegracao(listaDefeitoIntegracao);*/
-					
+
 				}
 
 			}else{
@@ -245,9 +246,9 @@ public class ImportServicoNew {
 
 				Defeito defeito = new Defeito();
 				ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
-				
+
 				resultadoFulltest.setRede(rede);
-				
+
 				Date dataIntegracao = new Date();
 
 				defeito.setSs(defeitosIntegracao.getSs());
@@ -262,7 +263,7 @@ public class ImportServicoNew {
 				defeito.setResultadoFulltest(resultadoFulltest);
 
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
-				
+
 				this.entityManager.persist(resultadoFulltest);
 				this.entityManager.merge(defeitosIntegracao);
 				this.entityManager.persist(defeito);
@@ -302,6 +303,45 @@ public class ImportServicoNew {
 		defeitoIntegracao.setStatus(TipoStatus.EMTRATAMENTO);
 		this.entityManager.merge(defeitoIntegracao);
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DefeitoIntegracao> listaLoteEspecifico(Lote lote) {
+
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote =:param1 AND d.status =:param2");
+			query.setParameter("param1", lote);
+			query.setParameter("param2", TipoStatus.ABERTO);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<DefeitoIntegracao>();
+			
+		}
+
+	}
+	
+	public void pararLote(List<DefeitoIntegracao> listaDefeitos) {
+		
+		for (DefeitoIntegracao defeitoIntegracao : listaDefeitos) {			
+			
+			defeitoIntegracao.setStatus(TipoStatus.PARADO);		
+			
+			this.entityManager.merge(defeitoIntegracao);			
+			this.salvaLogIntegracao(defeitoIntegracao, TipoLogIntegracao.PARADOFULLTEST);
+			
+		}
+		
+		Lote lote = new Lote();
+		
+		lote = listaDefeitos.get(0).getLote();
+		
+		lote.setStatus(TipoStatus.PARADO);
+		
+		this.entityManager.merge(lote);
+		
 	}
 
 }

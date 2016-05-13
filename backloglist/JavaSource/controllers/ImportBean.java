@@ -9,6 +9,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import entidades.Defeito;
+import entidades.Lote;
 import entidades.Tipificacao;
 import model.ImportServico;
 import model.ImportServicoNew;
@@ -73,6 +74,14 @@ public class ImportBean {
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
+		
+	}
+	
+	public void pararLote(Lote lote) {
+		
+		this.importServicoNew.pararLote(this.importServicoNew.listaLoteEspecifico(lote));
+				
+		JSFUtil.addInfoMessage("Lote parado com sucesso.");
 		
 	}
 		

@@ -72,6 +72,14 @@
 					<h:outputText
 						value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'NEGATIVAFULLTEST')}" />
 				</p:column>
+				
+				<p:column headerText="Ação" style="text-align: center;">
+					<p:commandLink action="#{importBean.pararLote(lotes)}" rendered="#{lotes.status!='PARADO'}">
+						<i class="fa fa-remove"></i> Parar Lote
+					</p:commandLink>
+					
+					<h:outputText value="PARADO" rendered="#{lotes.status=='PARADO'}"/>
+				</p:column>
 
 			</p:dataTable>
 

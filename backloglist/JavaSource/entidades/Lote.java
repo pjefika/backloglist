@@ -19,6 +19,8 @@ public class Lote {
 	
 	private Date horaIntegrado;
 	
+	private TipoStatus status;
+	
 	public Lote() {
 		
 	}
@@ -46,5 +48,13 @@ public class Lote {
 	public void setHoraIntegrado(Date horaIntegrado) {
 		this.horaIntegrado = horaIntegrado;
 	}
+
+	public TipoStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TipoStatus status) {
+		this.status = status;
+	}	
 
 }
