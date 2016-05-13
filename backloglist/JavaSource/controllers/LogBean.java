@@ -1,6 +1,5 @@
 package controllers;
 
-
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -42,8 +41,7 @@ public class LogBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 		
-	}
-	
+	}	
 
 	public List<LogDefeito> getListaLogDefeito() {
 		return listaLogDefeito;

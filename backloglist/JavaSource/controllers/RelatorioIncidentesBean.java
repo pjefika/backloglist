@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -55,13 +56,27 @@ public class RelatorioIncidentesBean {
 			JSFUtil.addInfoMessage("Lote carregado com sucesso");
 
 		} catch (Exception e) {
-			
+
 			JSFUtil.addErrorMessage(e.getMessage());
-			
+
 		}
 
 	}
 
+	public String calculaHoraEncerrado(Date date) {
 
+		Date dataAtual = new Date();
+
+		Long tempo = dataAtual.getTime() - date.getTime();
+
+		tempo = tempo / 60000; // Converte o tempo para minutos
+
+		int minutos = (int) (tempo % 60); // Retira os minutos da hora
+
+		tempo = tempo / 60; // Deixa em tempo apenas as horas
+
+		return String.format("%02d:%02d", tempo, minutos);
+
+	}
 
 }

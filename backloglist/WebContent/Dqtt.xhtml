@@ -59,12 +59,16 @@
 					</h:commandLink>
 				</f:facet>
 
-				<p:column headerText="SS">
+				<p:column headerText="SS" style="text-align: center;">
 					<h:outputText value="#{def.ss}" />
 				</p:column>
 
-				<p:column headerText="Cód. Encerramento">
+				<p:column headerText="Cód. Encerramento" style="text-align: center;">
 					<h:outputText value="#{def.motivoEncerramento.codEncerramento}" />
+				</p:column>
+				
+				<p:column headerText="Tempo Encerrado" style="text-align: center;">
+					<h:outputText value="#{relatorioIncidentesBean.calculaHoraEncerrado(def.dataEncerrado)}" />
 				</p:column>
 
 			</p:dataTable>
