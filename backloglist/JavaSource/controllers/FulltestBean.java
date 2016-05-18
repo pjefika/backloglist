@@ -21,6 +21,7 @@ public class FulltestBean {
 
 	Timer timerFulltestDefeitosImportados1 = new Timer();
 	Timer timerFulltestDefeitosImportados2 = new Timer();
+	Timer timerExcluiDefeitosParados = new Timer();
 
 	TimerTask FulltestDefeitosImportados1 = new TimerTask() {
 
@@ -57,6 +58,24 @@ public class FulltestBean {
 
 		}
 	};
+	
+	TimerTask ExcluiDefeitosParados = new TimerTask() {
+
+		@Override
+		public void run() {
+
+			try {
+
+				excluirDefeitoParado();
+
+			} catch (NullPointerException e) {
+
+				//System.out.println(e.getMessage());
+
+			}
+
+		}
+	};
 
 	@EJB
 	private AtendimentoServico atendimentoServico;	
@@ -69,6 +88,7 @@ public class FulltestBean {
 
 		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 1000, 1000);
 		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1200, 1200);
+		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 600000, 600000);
 
 	}
 
@@ -163,6 +183,12 @@ public class FulltestBean {
 
 		}
 
+	}
+	
+	public void excluirDefeitoParado() {
+		
+		this.importServicoNew.removeDefeitosParados(this.importServicoNew.listaDefeitosParados());
+		
 	}
 
 }

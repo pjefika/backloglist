@@ -330,7 +330,6 @@ public class ImportServicoNew {
 			defeitoIntegracao.setStatus(TipoStatus.PARADO);		
 			
 			this.entityManager.merge(defeitoIntegracao);			
-			this.salvaLogIntegracao(defeitoIntegracao, TipoLogIntegracao.PARADOFULLTEST);
 			
 		}
 		
@@ -341,6 +340,34 @@ public class ImportServicoNew {
 		lote.setStatus(TipoStatus.PARADO);
 		
 		this.entityManager.merge(lote);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoIntegracao> listaDefeitosParados() {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE status =:param1");
+			query.setParameter("param1", TipoStatus.PARADO);
+			
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<DefeitoIntegracao>();
+			
+		}	
+		
+	}
+	
+	public void removeDefeitosParados(List<DefeitoIntegracao> listaDefeito) {
+		
+		for (DefeitoIntegracao defeitoIntegracao : listaDefeito) {
+			
+			this.entityManager.remove(this.entityManager.merge(defeitoIntegracao));
+			
+		}		
 		
 	}
 
