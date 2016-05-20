@@ -348,7 +348,7 @@ public class ImportServicoNew {
 		
 		try {
 			
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1 OR d.status =:param2");
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");
 			query.setParameter("param1", TipoStatus.PARADO);
 			
 			return query.getResultList();
