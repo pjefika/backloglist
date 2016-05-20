@@ -68,9 +68,7 @@ public class ImportBean {
 		try {
 			
 			this.importServicoNew.salvaLote(file, this.sessao.getUsuario());
-			
-			JSFUtil.addInfoMessage("Lote carregado com sucesso");
-			
+						
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}

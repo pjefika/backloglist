@@ -51,7 +51,7 @@
 				<h:outputText value="#{def.tipificacao.nomeTipificacao}" />
 			</p:column>
 
-			<p:column headerText="Data integração">
+			<p:column headerText="Data integração" sortBy="#{relatorioBean.formatarData(def.dataDeIntegracao)}">
 				<h:outputText value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 			</p:column>
 			

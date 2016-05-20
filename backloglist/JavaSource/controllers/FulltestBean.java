@@ -88,7 +88,7 @@ public class FulltestBean {
 
 		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 1000, 1000);
 		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1200, 1200);
-		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 600000, 600000);
+		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 12000, 12000);
 
 	}
 

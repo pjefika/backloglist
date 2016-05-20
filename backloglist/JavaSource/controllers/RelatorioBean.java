@@ -161,7 +161,7 @@ public class RelatorioBean implements Serializable{
 	
 	public String formatarData(Date data) {	
 		
-		SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		
 		return formatar.format(data);
 		
