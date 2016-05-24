@@ -206,8 +206,6 @@ public class ImportServicoNew {
 
 	public void fulltest(DefeitoIntegracao defeitosIntegracao) throws Exception {		
 
-		System.out.println("Realizando Fulltest");
-
 		URL link;
 
 		link = new URL("http://efika/novosite/modulos/backloglist/services/loadInstanciaBackloglist.php?instancia=" + defeitosIntegracao.getInstancia());
@@ -238,10 +236,6 @@ public class ImportServicoNew {
 			String redeFim = "</rede>";
 			String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
 
-			System.out.println(defeitosIntegracao.getInstancia());	
-
-			System.out.println(cadastro + " " + sincronismo + " " + parametros + " " + rede);
-
 			if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
 
 				Defeito defeito = new Defeito();
@@ -269,11 +263,7 @@ public class ImportServicoNew {
 				this.entityManager.persist(defeito);
 				salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
 
-				System.out.println("Fulltest OK");
-
 			}else{			
-
-				System.out.println("Fulltest NOK");
 
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 				this.entityManager.merge(defeitosIntegracao);
@@ -282,8 +272,6 @@ public class ImportServicoNew {
 			}
 
 		} catch (Exception e) {
-
-			System.out.println("Fulltest NOK/Problema ao tratar retorno");
 
 			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 			this.entityManager.merge(defeitosIntegracao);
