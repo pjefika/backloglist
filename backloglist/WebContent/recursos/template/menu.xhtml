@@ -24,19 +24,15 @@
 			<li><a href="busca_defeitos_carrinho.jsf"> <i
 					class="fa fa-edit" /> Meus Defeitos
 			</a></li>		
-			
-			<li><a href="busca_defeitos_carrinho_tv.jsf"> <i
-					class="fa fa-edit" /> Meus Defeitos Tv
-			</a></li>		
-			
+						
 			<li><a href="usuario.jsf"> <i class="fa fa-user" />Painel
 					Usuário
 			</a></li>
 			<!-- Opções so aparecem para usuários com permissão de administrador ou nivel -->
 			<h:panelGroup rendered="#{loginBean.is_SubAdmin()}" layout="block">
-				<li><a href="Dqtt.jsf"> <i class="fa fa-download" />DQTT
+				<!-- <li><a href="Dqtt.jsf"> <i class="fa fa-download" />DQTT
 						Upload e Download
-				</a></li>
+				</a></li> -->
 				<li><a href="upload.jsf"> <i class="fa fa-upload" />Upload
 						Defeitos
 				</a></li>
@@ -57,7 +53,7 @@
 					</a></li>
 					<li><a href="relatorios_tv.jsf"> <i class="fa fa-line-chart" />Relatórios Tv
 					</a></li>
-					<li><a href="graficos.jsf"> <i class="fa fa-line-chart" />Gráficos
+					<li><a href="graficos.jsf"> <i class="fa fa-pie-chart" />Gráficos
 					</a></li>					
 				</h:panelGroup>
 			</h:panelGroup>
