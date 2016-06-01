@@ -17,6 +17,7 @@ import org.primefaces.model.UploadedFile;
 import com.opencsv.CSVReader;
 
 import entidades.Defeito;
+import entidades.DefeitoTv;
 import entidades.TipoStatus;
 import entidades.UsuarioEfika;
 import util.JSFUtil;
@@ -49,6 +50,24 @@ public class RelatorioIncidentesServico {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listaDefeitosStatusAdmTv(Boolean dqttEncerrado) {
+
+		try {
+
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.encerradoAdm =:param1 AND d.status =:param2");
+			query.setParameter("param1", dqttEncerrado);
+			query.setParameter("param2", TipoStatus.ENCERRADO);
+			return query.getResultList();
+
+		} catch (Exception e) {
+
+			return new ArrayList<DefeitoTv>();
+
+		}
+
+	}
+	
 	public void mudaStatusIncidente(Defeito defeito) {
 
 		defeito.setEncerradoAdm(true);
@@ -168,6 +187,118 @@ public class RelatorioIncidentesServico {
 
 		csvReader.close();
 	}
+	
+	public void importaDefeitosTvEncerradosDQTT(UploadedFile file) throws Exception {
+
+		try {
+
+			byte[] conteudo = file.getContents();
+
+			String nome = JSFUtil.gerarStringAleatoria(20);
+
+			String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+
+			FileOutputStream fos = new FileOutputStream(fullname);
+
+			fos.write(conteudo);
+			fos.close();
+
+			this.importCSVTv(nome);
+
+		} catch (ParseException e) {
+
+			JSFUtil.addErrorMessage(e.getMessage());
+
+		}
+
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void importCSVTv(String nomeArquivo) throws Exception {
+
+		String[] row = null;
+		String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+
+		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
+		List content = csvReader.readAll();
+
+
+		for (Object object : content) {
+
+			DefeitoTv defeito = new DefeitoTv();
+
+			row = (String[]) object;
+
+			String ss = row[0];
+			
+			String acao = row[1];
+
+			try {
+
+				if (!ss.isEmpty() && !acao.isEmpty()){					
+
+					defeito = this.buscaDefeitoTvEspecifico(ss);				
+
+					if (acao.trim().equalsIgnoreCase("true")){
+						
+						defeito.setStatus(TipoStatus.ENCERRADO);
+
+						defeito.setEncerradoDQTT(true);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
+
+					}else if(acao.trim().equalsIgnoreCase("false")){
+						
+						defeito.setStatus(TipoStatus.ENCERRADO);
+
+						defeito.setEncerradoDQTT(false);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
+
+					}else if (acao.trim().equalsIgnoreCase("sistema") && defeito.getStatus().equals(TipoStatus.ABERTO)){
+						
+						UsuarioEfika userSis = this.buscaUsuarioSis();												
+						defeito.setUsuario(userSis);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
+						
+					}else if (acao.trim().equalsIgnoreCase("removido") && defeito.getStatus().equals(TipoStatus.ABERTO)){
+						
+						UsuarioEfika userSis = this.buscaUsuarioSis();
+						defeito.setStatus(TipoStatus.REMOVIDO);						
+						defeito.setUsuario(userSis);
+						
+						Date date = new Date();
+						defeito.setDataEncerrado(date);				
+
+						defeito.setEncerradoAdm(true);
+						
+					}
+					
+					this.entityManager.merge(defeito);
+
+				}else{					
+					
+					
+				}
+				
+			} catch (Exception e) {
+
+			}
+
+		}
+
+		csvReader.close();
+	}
 
 	public Defeito buscaDefeitoEspecifico(String ss) throws Exception {
 
@@ -176,6 +307,22 @@ public class RelatorioIncidentesServico {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.ss =:param1");
 			query.setParameter("param1", ss);
 			return (Defeito) query.getSingleResult();
+
+		} catch (Exception e) {
+
+			throw new Exception("Defeito não encontrado");
+
+		}
+
+	}
+	
+	public DefeitoTv buscaDefeitoTvEspecifico(String ss) throws Exception {
+
+		try {
+
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.ss =:param1");
+			query.setParameter("param1", ss);
+			return (DefeitoTv) query.getSingleResult();
 
 		} catch (Exception e) {
 

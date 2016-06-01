@@ -12,6 +12,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import entidades.Defeito;
+import entidades.DefeitoTv;
 import entidades.TipoStatus;
 import model.AtendimentoServico;
 import model.ImportServicoNew;
@@ -25,6 +26,8 @@ public class PainelDefeitosBean {
 
 
 	public List<Defeito> listaDefeitos;	
+	
+	public List<DefeitoTv> listaDefeitosTv;	
 
 	Timer timerBuscaDefeitosAtivos = new Timer();
 	Timer timerRemoveDefeitoAntigo = new Timer();
@@ -36,6 +39,7 @@ public class PainelDefeitosBean {
 		public void run() {
 
 			buscarDefeitosAtivos();
+			buscarDefeitosAtivosTv();
 
 		}
 	};
@@ -77,6 +81,7 @@ public class PainelDefeitosBean {
 	public void init() {
 
 		buscarDefeitosAtivos();
+		buscarDefeitosAtivosTv();
 
 		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 65000, 65000);
 		timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
@@ -89,7 +94,13 @@ public class PainelDefeitosBean {
 
 		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();											
 
-	}	
+	}
+	
+	public void buscarDefeitosAtivosTv() {
+
+		this.listaDefeitosTv = this.atendimentoServico.listarDefeitosAtivosTv();											
+
+	}
 
 	public void removeDefeitoAntigo() {
 
@@ -133,7 +144,29 @@ public class PainelDefeitosBean {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
 
-	}	
+	}
+	
+	public void removeDefeitoAoAssumirTv(DefeitoTv defeito) {
+
+		DefeitoTv status = new DefeitoTv();		
+
+		try {
+
+			status = this.atendimentoServico.consultarSSTv(defeito.getSs());
+
+			TipoStatus statusValue = status.getStatus();
+
+			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
+
+				this.listaDefeitos.remove(defeito);
+
+			}
+
+		} catch (Exception e) {
+			JSFUtil.addErrorMessage(e.getMessage());
+		}
+
+	}
 
 	public List<Defeito> getListaDefeitos() {
 		return listaDefeitos;
@@ -143,4 +176,12 @@ public class PainelDefeitosBean {
 		this.listaDefeitos = listaDefeitos;
 	}
 
+	public List<DefeitoTv> getListaDefeitosTv() {
+		return listaDefeitosTv;
+	}
+
+	public void setListaDefeitosTv(List<DefeitoTv> listaDefeitosTv) {
+		this.listaDefeitosTv = listaDefeitosTv;
+	}
+	
 }

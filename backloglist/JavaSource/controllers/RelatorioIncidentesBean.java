@@ -11,6 +11,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import entidades.Defeito;
+import entidades.DefeitoTv;
 import model.RelatorioIncidentesServico;
 import util.JSFUtil;
 
@@ -23,6 +24,8 @@ public class RelatorioIncidentesBean {
 
 	private List<Defeito> defeitosNaoEncerrado;
 
+	private List<DefeitoTv> defeitosNaoEncerradoTv;
+
 	private List<Defeito> defeitosEncerrados;
 
 	public RelatorioIncidentesBean() {
@@ -34,6 +37,14 @@ public class RelatorioIncidentesBean {
 		defeitosNaoEncerrado = this.relatorioIncidentesServico.listaDefeitosStatusAdm(false);
 
 		return defeitosNaoEncerrado;
+
+	}
+
+	public List<DefeitoTv> listarDefeitosNaoEncerradosAdmTv() {
+
+		defeitosNaoEncerradoTv = this.relatorioIncidentesServico.listaDefeitosStatusAdmTv(false);
+
+		return defeitosNaoEncerradoTv;
 
 	}
 
@@ -52,6 +63,24 @@ public class RelatorioIncidentesBean {
 		try {
 
 			this.relatorioIncidentesServico.importaDefeitosEncerradosDQTT(file);
+
+			JSFUtil.addInfoMessage("Lote carregado com sucesso");
+
+		} catch (Exception e) {
+
+			JSFUtil.addErrorMessage(e.getMessage());
+
+		}
+
+	}
+
+	public void atualizaDefeitoTvEncerrado(FileUploadEvent event) {
+
+		UploadedFile file = event.getFile();
+
+		try {
+
+			this.relatorioIncidentesServico.importaDefeitosTvEncerradosDQTT(file);
 
 			JSFUtil.addInfoMessage("Lote carregado com sucesso");
 

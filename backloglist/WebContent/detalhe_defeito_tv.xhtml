@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Detalhes do defeito
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-dashboard"> </i>Detalhes do defeito</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:viewParam name="ss" value="#{atendimentoBean.defeitoTv.ss}" />
+			<f:event
+				listener="#{atendimentoBean.consultarDefeitoTvOperadorPorSS()}"
+				type="preRenderView" />
+		</f:metadata>
+		<h:form>
+			<p:panel id="basic" header="Detalhes" style="margin-bottom:20px;"
+				rendered="#{not empty atendimentoBean.defeitoTv.usuario}">
+
+				<p:fieldset legend="Dados" toggleable="true" toggleSpeed="500">
+
+					<p:panel
+						style="float: right; width: 50%; overflow-y: auto; height: 300px;"
+						id="comentarios">
+
+						<p:outputLabel value="Comentários:" style="font-weight: bold;" />
+						<br />
+
+						<ui:repeat value="#{atendimentoBean.defeitoTv.comentarios}"
+							var="coments">
+
+							<h:outputText value="#{coments.data.toLocaleString()} "
+								style="font-weight: bold;" />
+							<h:outputText value="#{coments.usuario.login} "
+								style="font-weight: bold;" />
+							<h:outputText value="#{coments.comentario}" />
+							<br />
+
+						</ui:repeat>
+
+					</p:panel>
+
+
+
+					<p:panelGrid columns="2" style="margin-bottom: 15px;">
+
+						<p:outputLabel value="SS: " />
+						<h:outputText value="#{atendimentoBean.defeitoTv.ss}" />
+						<p:outputLabel value="Instância: " />
+						<h:outputText value="#{atendimentoBean.defeitoTv.instancia}" />
+						<p:outputLabel value="Tipificação " />
+						<h:outputText
+							value="#{atendimentoBean.defeitoTv.tipificacao.nomeTipificacao}" />
+						<p:outputLabel value="Data de Integração: " />
+						<h:outputText
+							value="#{relatorioBean.formatarData(atendimentoBean.defeitoTv.dataDeIntegracao)}" />
+
+					</p:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Detalhes:" />
+						<p:inputTextarea rows="5" cols="30"
+							value="#{atendimentoBean.detalhesDefeito}" id="text_coments"
+							maxlength="500" counterTemplate="{0} caracteres restantes"
+							counter="display" />
+						<h:outputText id="display" />
+
+						<p:commandButton value="Inserir comentario"
+							action="#{atendimentoBean.inserirComentarioTv()}"
+							update="text_coments, comentarios" />
+					</h:panelGrid>
+
+				</p:fieldset>
+
+				<p:fieldset legend="Ações" toggleable="true" toggleSpeed="500"
+					style="margin-top: 15px;">
+
+					<h:panelGrid columns="3">
+						<p:commandButton value="Encerrar" onclick="PF('dlg2').show();" />
+
+						<p:commandButton value="Voltar para fila" type="button"
+							onclick="PF('fila').show();" />
+
+						<p:commandButton value="Enviar para campo" type="button"
+							onclick="PF('acao').show();" />
+
+					</h:panelGrid>
+
+					<p:dialog header="Cód. Encerramento" widgetVar="dlg2" modal="true"
+						height="100" resizable="false">
+
+						<h:panelGrid columns="2">
+							<p:outputLabel for="cods" value="Cód. Encerramento:" />
+							<p:selectOneMenu id="cods"
+								value="#{atendimentoBean.defeitoTv.motivoEncerramento}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItems
+									value="#{atendimentoBean.listarMotivosEncerramentos()}"
+									var="motivoEncerrado" itemLabel="#{motivoEncerrado.motivo}"
+									itemValue="#{motivoEncerrado}" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Confirmar"
+								action="#{atendimentoBean.encerrarDefeitoTv()}" update="@all"
+								style="margin-top: 15px;" />
+
+						</h:panelGrid>
+					</p:dialog>
+
+					<p:dialog header="Ação" widgetVar="acao" modal="true" height="50"
+						resizable="false">
+
+						<h:panelGrid columns="2">
+
+							<h:outputText value="Deseja realmente enviar o defeito a campo?" />
+							<br />
+
+							<p:commandButton value="Sim"
+								action="#{atendimentoBean.enviarCampoTv()}" ajax="true" />
+
+							<p:commandButton value="Não" type="button"
+								onclick="PF('acao').hide();" />
+
+						</h:panelGrid>
+
+					</p:dialog>
+
+					<p:dialog header="Ação" widgetVar="fila" modal="true" height="50"
+						resizable="false">
+
+						<h:panelGrid columns="2">
+
+							<h:outputText
+								value="Deseja realmente voltar o defeito para a fila?" />
+							<br />
+
+							<p:commandButton value="Sim"
+								action="#{atendimentoBean.voltarDefeitoTvParaFila()}" ajax="true"/>
+
+							<p:commandButton value="Não" type="button"
+								onclick="PF('fila').hide();" />
+
+						</h:panelGrid>
+
+					</p:dialog>
+
+
+				</p:fieldset>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>
+</html>

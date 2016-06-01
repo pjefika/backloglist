@@ -23,8 +23,10 @@ import com.opencsv.CSVReader;
 
 import entidades.Defeito;
 import entidades.DefeitoIntegracao;
+import entidades.DefeitoTv;
 import entidades.LogIntegracao;
 import entidades.Lote;
+import entidades.LoteTv;
 import entidades.ResultadoFulltest;
 import entidades.Tipificacao;
 import entidades.TipoLogIntegracao;
@@ -73,6 +75,120 @@ public class ImportServicoNew {
 
 		}
 
+	}
+	
+	public void salvaLoteTv(UploadedFile file, UsuarioEfika usuarioEfika) throws Exception{
+		
+		try {
+			
+			byte[] conteudo = file.getContents();
+
+			//String nome = JSFUtil.gerarStringAleatoria(10);
+
+			Date date = new Date();
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss");						
+
+			String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
+
+			String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+
+			FileOutputStream fos = new FileOutputStream(fullname);
+
+			fos.write(conteudo);
+			fos.close();
+
+			importCSVTv(nome);
+			
+		} catch (ParseException e) {
+			
+			JSFUtil.addErrorMessage(e.getMessage());
+			
+		}		
+		
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void importCSVTv(String nomeArquivo) throws Exception {
+		
+		
+		String[] row = null;
+		String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+
+		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
+		List content = csvReader.readAll();
+
+		LoteTv lote = new LoteTv();
+
+		Date date = new Date();
+
+		lote.setNome(nomeArquivo);
+		lote.setHoraIntegrado(date);
+		lote.setStatus(TipoStatus.ATIVO);
+		
+		Integer qntdeIntegrado = 0;
+				
+		for (Object object : content) {
+			
+			DefeitoTv defeitoTv = new DefeitoTv();			
+			Tipificacao tipificacao = new Tipificacao();
+			
+			row = (String[]) object;
+			
+			if (!row[0].isEmpty() && row[0].contains("8-")) {
+				
+				try {
+					
+					String ss = row[0];
+
+					this.atendimentoServico.consultarSSeDefeitoTv(ss);					
+					
+				} catch (Exception e) {
+					
+					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+					Date dataAbertura;
+					Date dataVencimento;
+					
+					if (row[3].isEmpty()) {
+
+						dataAbertura = new Date();
+						dataVencimento = new Date();
+
+					}else{
+
+						dataAbertura = formatter.parse(row[3]);			
+						dataVencimento = formatter.parse(row[4]);
+
+					}
+					
+					Date dataIntegracao = new Date();
+					
+					defeitoTv.setSs(row[0]);
+					defeitoTv.setInstancia(row[2]);
+					tipificacao = this.acaoTipificacao(row[1].trim());
+					defeitoTv.setTipificacao(tipificacao);
+					defeitoTv.setDataDeIntegracao(dataIntegracao);
+					defeitoTv.setDataAbertura(dataAbertura);
+					defeitoTv.setDataVencimento(dataVencimento);
+					defeitoTv.setStatus(TipoStatus.ABERTO);
+
+					this.entityManager.persist(defeitoTv);
+					
+					qntdeIntegrado++;
+					
+				}
+				
+			}
+			
+		}
+		
+		lote.setQntdeIntegrado(qntdeIntegrado);
+		
+		this.entityManager.persist(lote);
+		
+		
+		csvReader.close();
 	}
 
 	@SuppressWarnings("rawtypes")

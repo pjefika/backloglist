@@ -18,71 +18,85 @@ import util.JSFUtil;
 @ManagedBean
 @ViewScoped
 public class ImportBean {
-	
+
 	@ManagedProperty(value="#{loginBean}")
 	private LoginBean sessao;
-	
+
 	private Defeito defeito;
-	
+
 	private Tipificacao tipificacao;
-	
+
 	private String nomeTipificacao;
-	
+
 	@EJB
 	private ImportServico importServico;
-	
+
 	@EJB
 	private ImportServicoNew importServicoNew;
 
 	public ImportBean() {
-		
+
 		this.defeito = new Defeito();
 		this.tipificacao = new Tipificacao();
-		
+
 	}
-		
+
 	public void importarDefeito() {
-		
+
 		try {
-			
+
 			this.defeito.setTipificacao(this.tipificacao);
-			
+
 			this.importServico.importarDefeito(this.defeito);
-			
+
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}		
-		
+
 	}
-	
+
 	public void validaTipificacao() {
-		
+
 		this.tipificacao = this.importServico.acaoTipificacao(this.nomeTipificacao);
-				
+
 	}
-	
+
 	public void uploadFile(FileUploadEvent event) {
-		
+
 		UploadedFile file = event.getFile();
-				
+
 		try {
-			
+
 			this.importServicoNew.salvaLote(file, this.sessao.getUsuario());
-						
+
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
-		
+
 	}
-	
+
+	public void uploadFileTv(FileUploadEvent event) {
+
+		UploadedFile file = event.getFile();
+
+		try {
+
+			this.importServicoNew.salvaLoteTv(file, this.sessao.getUsuario());
+
+		} catch (Exception e) {
+			JSFUtil.addErrorMessage(e.getMessage());
+		}
+
+	}
+
 	public void pararLote(Lote lote) {
-		
+
 		this.importServicoNew.pararLote(this.importServicoNew.listaLoteEspecifico(lote));
-				
+
 		JSFUtil.addInfoMessage("Lote parado com sucesso.");
-		
+
 	}
-		
+
 	public Defeito getDefeito() {
 		return defeito;
 	}

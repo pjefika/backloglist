@@ -16,6 +16,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 import entidades.Defeito;
 import entidades.Lote;
+import entidades.LoteTv;
 import entidades.MotivoEncerramento;
 import entidades.TipoStatus;
 import model.MotivoServico;
@@ -95,8 +96,10 @@ public class RelatorioBean implements Serializable{
 		GraficoStatus.set("Aberto: " + listarStatus(TipoStatus.ABERTO), listarStatus(TipoStatus.ABERTO));
 		GraficoStatus.set("Em Tratamento: " + listarStatus(TipoStatus.EMTRATAMENTO), listarStatus(TipoStatus.EMTRATAMENTO));
 		GraficoStatus.set("Encerrado Operador/Sistema: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
+		GraficoStatus.set("Encerrado Operador/Sistema Tv: " + listarStatusTv(TipoStatus.ENCERRADO), listarStatusTv(TipoStatus.ENCERRADO));
 		GraficoStatus.set("Enviado a campo: " + listarStatus(TipoStatus.ENVIADOACAMPO), listarStatus(TipoStatus.ENVIADOACAMPO));		
-		GraficoStatus.set("Encerrado DQTT: " + listarDefeitoEncerradosDQTT(), listarDefeitoEncerradosDQTT());
+		GraficoStatus.set("Encerrado DQTT: " + listarDefeitoEncerradosDQTT(), listarDefeitoEncerradosDQTT());		
+		GraficoStatus.set("Encerrado DQTT Tv: " + listarDefeitoEncerradosDQTTtv(), listarDefeitoEncerradosDQTTtv());
 
 		GraficoStatus.setTitle("Monitoramento");
 		GraficoStatus.setLegendPosition("w");
@@ -108,7 +111,9 @@ public class RelatorioBean implements Serializable{
 		GraficoMotivos = new PieChartModel();
 
 		for (MotivoEncerramento motivoEncerramento : motivos) {
+			
 			GraficoMotivos.set(motivoEncerramento.getMotivo() + ": " + this.listarDefeitosPorMotivo(motivoEncerramento), this.listarDefeitosPorMotivo(motivoEncerramento));
+			
 		}	
 
 		GraficoMotivos.setTitle("Encerrados por Motivos");
@@ -122,17 +127,29 @@ public class RelatorioBean implements Serializable{
 		return this.relatorioServico.ListarTodoOsDefeitos(tipoStatus).size();
 
 	}	
+	
+	public Integer listarStatusTv(TipoStatus tipoStatus) {
+
+		return this.relatorioServico.ListarTodoOsDefeitosTv(tipoStatus).size();
+
+	}
 
 	public Integer listarDefeitosPorMotivo(MotivoEncerramento motivo) {			
 
-		return this.relatorioServico.listarDefeitosPorMotivo(motivo).size();
+		return this.relatorioServico.listarDefeitosPorMotivo(motivo).size() + this.relatorioServico.listarDefeitosPorMotivoTv(motivo).size();
 
 	}
-	
+
 	public Integer listarDefeitoEncerradosDQTT() {
-		
+
 		return this.relatorioServico.listarDefeitoEncerradosDQTT().size();
-		
+
+	}
+
+	public Integer listarDefeitoEncerradosDQTTtv() {
+
+		return this.relatorioServico.listarDefeitoEncerradosDQTTtv().size();
+
 	}
 
 	public List<Lote> listarLotes() {
@@ -141,30 +158,36 @@ public class RelatorioBean implements Serializable{
 
 	}
 
+	public List<LoteTv> listarLotesTv() {
+
+		return this.relatorioServico.listarLotesTv();
+
+	}
+
 	public Integer listarDefeitoIntegracaoPorLote(String nomeLote, String acao) {		
-		
+
 		return this.relatorioServico.listarDefeitoIntegracaoPorLote(nomeLote, acao).size();
-		
+
 	}
-	
+
 	public Integer listarLogsDefeitosIntegrados(String lote, String acao) {
-		
+
 		return this.relatorioServico.listarLogsDefeitosIntegrados(lote, acao).size();
-		
+
 	}
-	
+
 	public Integer listarFulltestDefeitoEmTratamento(String nomeLote) {
-		
+
 		return this.relatorioServico.listarFulltestDefeitoEmTratamento(nomeLote).size();
-		
+
 	}
-	
+
 	public String formatarData(Date data) {	
-		
+
 		SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		
+
 		return formatar.format(data);
-		
+
 	}
 
 	/**

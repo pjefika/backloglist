@@ -11,9 +11,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import entidades.ComentariosDefeitos;
+import entidades.ComentariosDefeitosTv;
 import entidades.Defeito;
 import entidades.DefeitoIntegracao;
+import entidades.DefeitoTv;
 import entidades.LogDefeito;
+import entidades.LogDefeitoTv;
 import entidades.MotivoEncerramento;
 import entidades.TipoLog;
 import entidades.TipoStatus;
@@ -43,6 +46,19 @@ public class AtendimentoServico {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosAtivosTv() {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 ORDER BY D.dataDeIntegracao DESC");
+			query.setParameter("param1", TipoStatus.ABERTO);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
+		}
+
+	}
 
 	/*
 	 * Montar lista com todos os defeitos ativos que estão assumidos pelo colaborador.
@@ -57,6 +73,34 @@ public class AtendimentoServico {
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
+		}
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosTvColaborador(UsuarioEfika usuario) {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.usuario =:param1 AND d.status =:param2");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", TipoStatus.EMTRATAMENTO);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
+		}
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosColaboradorTv(UsuarioEfika usuario) {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.usuario =:param1 AND d.status =:param2");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", TipoStatus.EMTRATAMENTO);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
 		}
 
 	}
@@ -76,6 +120,24 @@ public class AtendimentoServico {
 		this.entityManager.merge(defeito);
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.ASSUMIR, usuario);
+
+		this.entityManager.persist(log);
+
+		return usuario;
+
+	}
+	
+	public UsuarioEfika assumirDefeitoTv(DefeitoTv defeito, UsuarioEfika usuario) throws Exception {
+
+		if (this.listarDefeitosTvColaborador(usuario).size() >= 2) {
+			throw new Exception("Não é permitido assumir mais de 2 (dois) defeitos por Usuário!");
+		}
+
+		defeito.setStatus(TipoStatus.EMTRATAMENTO);
+		defeito.setUsuario(usuario);
+		this.entityManager.merge(defeito);
+
+		LogDefeitoTv log = new LogDefeitoTv(defeito, TipoLog.ASSUMIR, usuario);
 
 		this.entityManager.persist(log);
 
@@ -110,7 +172,30 @@ public class AtendimentoServico {
 
 		}
 
+	}
+	
+	public void encerrarDefeitoTv(DefeitoTv defeito, UsuarioEfika usuario) throws Exception {
 
+
+		try {
+
+			defeito.getMotivoEncerramento().getMotivo().isEmpty();
+
+			Date date = new Date();
+
+			defeito.setStatus(TipoStatus.ENCERRADO);
+			defeito.setDataEncerrado(date);
+
+			this.entityManager.merge(defeito);			
+
+			LogDefeitoTv log = new LogDefeitoTv(defeito, TipoLog.ENCERRAR, usuario);
+
+			this.entityManager.persist(log);
+		} catch (Exception e) {
+
+			throw new Exception("Por favor selecione o motivo, se não existir motivo contate o administrador!");
+
+		}
 
 	}
 
@@ -125,6 +210,22 @@ public class AtendimentoServico {
 		this.entityManager.merge(defeito);
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.ENVIADOCAMPO, usuario);
+
+		this.entityManager.persist(log);
+
+	}
+
+	public void enviarCampoTv(DefeitoTv defeito, UsuarioEfika usuario) {
+
+		Date date = new Date();
+
+		defeito.setStatus(TipoStatus.ENVIADOACAMPO);
+		defeito.setDataEncerrado(date);
+		defeito.setMotivoEncerramento(null);
+
+		this.entityManager.merge(defeito);
+
+		LogDefeitoTv log = new LogDefeitoTv(defeito, TipoLog.ENVIADOCAMPO, usuario);
 
 		this.entityManager.persist(log);
 
@@ -152,6 +253,25 @@ public class AtendimentoServico {
 		}
 
 	}
+	
+	public DefeitoTv consultarDefeitoTvOperadorPorSS(String ss, UsuarioEfika usuario) throws Exception {
+
+		try {
+
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.ss =:param1 AND d.usuario =:param2 AND d.status =:param3");
+			query.setParameter("param1", ss);
+			query.setParameter("param2", usuario);
+			query.setParameter("param3", TipoStatus.EMTRATAMENTO);
+
+			return (DefeitoTv) query.getSingleResult();			
+
+		} catch (Exception e) {
+
+			throw new Exception("Este defeito não exite ou não está atribuido a sua matricula.");
+
+		}
+
+	}
 
 
 	/**
@@ -167,6 +287,18 @@ public class AtendimentoServico {
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.ss =:param1");
 			query.setParameter("param1", ss);
 			return (Defeito) query.getSingleResult();			
+		} catch (NoResultException e) {
+			throw new Exception("Este defeito não foi integrado na ferramenta.");
+		}
+
+	}
+	
+	public DefeitoTv consultarSSTv(String ss) throws Exception {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.ss =:param1");
+			query.setParameter("param1", ss);
+			return (DefeitoTv) query.getSingleResult();			
 		} catch (NoResultException e) {
 			throw new Exception("Este defeito não foi integrado na ferramenta.");
 		}
@@ -202,6 +334,22 @@ public class AtendimentoServico {
 		}
 
 	}
+	
+	public DefeitoTv consultarSSeDefeitoTv(String ss) throws Exception {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("From DefeitoTv d WHERE d.ss =:param1");
+			query.setParameter("param1", ss);
+			return (DefeitoTv) query.getSingleResult();	
+			
+		} catch (Exception e) {
+			
+			throw new Exception("Este defeito não foi integrado na ferramenta.");
+			
+		}
+		
+	}
 
 	/*
 	 * Lista os motivos de encerramentos.
@@ -225,6 +373,19 @@ public class AtendimentoServico {
 	public void voltarDefeitoParaFila(Defeito defeito, UsuarioEfika usuario) {		
 
 		LogDefeito log = new LogDefeito(defeito, TipoLog.VOLTOUFILA, usuario);
+
+		this.entityManager.persist(log);
+
+		defeito.setStatus(TipoStatus.ABERTO);
+		defeito.setUsuario(null);
+		defeito.setMotivoEncerramento(null);
+		this.entityManager.merge(defeito);		
+
+	}
+	
+	public void voltarDefeitoTvParaFila(DefeitoTv defeito, UsuarioEfika usuario) {		
+
+		LogDefeitoTv log = new LogDefeitoTv(defeito, TipoLog.VOLTOUFILA, usuario);
 
 		this.entityManager.persist(log);
 
@@ -292,6 +453,20 @@ public class AtendimentoServico {
 		}		
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarRelatorioDoUsuarioAbertoTv(UsuarioEfika usuario, TipoStatus tipoStatus) {
+
+		try {			
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.usuario =:param1 AND d.status =:param2");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", tipoStatus);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();			
+		}		
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarRelatorioDoUsuario(UsuarioEfika usuario, TipoStatus tipoStatus) {
@@ -303,6 +478,20 @@ public class AtendimentoServico {
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();			
+		}		
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarRelatorioDoUsuarioTv(UsuarioEfika usuario, TipoStatus tipoStatus) {
+
+		try {			
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.usuario =:param1 AND d.status =:param2 AND d.dataEncerrado > CURRENT_DATE");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", tipoStatus);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();			
 		}		
 
 	}
@@ -325,6 +514,26 @@ public class AtendimentoServico {
 		}
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosEncerradosDQTTtv(UsuarioEfika usuario) {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.usuario =:param1 AND d.encerradoAdm =:param2 AND d.encerradoDQTT =:param3 AND d.dataEncerrado > CURRENT_DATE");
+			query.setParameter("param1", usuario);
+			query.setParameter("param2", true);
+			query.setParameter("param3", true);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<DefeitoTv>();
+			
+		}
+		
+	}
+	
 
 	public void inserirComentario(Defeito defeito, String detalhes) throws Exception {
 
@@ -332,6 +541,31 @@ public class AtendimentoServico {
 		if (!detalhes.isEmpty()){
 
 			ComentariosDefeitos comentariosDefeitos = new ComentariosDefeitos();
+
+			Date dataDeAgr = new Date();
+
+			comentariosDefeitos.setDefeito(defeito);
+			comentariosDefeitos.setComentario(detalhes);
+			comentariosDefeitos.setUsuario(defeito.getUsuario());
+			comentariosDefeitos.setData(dataDeAgr);
+
+			this.entityManager.persist(comentariosDefeitos);
+
+
+		}else{
+
+			throw new Exception("Por favor preencha o campo detalhes!");
+
+		}
+
+	}
+	
+	public void inserirComentarioTv(DefeitoTv defeito, String detalhes) throws Exception {
+
+
+		if (!detalhes.isEmpty()){
+
+			ComentariosDefeitosTv comentariosDefeitos = new ComentariosDefeitosTv();
 
 			Date dataDeAgr = new Date();
 

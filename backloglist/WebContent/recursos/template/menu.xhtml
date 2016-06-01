@@ -12,12 +12,23 @@
 		</a></li>
 		<!-- Opções so aparece para usuários logados -->
 		<h:panelGroup rendered="#{loginBean.logado}" layout="block">
+		
 			<li><a href="busca_defeitos.jsf"> <i class="fa fa-list-ul" />
 					Defeitos Disponíveis
 			</a></li>
+			
+			<li><a href="busca_defeitos_tv.jsf"> <i class="fa fa-list-ul" />
+					Defeitos Disponíveis TV
+			</a></li>
+			
 			<li><a href="busca_defeitos_carrinho.jsf"> <i
 					class="fa fa-edit" /> Meus Defeitos
-			</a></li>
+			</a></li>		
+			
+			<li><a href="busca_defeitos_carrinho_tv.jsf"> <i
+					class="fa fa-edit" /> Meus Defeitos Tv
+			</a></li>		
+			
 			<li><a href="usuario.jsf"> <i class="fa fa-user" />Painel
 					Usuário
 			</a></li>
@@ -29,6 +40,9 @@
 				<li><a href="upload.jsf"> <i class="fa fa-upload" />Upload
 						Defeitos
 				</a></li>
+				<li><a href="uploadTv.jsf"> <i class="fa fa-upload" />Upload
+						Defeitos Tv
+				</a></li>				
 				<h:panelGroup rendered="#{loginBean.is_Admin()}" layout="block">
 					<li><a href="cadastrar_motivo_encerramento.jsf"> <i
 							class="fa fa-retweet" /> Cadastrar Encerramentos

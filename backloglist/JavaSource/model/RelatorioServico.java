@@ -12,8 +12,10 @@ import javax.persistence.TemporalType;
 
 import entidades.Defeito;
 import entidades.DefeitoIntegracao;
+import entidades.DefeitoTv;
 import entidades.LogIntegracao;
 import entidades.Lote;
+import entidades.LoteTv;
 import entidades.MotivoEncerramento;
 import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
@@ -55,6 +57,19 @@ public class RelatorioServico {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosPorMotivoTv(MotivoEncerramento motivo) {
+
+		try {
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.motivoEncerramento =:param1 AND d.dataEncerrado > CURRENT_DATE");
+			query.setParameter("param1", motivo);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
+		}
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Defeito> ListarTodoOsDefeitos(TipoStatus tipoStatus) {
@@ -82,6 +97,31 @@ public class RelatorioServico {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> ListarTodoOsDefeitosTv(TipoStatus tipoStatus) {
+
+		try {
+
+			if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)){
+
+				Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
+				query.setParameter("param1", tipoStatus);
+				return query.getResultList();
+
+			}else{
+
+				Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1");
+				query.setParameter("param1", tipoStatus);
+				return query.getResultList();
+
+			}			
+
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
+		}
+
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Defeito> listarDefeitoEncerradosDQTT() {
 		
 		try {
@@ -92,6 +132,21 @@ public class RelatorioServico {
 			
 		} catch (Exception e) {
 			return new ArrayList<Defeito>();
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitoEncerradosDQTTtv() {
+		
+		try {
+			
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1 AND d.dataEncerrado > CURRENT_DATE");
+			query.setParameter("param1", true);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
 		}
 		
 	}
@@ -136,6 +191,23 @@ public class RelatorioServico {
 		} catch (Exception e) {
 
 			return new ArrayList<Lote>();
+
+		}
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LoteTv> listarLotesTv() {
+
+		try {
+
+			Query query = this.entityManager.createQuery("FROM LoteTv l ORDER BY l.horaIntegrado DESC");
+			query.setMaxResults(5);
+			return query.getResultList();
+
+		} catch (Exception e) {
+
+			return new ArrayList<LoteTv>();
 
 		}
 

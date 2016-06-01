@@ -29,7 +29,7 @@
 				toggleSpeed="500" style="margin-top: 15px;">
 
 				<p:dataTable value="" var="def"
-					style="width: 40%;text-align:center; float: left;">
+					style="width: 40%;text-align:center;">
 
 					<f:facet name="header">
 						Relatório
@@ -47,12 +47,41 @@
 					
 					<p:column headerText="Defeitos Encerrados DQTT">
 						<h:outputText
-							value="#{atendimentoBean.contagemDefeitoEncerradoDQTT()}" />
+							value="#{atendimentoBean.listarDefeitosEncerradosDQTT()}" />
 					</p:column>
 
 					<p:column headerText="Defeitos Enviados a Campo">
 						<h:outputText
 							value="#{atendimentoBean.contagemRelatorioUsuario('ENVIADOACAMPO')}" />
+					</p:column>					
+
+				</p:dataTable>
+								
+				<p:dataTable value="" var="defTv"
+					style="width: 40%;text-align:center; margin-top: 20px;">
+
+					<f:facet name="header">
+						Relatório Tv
+					</f:facet>
+
+					<p:column headerText="Defeitos em Tratamento">
+						<h:outputText
+							value="#{atendimentoBean.listarRelatorioDoUsuarioAbertoTv('EMTRATAMENTO')}" />
+					</p:column>
+
+					<p:column headerText="Defeitos Encerrados">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuarioTv('ENCERRADO')}" />
+					</p:column>
+					
+					<p:column headerText="Defeitos Encerrados DQTT">
+						<h:outputText
+							value="#{atendimentoBean.listarDefeitosEncerradosDQTTtv()}" />
+					</p:column>
+
+					<p:column headerText="Defeitos Enviados a Campo">
+						<h:outputText
+							value="#{atendimentoBean.contagemRelatorioUsuarioTv('ENVIADOACAMPO')}" />
 					</p:column>					
 
 				</p:dataTable>

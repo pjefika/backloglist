@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Defeitos
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-edit"> </i> Defeitos</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="form">
+			<p:dataTable id="data" var="def" selectionMode="single"
+				rowKey="#{def.ss}"
+				value="#{atendimentoBean.listarDefeitosTvColaborador()}"
+				emptyMessage="Você não possui defeitos associados"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="10" style="margin-bottom:20px"
+				currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+				<p:column headerText="SS">
+					<h:outputText value="#{def.ss}" />
+				</p:column>
+
+				<p:column headerText="Instância">
+					<h:outputText value="#{def.instancia}" />
+				</p:column>
+
+				<p:column headerText="Tipificação">
+					<h:outputText value="#{def.tipificacao.nomeTipificacao}" />
+				</p:column>
+
+				<p:column headerText="Data integração">
+					<h:outputText
+						value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="text-align: center;">
+					<p:button outcome="detalhe_defeito_tv" value="Tratar">
+						<f:param name="ss" value="#{def.ss}" />
+					</p:button>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>
