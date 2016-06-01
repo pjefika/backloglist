@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.chart.PieChartModel;
 
 import entidades.Defeito;
+import entidades.DefeitoTv;
 import entidades.Lote;
 import entidades.LoteTv;
 import entidades.MotivoEncerramento;
@@ -31,6 +32,8 @@ public class RelatorioBean implements Serializable{
 	private LoginBean sessao;
 
 	private List<Defeito> listaDeDefeito;
+	
+	private List<DefeitoTv> listaDeDefeitosTv;
 
 	private List<MotivoEncerramento> motivos;
 
@@ -83,8 +86,34 @@ public class RelatorioBean implements Serializable{
 			this.dataFim = cal.getTime();
 
 		}
-
+		
 		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerrado(this.dataInicio, this.dataFim);
+
+	}
+	
+	public void listarDefeitosEncerradosTv() {
+
+		Calendar cal = Calendar.getInstance();
+
+		if (this.dataFim == null) {
+
+			this.dataFim = this.dataInicio;
+
+			cal.setTime(this.dataFim);
+			cal.add(Calendar.DATE, 1);
+
+			this.dataFim = cal.getTime();
+
+		}else{
+
+			cal.setTime(this.dataFim);
+			cal.add(Calendar.DATE, 1);
+
+			this.dataFim = cal.getTime();
+
+		}
+		
+		this.listaDeDefeitosTv = this.relatorioServico.listarDefeitosEncerradoTv(this.dataInicio, this.dataFim);
 
 	}
 
@@ -94,6 +123,7 @@ public class RelatorioBean implements Serializable{
 		GraficoStatus = new PieChartModel();
 
 		GraficoStatus.set("Aberto: " + listarStatus(TipoStatus.ABERTO), listarStatus(TipoStatus.ABERTO));
+		GraficoStatus.set("Aberto Tv: " + listarStatusTv(TipoStatus.ABERTO), listarStatusTv(TipoStatus.ABERTO));
 		GraficoStatus.set("Em Tratamento: " + listarStatus(TipoStatus.EMTRATAMENTO), listarStatus(TipoStatus.EMTRATAMENTO));
 		GraficoStatus.set("Encerrado Operador/Sistema: " + listarStatus(TipoStatus.ENCERRADO), listarStatus(TipoStatus.ENCERRADO));
 		GraficoStatus.set("Encerrado Operador/Sistema Tv: " + listarStatusTv(TipoStatus.ENCERRADO), listarStatusTv(TipoStatus.ENCERRADO));
@@ -247,6 +277,14 @@ public class RelatorioBean implements Serializable{
 
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
+	}
+
+	public List<DefeitoTv> getListaDeDefeitosTv() {
+		return listaDeDefeitosTv;
+	}
+
+	public void setListaDeDefeitosTv(List<DefeitoTv> listaDeDefeitosTv) {
+		this.listaDeDefeitosTv = listaDeDefeitosTv;
 	}
 
 }

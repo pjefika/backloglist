@@ -35,14 +35,14 @@
 				pattern="dd/MM/yyyy" mask="true" />
 
 			<p:commandButton id="busca" value="Buscar"
-				action="#{relatorioBean.listarDefeitosEncerrados()}"
+				action="#{relatorioBean.listarDefeitosEncerradosTv()}"
 				update="relats" />
 
 		</h:panelGrid>
 
 		<p:dataTable id="relats" var="relatorio"
 			emptyMessage="Preencha as datas para obter os defeitos encerrados"
-			value="#{relatorioBean.listaDeDefeito}"
+			value="#{relatorioBean.listaDeDefeitosTv}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 			paginator="true" rows="5" style="margin-bottom:20px"
 			currentPageReportTemplate="[{startRecord} de {endRecord}]">
@@ -94,8 +94,8 @@
 				<h:outputText value="#{relatorio.motivoEncerramento.motivo}" />
 			</p:column>
 
-		</p:dataTable>		
-		
+		</p:dataTable>
+				
 	</ui:define>
 
 </ui:composition>

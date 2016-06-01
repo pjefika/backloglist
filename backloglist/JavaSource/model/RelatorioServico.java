@@ -44,6 +44,21 @@ public class RelatorioServico {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DefeitoTv> listarDefeitosEncerradoTv(Date dataInicio, Date dataFim) {	
+
+		try {			
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND D.status !=:param3");
+			query.setParameter("param1", dataInicio, TemporalType.DATE);
+			query.setParameter("param2", dataFim, TemporalType.DATE);
+			query.setParameter("param3", TipoStatus.ENVIADOACAMPO);
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<DefeitoTv>();
+		}
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Defeito> listarDefeitosPorMotivo(MotivoEncerramento motivo) {

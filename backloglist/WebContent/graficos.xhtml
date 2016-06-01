@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		Relatórios
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-line-chart"> </i> Relatórios		
+	</ui:define>
+
+	<ui:define name="tituloSecundario">
+	</ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="eventos">
+		<f:event listener="#{loginBean.validaAdmin()}" type="preRenderView" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:chart id="graphsStatus" type="pie"
+			model="#{relatorioBean.graficoStatus}"
+			style="width:45%;height:500px; float: left;" />
+
+		<p:chart id="graphsMotivos" type="pie"
+			model="#{relatorioBean.graficoMotivos}"
+			style="width:45%;height:500px; float: right;" />
+
+		<p:poll interval="30" listener="#{relatorioBean.init()}"
+			update="graphsStatus" />
+		<p:poll interval="35" listener="#{relatorioBean.init()}"
+			update="graphsMotivos" />
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
