@@ -129,7 +129,7 @@ public class AtendimentoServico {
 	
 	public UsuarioEfika assumirDefeitoTv(DefeitoTv defeito, UsuarioEfika usuario) throws Exception {
 
-		if (this.listarDefeitosTvColaborador(usuario).size() >= 2) {
+		if (this.listarDefeitosTvColaborador(usuario).size() >= 5) {
 			throw new Exception("Não é permitido assumir mais de 2 (dois) defeitos por Usuário!");
 		}
 
