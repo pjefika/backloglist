@@ -22,20 +22,20 @@
 
 	<ui:define name="conteudo">
 
-		<p:panel header="DQTT" style="margin-top: 20px;">
+		<p:panel header="DQTT">
 
 			<h:outputText
-				value="Ao fazer o Upload do arquivo CSV certifique-se de que o arquivo está no modelo correto."/>
-			<br/>
+				value="Ao fazer o Upload do arquivo CSV certifique-se de que o arquivo está no modelo correto." />
+			<br />
 			<h:outputText
-				value="Na primeira coluna inserir a SS, na segunda coluna true ou false. Se encerrado via DQTT então insira true se não false."/>
-				
-			<br/>
-			<br/>
-						
+				value="Na primeira coluna inserir a SS, na segunda coluna true ou false. Se encerrado via DQTT então insira true se não false." />
+
+			<br />
+			<br />
+
 			<h:form>
 				<p:fileUpload
-					fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoEncerrado}"
+					fileUploadListener="#{relatorioIncidentesBean.atualizaDefeitoTvEncerrado}"
 					mode="advanced" dragDropSupport="true" multiple="true"
 					update="messages" sizeLimit="50000" fileLimit="5"
 					allowTypes="/(\.|\/)(csv)$/" label="Escolher Arquivo"
@@ -44,7 +44,7 @@
 			</h:form>
 
 			<p:dataTable id="defeitosData" var="def"
-				value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdm()}"
+				value="#{relatorioIncidentesBean.listarDefeitosNaoEncerradosAdmTv()}"
 				emptyMessage="Não há defeitos disponiveis"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 				paginator="true" style="margin-top:20px;" rows="10"
@@ -59,6 +59,7 @@
 					</h:commandLink>
 				</f:facet>
 
+
 				<p:column headerText="SS" style="text-align: center;">
 					<h:outputText value="#{def.ss}" />
 				</p:column>
@@ -66,14 +67,15 @@
 				<p:column headerText="Cód. Encerramento" style="text-align: center;">
 					<h:outputText value="#{def.motivoEncerramento.codEncerramento}" />
 				</p:column>
-				
+
 				<p:column headerText="Tempo Encerrado" style="text-align: center;">
-					<h:outputText value="#{relatorioIncidentesBean.calculaHoraEncerrado(def.dataEncerrado)}" />
+					<h:outputText
+						value="#{relatorioIncidentesBean.calculaHoraEncerrado(def.dataEncerrado)}" />
 				</p:column>
 
 			</p:dataTable>
 
-			<p:poll interval="10" update="defeitosData" />
+			<p:poll update="defeitosData" />
 
 		</p:panel>
 

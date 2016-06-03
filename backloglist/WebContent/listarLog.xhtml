@@ -67,6 +67,50 @@
 
 
 			</p:panel>
+			
+			<p:panel id="panelTutooTv" header="Consulta Tv" style="margin-top: 20px;">
+
+				<h:panelGrid columns="3" style="margin-bottom: 15px">
+
+					<p:outputLabel for="n1" value="Login ou SS: " />
+					<p:inputText id="n1" value="#{logBean.loginOUss}" />
+
+					<p:commandButton action="#{logBean.listarLogDefeitoSSTv()}"
+						value="Consultar" update="frmTutoo:panelTutooTv" />
+
+				</h:panelGrid>
+
+				<p:dataTable id="defeitosDataTv" var="log"
+					value="#{logBean.listaLogDefeitoTv}"
+					emptyMessage="Preencha o campo com Login ou SS"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					paginator="true" rows="10" style="margin-bottom:20px"
+					currentPageReportTemplate="[{startRecord} de {endRecord}]">
+
+					<p:column headerText="Usuário" style="text-align: center;">
+						<h:outputText rendered="#{not empty log.usuario.login}"
+							value="#{log.usuario.login}" />
+
+						<h:outputText rendered="#{empty log.usuario.login}"
+							value="Sistema" />
+					</p:column>
+
+					<p:column headerText="SS" style="text-align: center;">
+						<h:outputText value="#{log.defeito.ss}" />
+					</p:column>
+
+					<p:column headerText="Acão" style="text-align: center;">
+						<h:outputText value="#{log.acao}" />
+					</p:column>
+
+					<p:column headerText="Hora da Ação" style="text-align: center;">
+						<h:outputText value="#{relatorioBean.formatarData(log.horaAcao)}" />
+					</p:column>				
+					
+				</p:dataTable>
+
+
+			</p:panel>
 		</h:form>
 
 	</ui:define>
