@@ -239,7 +239,7 @@ public class AtendimentoBean {
 
 		this.atendimentoServico.voltarDefeitoTvParaFila(this.defeitoTv, this.sessao.getUsuario());
 		JSFUtil.addInfoMessage("Defeito retornou a fila!");
-		return "busca_defeitos_carrinho_tv.jsf";
+		return "busca_defeitos_carrinho.jsf";
 
 	}	
 
