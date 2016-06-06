@@ -153,7 +153,7 @@ public class AtendimentoBean {
 
 			this.atendimentoServico.encerrarDefeitoTv(this.defeitoTv, this.sessao.getUsuario());
 			JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " encerrado com sucesso!");
-			return "busca_defeitos_carrinho_tv.jsf";
+			return "busca_defeitos_carrinho.jsf";
 		} catch (Exception e) {		
 			JSFUtil.addErrorMessage(e.getMessage());
 			return null;
@@ -181,7 +181,7 @@ public class AtendimentoBean {
 		try {
 			this.atendimentoServico.enviarCampoTv(this.defeitoTv, this.sessao.getUsuario());
 			JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " enviado a campo.");
-			return "busca_defeitos_carrinho_tv.jsf";
+			return "busca_defeitos_carrinho.jsf";
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 			return null;
