@@ -149,7 +149,7 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoAdm(true);
 
-					}else if (acao.trim().equalsIgnoreCase("sistema") && defeito.getStatus().equals(TipoStatus.ABERTO)){
+					}else if (acao.trim().equalsIgnoreCase("sistema") && (defeito.getStatus().equals(TipoStatus.ABERTO) || defeito.getStatus().equals(TipoStatus.ENVIADOACAMPO))){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
@@ -261,7 +261,7 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoAdm(true);
 
-					}else if (acao.trim().equalsIgnoreCase("sistema") && defeito.getStatus().equals(TipoStatus.ABERTO)){
+					}else if (acao.trim().equalsIgnoreCase("sistema") && (defeito.getStatus().equals(TipoStatus.ABERTO) || defeito.getStatus().equals(TipoStatus.ENVIADOACAMPO))){
 						
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
