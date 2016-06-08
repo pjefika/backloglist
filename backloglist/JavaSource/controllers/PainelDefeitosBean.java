@@ -139,6 +139,8 @@ public class PainelDefeitosBean {
 				this.listaDefeitos.remove(defeito);
 
 			}
+			
+			this.buscarDefeitosAtivosTv();
 
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
@@ -161,6 +163,8 @@ public class PainelDefeitosBean {
 				this.listaDefeitos.remove(defeito);
 
 			}
+			
+			this.buscarDefeitosAtivosTv();
 
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
