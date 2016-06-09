@@ -25,6 +25,8 @@ public class LogBean {
 	private List<LogDefeitoTv> listaLogDefeitoTv;
 
 	private String loginOUss;
+	
+	private String loginOUssTv;
 
 	@EJB
 	private LogServico logServico;
@@ -39,7 +41,9 @@ public class LogBean {
 	public void listarLogDefeitoSS() {		
 
 		try {
+			
 			this.listaLogDefeito = this.logServico.listarLogDefeitoSS(this.loginOUss, this.sessao.getUsuario());
+			
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
@@ -49,7 +53,7 @@ public class LogBean {
 	public void listarLogDefeitoSSTv() {		
 
 		try {
-			this.listaLogDefeitoTv = this.logServico.listarLogDefeitoSSTv(this.loginOUss, this.sessao.getUsuario());
+			this.listaLogDefeitoTv = this.logServico.listarLogDefeitoSSTv(this.loginOUssTv, this.sessao.getUsuario());
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
@@ -86,6 +90,14 @@ public class LogBean {
 
 	public void setListaLogDefeitoTv(List<LogDefeitoTv> listaLogDefeitoTv) {
 		this.listaLogDefeitoTv = listaLogDefeitoTv;
-	}	
+	}
+
+	public String getLoginOUssTv() {
+		return loginOUssTv;
+	}
+
+	public void setLoginOUssTv(String loginOUssTv) {
+		this.loginOUssTv = loginOUssTv;
+	}
 
 }
