@@ -154,7 +154,9 @@ public class RelatorioIncidentesServico {
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
-						defeito.setDataEncerrado(date);				
+						defeito.setDataEncerrado(date);
+						
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 						
@@ -164,7 +166,9 @@ public class RelatorioIncidentesServico {
 						defeito.setStatus(TipoStatus.REMOVIDO);						
 						defeito.setUsuario(userSis);
 						
-						defeito.setDataEncerrado(date);				
+						defeito.setDataEncerrado(date);
+						
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 						
@@ -235,16 +239,17 @@ public class RelatorioIncidentesServico {
 
 				if (!ss.isEmpty() && !acao.isEmpty()){					
 
-					defeito = this.buscaDefeitoTvEspecifico(ss);				
+					defeito = this.buscaDefeitoTvEspecifico(ss);
+					
+					Date date = new Date();
 
 					if (acao.trim().equalsIgnoreCase("true")){
 						
 						defeito.setStatus(TipoStatus.ENCERRADO);
 
-						defeito.setEncerradoDQTT(true);
+						defeito.setEncerradoDQTT(true);						
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataDQTT(date);			
 
 						defeito.setEncerradoAdm(true);
 
@@ -254,8 +259,7 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoDQTT(false);
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataDQTT(date);			
 
 						defeito.setEncerradoAdm(true);
 
@@ -264,8 +268,9 @@ public class RelatorioIncidentesServico {
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataEncerrado(date);
+						
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 						
@@ -275,8 +280,9 @@ public class RelatorioIncidentesServico {
 						defeito.setStatus(TipoStatus.REMOVIDO);						
 						defeito.setUsuario(userSis);
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataEncerrado(date);
+						
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 						
