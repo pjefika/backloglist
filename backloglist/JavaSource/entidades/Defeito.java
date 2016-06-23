@@ -200,7 +200,7 @@ public class Defeito{
 	public String dataDQTTFormatada() {
 		
 		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		
+				
 		String dataFormatada;
 
 		if (getDataDQTT() == null) {
