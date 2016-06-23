@@ -47,7 +47,7 @@
 				<h:outputText value="#{def.instancia}" />
 			</p:column>
 
-			<p:column headerText="Tipificação">
+			<p:column headerText="Tipificação" sortBy="#{def.tipificacao.nomeTipificacao}">
 				<h:outputText value="#{def.tipificacao.nomeTipificacao}" />
 			</p:column>
 
@@ -55,7 +55,7 @@
 				<h:outputText value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 			</p:column>
 			
-			<p:column headerText="Fulltest rede">
+			<p:column headerText="Fulltest rede" sortBy="#{def.resultadoFulltest.rede}">
 				<h:outputText value="#{def.resultadoFulltest.rede}" />
 			</p:column>
 

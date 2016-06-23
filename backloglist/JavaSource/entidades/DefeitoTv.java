@@ -1,5 +1,6 @@
 package entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,28 +20,28 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name="backloglist_Defeito_Tv")
 public class DefeitoTv {
-	
+
 	@Id
 	@NotEmpty
 	@Length(min=8, max=10, message="Padrão: 8-AAAAAA")
 	private String ss;
-	
+
 	@ManyToOne
 	private Tipificacao tipificacao;
-	
+
 	private String instancia;
-	
+
 	private Date dataAbertura;
 
 	private Date dataVencimento;
-	
+
 	private Date dataDeIntegracao;
 
 	private Date dataEncerrado;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoStatus status;
-	
+
 	@ManyToOne
 	private UsuarioEfika usuario;
 
@@ -49,16 +50,18 @@ public class DefeitoTv {
 
 	@OneToMany(mappedBy="defeito")
 	private List<LogDefeito> logs;
-	
+
 	@OneToMany(mappedBy="defeito", fetch=FetchType.EAGER)
 	private List<ComentariosDefeitosTv> comentarios;
-	
+
 	private Boolean encerradoAdm = false;
-	
+
 	private Boolean encerradoDQTT;
-	
+
+	private Date dataDQTT;
+
 	public DefeitoTv() {
-		
+
 	}
 
 	public String getSs() {
@@ -171,6 +174,64 @@ public class DefeitoTv {
 
 	public void setEncerradoDQTT(Boolean encerradoDQTT) {
 		this.encerradoDQTT = encerradoDQTT;
+	}
+
+	public Date getDataDQTT() {
+		return dataDQTT;
+	}
+
+	public String dataDQTTFormatada() {
+
+		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		String dataFormatada;
+
+		if (getDataDQTT() == null) {
+
+			dataFormatada = "";			
+
+		}else{
+
+			dataFormatada = formmater.format(getDataDQTT());
+
+		}
+
+		return dataFormatada;
+
+	}
+
+	public void setDataDQTT(Date dataDQTT) {
+		this.dataDQTT = dataDQTT;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ss == null) ? 0 : ss.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefeitoTv other = (DefeitoTv) obj;
+		if (ss == null) {
+			if (other.ss != null)
+				return false;
+		} else if (!ss.equals(other.ss))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefeitoTv [ss=" + ss + "]";
 	}	
 
 }

@@ -125,7 +125,9 @@ public class RelatorioIncidentesServico {
 
 				if (!ss.isEmpty() && !acao.isEmpty()){					
 
-					defeito = this.buscaDefeitoEspecifico(ss);				
+					defeito = this.buscaDefeitoEspecifico(ss);
+					
+					Date date = new Date();
 
 					if (acao.trim().equalsIgnoreCase("true")){
 						
@@ -133,8 +135,7 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoDQTT(true);
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 
@@ -144,8 +145,7 @@ public class RelatorioIncidentesServico {
 
 						defeito.setEncerradoDQTT(false);
 						
-						Date date = new Date();
-						defeito.setDataEncerrado(date);				
+						defeito.setDataDQTT(date);
 
 						defeito.setEncerradoAdm(true);
 
@@ -154,7 +154,6 @@ public class RelatorioIncidentesServico {
 						UsuarioEfika userSis = this.buscaUsuarioSis();												
 						defeito.setUsuario(userSis);
 						
-						Date date = new Date();
 						defeito.setDataEncerrado(date);				
 
 						defeito.setEncerradoAdm(true);
@@ -165,7 +164,6 @@ public class RelatorioIncidentesServico {
 						defeito.setStatus(TipoStatus.REMOVIDO);						
 						defeito.setUsuario(userSis);
 						
-						Date date = new Date();
 						defeito.setDataEncerrado(date);				
 
 						defeito.setEncerradoAdm(true);

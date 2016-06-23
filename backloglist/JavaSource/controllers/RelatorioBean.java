@@ -14,12 +14,15 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.PieChartModel;
 
+import entidades.ComentariosDefeitos;
+import entidades.ComentariosDefeitosTv;
 import entidades.Defeito;
 import entidades.DefeitoTv;
 import entidades.Lote;
 import entidades.LoteTv;
 import entidades.MotivoEncerramento;
 import entidades.TipoStatus;
+import model.AtendimentoServico;
 import model.MotivoServico;
 import model.RelatorioServico;
 
@@ -32,7 +35,7 @@ public class RelatorioBean implements Serializable{
 	private LoginBean sessao;
 
 	private List<Defeito> listaDeDefeito;
-	
+
 	private List<DefeitoTv> listaDeDefeitosTv;
 
 	private List<MotivoEncerramento> motivos;
@@ -50,6 +53,9 @@ public class RelatorioBean implements Serializable{
 
 	@EJB
 	private MotivoServico motivoEncerramentoServico;
+
+	@EJB
+	private AtendimentoServico atendimentoServico;
 
 	@PostConstruct
 	public void init() {
@@ -69,6 +75,20 @@ public class RelatorioBean implements Serializable{
 
 		Calendar cal = Calendar.getInstance();
 
+		if (this.dataInicio == null) {
+
+			Date date = new Date();
+
+			cal.setTime(date);
+			cal.add(Calendar.DATE, 1);
+			cal.set(Calendar.HOUR_OF_DAY, -24);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+
+			this.dataInicio = cal.getTime();
+
+		}
+
 		if (this.dataFim == null) {
 
 			this.dataFim = this.dataInicio;
@@ -86,15 +106,64 @@ public class RelatorioBean implements Serializable{
 			this.dataFim = cal.getTime();
 
 		}
-		
-		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerrado(this.dataInicio, this.dataFim);
+
+		this.listaDeDefeito = this.relatorioServico.listarDefeitosEncerrado(this.dataInicio, this.dataFim);	
 
 	}
-	
+
+	public String listarComentariosDefeito(Defeito defeito){
+
+		List<ComentariosDefeitos> listaComents = this.atendimentoServico.listarComentariosDefeito(defeito);
+
+		String comentsConcat = "";
+
+		for (ComentariosDefeitos comentariosDefeitos : listaComents) {
+
+			comentsConcat = comentariosDefeitos.dataFormatada() + " " + comentariosDefeitos.getUsuario().getLogin() + ": " + comentariosDefeitos.getComentario() + "\n " + comentsConcat;
+
+		}
+
+		return comentsConcat;
+
+	}
+
+	public String listarComentariosDefeitoTv(DefeitoTv defeito){
+
+		List<ComentariosDefeitosTv> listaComents = this.atendimentoServico.listarComentariosDefeitoTv(defeito);		
+
+		String comentsConcat = "";
+
+		for (ComentariosDefeitosTv comentariosDefeitos : listaComents) {
+
+			comentsConcat = comentariosDefeitos.dataFormatada() + " " + comentariosDefeitos.getUsuario().getLogin() + ": " + comentariosDefeitos.getComentario() + "\n " + comentsConcat;
+
+		}
+
+		return comentsConcat;
+
+	}
+
+
+
+
 	public void listarDefeitosEncerradosTv() {
 
 		Calendar cal = Calendar.getInstance();
 
+		if (this.dataInicio == null) {
+
+			Date date = new Date();
+
+			cal.setTime(date);
+			cal.add(Calendar.DATE, 1);
+			cal.set(Calendar.HOUR_OF_DAY, -23);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, -1);
+
+			this.dataInicio = cal.getTime();
+
+		}
+
 		if (this.dataFim == null) {
 
 			this.dataFim = this.dataInicio;
@@ -112,7 +181,7 @@ public class RelatorioBean implements Serializable{
 			this.dataFim = cal.getTime();
 
 		}
-		
+
 		this.listaDeDefeitosTv = this.relatorioServico.listarDefeitosEncerradoTv(this.dataInicio, this.dataFim);
 
 	}
@@ -141,9 +210,9 @@ public class RelatorioBean implements Serializable{
 		GraficoMotivos = new PieChartModel();
 
 		for (MotivoEncerramento motivoEncerramento : motivos) {
-			
+
 			GraficoMotivos.set(motivoEncerramento.getMotivo() + ": " + this.listarDefeitosPorMotivo(motivoEncerramento), this.listarDefeitosPorMotivo(motivoEncerramento));
-			
+
 		}	
 
 		GraficoMotivos.setTitle("Encerrados por Motivos");
@@ -157,7 +226,7 @@ public class RelatorioBean implements Serializable{
 		return this.relatorioServico.ListarTodoOsDefeitos(tipoStatus).size();
 
 	}	
-	
+
 	public Integer listarStatusTv(TipoStatus tipoStatus) {
 
 		return this.relatorioServico.ListarTodoOsDefeitosTv(tipoStatus).size();

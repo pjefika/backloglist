@@ -1,5 +1,6 @@
 package entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class Defeito{
 	
 	@ManyToOne
 	private ResultadoFulltest resultadoFulltest;
+	
+	private Date dataDQTT;
 
 	public Defeito() {
 
@@ -188,6 +191,34 @@ public class Defeito{
 
 	public void setResultadoFulltest(ResultadoFulltest resultadoFulltest) {
 		this.resultadoFulltest = resultadoFulltest;
+	}	
+
+	public Date getDataDQTT() {
+		return dataDQTT;
+	}
+	
+	public String dataDQTTFormatada() {
+		
+		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		String dataFormatada;
+
+		if (getDataDQTT() == null) {
+			
+			dataFormatada = "";			
+			
+		}else{
+			
+			dataFormatada = formmater.format(getDataDQTT());
+			
+		}
+
+		return dataFormatada;
+		
+	}
+
+	public void setDataDQTT(Date dataDQTT) {
+		this.dataDQTT = dataDQTT;
 	}
 
 	@Override

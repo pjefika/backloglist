@@ -596,5 +596,39 @@ public class AtendimentoServico {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ComentariosDefeitos> listarComentariosDefeito(Defeito defeito) {
+		
+		try {		
+
+			Query query = this.entityManager.createQuery("FROM ComentariosDefeitos c WHERE C.defeito =:param1");
+			query.setParameter("param1", defeito);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<ComentariosDefeitos>();
+			
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ComentariosDefeitosTv> listarComentariosDefeitoTv(DefeitoTv defeito) {
+		
+		try {		
+
+			Query query = this.entityManager.createQuery("FROM ComentariosDefeitosTv c WHERE C.defeito =:param1");
+			query.setParameter("param1", defeito);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			
+			return new ArrayList<ComentariosDefeitosTv>();
+			
+		}
+		
+	}
 
 }

@@ -64,6 +64,10 @@
 				<h:outputText value="#{relatorio.ss}" />
 			</p:column>
 
+			<p:column headerText="Instancia">
+				<h:outputText value="#{relatorio.instancia}" />
+			</p:column>
+
 			<p:column headerText="Tipificação">
 				<h:outputText value="#{relatorio.tipificacao.nomeTipificacao}" />
 			</p:column>
@@ -71,31 +75,57 @@
 			<p:column headerText="Colaborador">
 				<h:outputText rendered="#{not empty relatorio.usuario.login}"
 					value="#{relatorio.usuario.login}" />
-				<h:outputText rendered="#{relatorio.status=='VENCIDOSLA'}" value="Sistema" />
+				<h:outputText rendered="#{relatorio.status=='VENCIDOSLA'}"
+					value="Sistema" />
 			</p:column>
 
 			<p:column headerText="Data de Integração">
-				<h:outputText value="#{relatorioBean.formatarData(relatorio.dataDeIntegracao)}" />
+				<h:outputText
+					value="#{relatorioBean.formatarData(relatorio.dataDeIntegracao)}" />
 			</p:column>
 
 			<p:column headerText="Data de Encerramento">
-				<h:outputText value="#{relatorioBean.formatarData(relatorio.dataEncerrado)}" />
+				<h:outputText
+					value="#{relatorioBean.formatarData(relatorio.dataEncerrado)}" />
 			</p:column>
-			
+
 			<p:column headerText="DQTT">
-				<h:outputText value="#{relatorio.encerradoDQTT}" style="text-transform: uppercase"/>
-				
-				<h:outputText rendered="#{relatorio.encerradoDQTT==true||relatorio.encerradoDQTT==false}"  />
-				<h:outputText rendered="#{relatorio.usuario.login=='backlog_sistema'}" value="SISTEMA" />
-								
+				<h:outputText value="#{relatorio.encerradoDQTT}"
+					style="text-transform: uppercase" />
+
+				<h:outputText
+					rendered="#{relatorio.encerradoDQTT==true||relatorio.encerradoDQTT==false}" />
+				<h:outputText
+					rendered="#{relatorio.usuario.login=='backlog_sistema'}"
+					value="SISTEMA" />
+
 			</p:column>
-			
+
 			<p:column headerText="Cód. Encerramento">
 				<h:outputText value="#{relatorio.motivoEncerramento.motivo}" />
 			</p:column>
 
+			<p:column headerText="Status">
+
+				<h:outputText value="#{relatorio.status.status}" />
+
+			</p:column>
+
+			<p:column headerText="Observação">
+
+				<h:outputText
+					value="#{relatorioBean.listarComentariosDefeitoTv(relatorio)}" />
+
+			</p:column>
+
+			<p:column headerText="Data DQTT">
+
+				<h:outputText value="#{relatorio.dataDQTTFormatada()}" />
+
+			</p:column>
+
 		</p:dataTable>
-				
+
 	</ui:define>
 
 </ui:composition>

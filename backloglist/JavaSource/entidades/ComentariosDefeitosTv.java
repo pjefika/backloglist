@@ -1,5 +1,6 @@
 package entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,20 +13,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name="backloglist_Comentarios_Defeitos_Tv")
 public class ComentariosDefeitosTv {
-	
+
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
+
 	@Lob
 	private String comentario;
-	
+
 	@ManyToOne
 	private DefeitoTv defeito;
-	
+
 	@ManyToOne
 	private UsuarioEfika usuario;
-	
+
 	private Date data;
 
 	public ComentariosDefeitosTv() {
@@ -68,8 +69,20 @@ public class ComentariosDefeitosTv {
 		return data;
 	}
 
+	public String dataFormatada() {
+
+		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		String dataFormatada = formmater.format(getData());
+
+		return dataFormatada;
+
+	}
+
 	public void setData(Date data) {
 		this.data = data;
-	}	
+	}
+
+
 
 }

@@ -1,5 +1,6 @@
 package entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -8,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name="backloglist_Comentarios_Defeitos")
@@ -68,6 +68,16 @@ public class ComentariosDefeitos {
 
 	public Date getData() {
 		return data;
+	}
+	
+	public String dataFormatada() {
+		
+		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		String dataFormatada = formmater.format(getData());
+
+		return dataFormatada;
+		
 	}
 
 	public void setData(Date data) {
