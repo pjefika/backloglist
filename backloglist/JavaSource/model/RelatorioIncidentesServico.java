@@ -123,7 +123,7 @@ public class RelatorioIncidentesServico {
 
 			try {
 
-				if (!ss.isEmpty() && !acao.isEmpty()){					
+				if (!ss.isEmpty() && !acao.isEmpty()){
 
 					defeito = this.buscaDefeitoEspecifico(ss);
 					
