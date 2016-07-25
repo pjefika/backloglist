@@ -29,7 +29,7 @@
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 			paginator="true" style="margin-bottom:20px" rows="10"
 			currentPageReportTemplate="[{startRecord} de {endRecord}]"
-			filteredValue="#{atendimentoBean.defeitosDisponiveisTV}">
+			filteredValue="#{atendimentoBean.defeitosDisponiveisTV}" rowsPerPageTemplate="10, 15, 20, 25">
 
 			<f:facet name="{Exporters}">
 				<h:commandLink>

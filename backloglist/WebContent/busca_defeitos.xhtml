@@ -27,9 +27,9 @@
 			rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
 			emptyMessage="Não há defeitos disponiveis"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-			paginator="true" style="margin-bottom:20px" rows="10"
+			paginator="true" style="margin-bottom:20px" rows="10" 
 			currentPageReportTemplate="[{startRecord} de {endRecord}]"
-			filteredValue="#{atendimentoBean.defeitosDisponiveis}">
+			filteredValue="#{atendimentoBean.defeitosDisponiveis}" rowsPerPageTemplate="10, 15, 20, 25">
 
 			<f:facet name="{Exporters}">
 				<h:commandLink>
