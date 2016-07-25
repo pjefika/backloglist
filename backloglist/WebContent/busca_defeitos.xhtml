@@ -20,16 +20,17 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-	
-		<p:poll interval="5" update="defeitosData" />
+
+		<p:poll interval="10" update="defeitosData" />
 
 		<p:dataTable id="defeitosData" var="def" selectionMode="single"
 			rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
 			emptyMessage="Não há defeitos disponiveis"
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 			paginator="true" style="margin-bottom:20px" rows="10"
-			currentPageReportTemplate="[{startRecord} de {endRecord}]">
-			
+			currentPageReportTemplate="[{startRecord} de {endRecord}]"
+			filteredValue="#{atendimentoBean.defeitosDisponiveis}">
+
 			<f:facet name="{Exporters}">
 				<h:commandLink>
 					<i class="fa fa-download"></i> 
@@ -42,20 +43,25 @@
 			<p:column headerText="SS">
 				<h:outputText value="#{def.ss}" />
 			</p:column>
-			
+
 			<p:column headerText="Instância">
 				<h:outputText value="#{def.instancia}" />
 			</p:column>
 
-			<p:column headerText="Tipificação" sortBy="#{def.tipificacao.nomeTipificacao}">
+			<p:column headerText="Tipificação"
+				filterBy="#{def.tipificacao.nomeTipificacao}"
+				filterMatchMode="contains">
 				<h:outputText value="#{def.tipificacao.nomeTipificacao}" />
 			</p:column>
 
-			<p:column headerText="Data integração" sortBy="#{relatorioBean.formatarData(def.dataDeIntegracao)}">
-				<h:outputText value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
+			<p:column headerText="Data integração"
+				sortBy="#{relatorioBean.formatarData(def.dataDeIntegracao)}">
+				<h:outputText
+					value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
 			</p:column>
-			
-			<p:column headerText="Fulltest rede" sortBy="#{def.resultadoFulltest.rede}">
+
+			<p:column headerText="Fulltest rede"
+				sortBy="#{def.resultadoFulltest.rede}">
 				<h:outputText value="#{def.resultadoFulltest.rede}" />
 			</p:column>
 

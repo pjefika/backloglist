@@ -31,6 +31,8 @@ public class AtendimentoBean {
 	private DefeitoTv defeitoTv;
 
 	private List<Defeito> defeitosDisponiveis;
+	
+	private List<DefeitoTv> defeitosDisponiveisTV;
 
 	private LogDefeito logDefeito;
 
@@ -367,7 +369,13 @@ public class AtendimentoBean {
 	public void setDefeitoTv(DefeitoTv defeitoTv) {
 		this.defeitoTv = defeitoTv;
 	}
-	
-	
+
+	public List<DefeitoTv> getDefeitosDisponiveisTV() {
+		return defeitosDisponiveisTV;
+	}
+
+	public void setDefeitosDisponiveisTV(List<DefeitoTv> defeitosDisponiveisTV) {
+		this.defeitosDisponiveisTV = defeitosDisponiveisTV;
+	}	
 
 }
