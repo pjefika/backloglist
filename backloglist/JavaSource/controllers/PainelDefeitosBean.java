@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,8 +29,7 @@ public class PainelDefeitosBean {
 	public List<DefeitoTv> listaDefeitosTv;	
 
 	Timer timerBuscaDefeitosAtivos = new Timer();
-	Timer timerRemoveDefeitoAntigo = new Timer();
-	Timer timerVoltaDefeitoParaFila = new Timer();
+	//Timer timerRemoveDefeitoAntigo = new Timer();
 
 	TimerTask buscaDefeitoAtivos = new TimerTask() {
 
@@ -44,7 +42,7 @@ public class PainelDefeitosBean {
 		}
 	};
 
-	TimerTask removeDefeitoAntigo = new TimerTask() {
+	/*TimerTask removeDefeitoAntigo = new TimerTask() {
 
 		@Override
 		public void run() {
@@ -52,18 +50,8 @@ public class PainelDefeitosBean {
 			removeDefeitoAntigo();
 
 		}
-	};
-
-	TimerTask voltaDefeitoParaFila = new TimerTask() {
-
-		@Override
-		public void run() {
-
-			voltaDefeito();
-
-		}
-	};
-
+	};*/
+	
 	@EJB
 	private AtendimentoServico atendimentoServico;	
 
@@ -80,11 +68,11 @@ public class PainelDefeitosBean {
 	@PostConstruct	
 	public void init() {
 
-		buscarDefeitosAtivos();
-		buscarDefeitosAtivosTv();
+		//buscarDefeitosAtivos();
+		//buscarDefeitosAtivosTv();
 
 		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 65000, 65000);
-		timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
+		//timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
 		//timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 
 	}	
@@ -102,7 +90,7 @@ public class PainelDefeitosBean {
 
 	}
 
-	public void removeDefeitoAntigo() {
+	/*public void removeDefeitoAntigo() {
 
 		List<Defeito> listaDefeitosAntigos = new ArrayList<Defeito>();
 
@@ -116,7 +104,7 @@ public class PainelDefeitosBean {
 
 		}
 
-	}
+	}*/
 
 	public void voltaDefeito() {
 

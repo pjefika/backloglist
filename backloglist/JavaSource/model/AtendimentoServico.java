@@ -38,11 +38,15 @@ public class AtendimentoServico {
 	public List<Defeito> listarDefeitosAtivos() {
 
 		try {
+			
 			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 ORDER BY D.dataDeIntegracao DESC");
-			query.setParameter("param1", TipoStatus.ABERTO);
+			query.setParameter("param1", TipoStatus.ABERTO);			
 			return query.getResultList();
+			
 		} catch (Exception e) {
+			
 			return new ArrayList<Defeito>();
+			
 		}
 
 	}
@@ -52,7 +56,7 @@ public class AtendimentoServico {
 
 		try {
 			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 ORDER BY D.dataDeIntegracao DESC");
-			query.setParameter("param1", TipoStatus.ABERTO);
+			query.setParameter("param1", TipoStatus.ABERTO);			
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<DefeitoTv>();

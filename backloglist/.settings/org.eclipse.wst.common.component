@@ -2,7 +2,7 @@
     <wb-module deploy-name="backloglist">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/JavaSource"/>
-        <property name="java-output-path" value="/backloglist/WebContent/WEB-INF/classes"/>
         <property name="context-root" value="backloglist"/>
+        <property name="java-output-path" value="/backloglist/WebContent/WEB-INF/classes"/>
     </wb-module>
 </project-modules>
