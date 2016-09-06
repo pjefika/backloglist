@@ -128,8 +128,6 @@ public class PainelDefeitosBean {
 
 			}
 			
-			this.buscarDefeitosAtivosTv();
-
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}
@@ -152,8 +150,6 @@ public class PainelDefeitosBean {
 
 			}
 			
-			this.buscarDefeitosAtivosTv();
-
 		} catch (Exception e) {
 			JSFUtil.addErrorMessage(e.getMessage());
 		}

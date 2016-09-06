@@ -125,10 +125,11 @@ public class FulltestBean {
 	public void init() {
 
 		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 1000, 1000);
-		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1200, 1200);
-		timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 1200, 1200);
-		timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 1200, 1200);
-		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 12000, 12000);
+		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1500, 1000);
+		timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 2000, 1000);
+		timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 2500, 1000);
+		
+		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 10000, 10000);
 
 	}
 
@@ -136,7 +137,9 @@ public class FulltestBean {
 
 	}
 
-	public void iniciaBean() {		
+	public void iniciaBean() {
+		
+		
 
 	}	
 
@@ -150,7 +153,7 @@ public class FulltestBean {
 
 		try {
 
-			defeitosIntegracao1 = this.atendimentoServico.consultarSSIntegracao().get(0);
+			defeitosIntegracao1 = this.atendimentoServico.consultarSSIntegracao();
 
 			this.atendimentoServico.consultarSS(defeitosIntegracao1.getSs());
 
@@ -193,7 +196,7 @@ public class FulltestBean {
 
 		try {
 
-			defeitosIntegracao2 = atendimentoServico.consultarSSIntegracao().get(0);
+			defeitosIntegracao2 = atendimentoServico.consultarSSIntegracao();
 
 			this.atendimentoServico.consultarSS(defeitosIntegracao2.getSs());
 
@@ -231,7 +234,7 @@ public class FulltestBean {
 
 		try {
 
-			defeitosIntegracao3 = atendimentoServico.consultarSSIntegracao().get(0);
+			defeitosIntegracao3 = atendimentoServico.consultarSSIntegracao();
 
 			this.atendimentoServico.consultarSS(defeitosIntegracao3.getSs());
 
@@ -269,7 +272,7 @@ public class FulltestBean {
 
 		try {
 
-			defeitosIntegracao4 = atendimentoServico.consultarSSIntegracao().get(0);
+			defeitosIntegracao4 = atendimentoServico.consultarSSIntegracao();
 
 			this.atendimentoServico.consultarSS(defeitosIntegracao4.getSs());
 

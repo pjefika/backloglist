@@ -321,15 +321,14 @@ public class AtendimentoServico {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<DefeitoIntegracao> consultarSSIntegracao() throws Exception {
+	public DefeitoIntegracao consultarSSIntegracao() throws Exception {
 
 		try {
 
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1 LIMIT 1");		
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");		
 			query.setParameter("param1", TipoStatus.ABERTO);
 			query.setMaxResults(1);
-			return (List<DefeitoIntegracao>) query.getResultList();
+			return (DefeitoIntegracao) query.getSingleResult();
 
 		} catch (Exception e) {
 
