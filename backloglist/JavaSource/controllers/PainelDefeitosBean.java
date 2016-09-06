@@ -80,7 +80,7 @@ public class PainelDefeitosBean {
 
 	public void buscarDefeitosAtivos() {
 
-		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();											
+		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();
 
 	}
 	
