@@ -39,7 +39,7 @@ public class AtendimentoServico {
 
 		try {
 			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 ORDER BY D.dataDeIntegracao DESC");
+			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 ORDER BY d.dataDeIntegracao DESC");
 			query.setParameter("param1", TipoStatus.ABERTO);			
 			return query.getResultList();
 			
@@ -55,7 +55,7 @@ public class AtendimentoServico {
 	public List<DefeitoTv> listarDefeitosAtivosTv() {
 
 		try {
-			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 ORDER BY D.dataDeIntegracao DESC");
+			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 ORDER BY d.dataDeIntegracao DESC");
 			query.setParameter("param1", TipoStatus.ABERTO);			
 			return query.getResultList();
 		} catch (Exception e) {
@@ -326,7 +326,7 @@ public class AtendimentoServico {
 
 		try {
 
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");		
+			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1 LIMIT 1");		
 			query.setParameter("param1", TipoStatus.ABERTO);
 			query.setMaxResults(1);
 			return (List<DefeitoIntegracao>) query.getResultList();

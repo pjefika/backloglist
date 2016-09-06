@@ -55,7 +55,7 @@ public class AtendimentoBean {
 	/*
 	 * Lista todos os defeitos ativos.
 	 * */
-	public List<Defeito> listarDefeitosAtivos() {
+	/*public List<Defeito> listarDefeitosAtivos() {
 
 		List<Defeito> lista = this.atendimentoServico.listarDefeitosAtivos();
 
@@ -63,7 +63,7 @@ public class AtendimentoBean {
 
 		return lista;
 
-	}
+	}*/
 
 	/*
 	 * Lista defeitos atribuidos ao colaborador.

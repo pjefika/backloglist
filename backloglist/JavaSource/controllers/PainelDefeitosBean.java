@@ -26,7 +26,7 @@ public class PainelDefeitosBean {
 
 	public List<Defeito> listaDefeitos;	
 	
-	public List<DefeitoTv> listaDefeitosTv;	
+	public List<DefeitoTv> listaDefeitosTv;
 
 	Timer timerBuscaDefeitosAtivos = new Timer();
 	//Timer timerRemoveDefeitoAntigo = new Timer();
@@ -71,7 +71,7 @@ public class PainelDefeitosBean {
 		//buscarDefeitosAtivos();
 		//buscarDefeitosAtivosTv();
 
-		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 65000, 65000);
+		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 70000, 70000);
 		//timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
 		//timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 
