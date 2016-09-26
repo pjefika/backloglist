@@ -392,20 +392,25 @@ public class ImportServicoNew {
 			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 			this.entityManager.merge(defeitosIntegracao);
 			this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
-
-
-
+			
 		}
-
-
+		
 		in.close();
 
 	}
 
 	public void trocaStatusDefeitoIntegracao(DefeitoIntegracao defeitoIntegracao) {
+		
+		try {
+			
+			defeitoIntegracao.setStatus(TipoStatus.EMTRATAMENTO);
+			this.entityManager.merge(defeitoIntegracao);
+			
+		} catch (Exception e) {
 
-		defeitoIntegracao.setStatus(TipoStatus.EMTRATAMENTO);
-		this.entityManager.merge(defeitoIntegracao);
+			
+			
+		}	
 
 	}
 

@@ -124,17 +124,19 @@ public class FulltestBean {
 	@PostConstruct
 	public void init() {
 
-		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 1000, 1000);
-		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1500, 1000);
-		timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 2000, 1000);
-		timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 2500, 1000);
+		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 1, 60000);
+		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 1, 60000);
+		timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 1, 60000);
+		timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 1, 60000);
 		
 		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 10000, 10000);
 
 	}
 
 	public FulltestBean() {
-
+		
+		
+		
 	}
 
 	public void iniciaBean() {
@@ -147,7 +149,7 @@ public class FulltestBean {
 	 * Primeira Task
 	 **/
 
-	public void consultaSS1() throws NullPointerException{
+	public void consultaSS1() {
 
 		DefeitoIntegracao defeitosIntegracao1 = new DefeitoIntegracao();
 
@@ -158,8 +160,7 @@ public class FulltestBean {
 			this.atendimentoServico.consultarSS(defeitosIntegracao1.getSs());
 
 			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao1, TipoLogIntegracao.DEFEITOEXISTENTE);
-
-		} catch (Exception e) {
+		} catch (Exception e) {			
 
 			if (!defeitosIntegracao1.getInstancia().isEmpty()) {
 
@@ -179,7 +180,7 @@ public class FulltestBean {
 
 		} catch (Exception e) {			
 
-			e.printStackTrace();
+			//e.printStackTrace();
 
 		}
 
@@ -190,7 +191,7 @@ public class FulltestBean {
 	/**
 	 * Segunda Task
 	 **/
-	public void consultaSS2() throws NullPointerException{
+	public void consultaSS2() {
 
 		DefeitoIntegracao defeitosIntegracao2 = new DefeitoIntegracao();
 
@@ -222,13 +223,13 @@ public class FulltestBean {
 
 		} catch (Exception e) {			
 
-			e.printStackTrace();
+			//e.printStackTrace();
 
 		}
 
 	}
 
-	public void consultaSS3() throws NullPointerException{
+	public void consultaSS3() {
 
 		DefeitoIntegracao defeitosIntegracao3 = new DefeitoIntegracao();
 
@@ -260,13 +261,13 @@ public class FulltestBean {
 
 		} catch (Exception e) {			
 
-			e.printStackTrace();
+			//e.printStackTrace();
 
 		}
 
 	}	
 	
-	public void consultaSS4() throws NullPointerException{
+	public void consultaSS4() {
 
 		DefeitoIntegracao defeitosIntegracao4 = new DefeitoIntegracao();
 
@@ -298,15 +299,23 @@ public class FulltestBean {
 
 		} catch (Exception e) {			
 
-			e.printStackTrace();
+			//e.printStackTrace();
 
 		}
 
 	}	
 
 	public void excluirDefeitoParado() {
+		
+		try {
+			
+			this.importServicoNew.removeDefeitosParados(this.importServicoNew.listaDefeitosParados());
+			
+		} catch (Exception e) {
 
-		this.importServicoNew.removeDefeitosParados(this.importServicoNew.listaDefeitosParados());
+			
+			
+		}	
 
 	}
 

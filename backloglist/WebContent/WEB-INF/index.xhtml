@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/recursos/template/template.xhtml">
+
+	<ui:define name="tituloPagina">
+		 Início
+	</ui:define>
+	<ui:define name="tituloPrincipal">
+		<i class="fa fa-home"> </i> Início</ui:define>
+	<ui:define name="tituloSecundario"></ui:define>
+
+	<ui:define name="botoesAcao"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:metadata>
+			<f:event listener="#{fulltestBean.iniciaBean()}" type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="formInicio">
+			<p:panel id="panelInicio" header="Início"
+				style="margin-bottom:20px">
+				<p:outputPanel rendered="#{!loginBean.logado}">
+					<h:panelGrid columns="3">
+						<label for="login">Login: </label>
+						<p:inputText id="login" value="#{loginBean.usuario.login}" />
+						<p:message for="login" />
+
+						<label for="senha">Senha: </label>
+						<p:password id="senha" value="#{loginBean.senha}" />
+						<p:message for="senha" />
+
+						<p:commandButton value="Entrar" action="#{loginBean.logar()}"
+							update="@all" />
+
+					</h:panelGrid>
+				</p:outputPanel>
+				<p:outputPanel rendered="#{loginBean.logado}">
+					<p:commandButton value="Sair" action="#{loginBean.deslogar()}"
+						update="@all" />
+				</p:outputPanel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

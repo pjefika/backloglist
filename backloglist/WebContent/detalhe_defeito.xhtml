@@ -23,6 +23,9 @@
 			<f:event
 				listener="#{atendimentoBean.consultarDefeitoOperadorPorSS()}"
 				type="preRenderView" />
+				
+			<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+			
 		</f:metadata>
 		<h:form>
 			<p:panel id="basic" header="Detalhes" style="margin-bottom:20px;"
@@ -66,7 +69,8 @@
 						<h:outputText
 							value="#{relatorioBean.formatarData(atendimentoBean.defeito.dataDeIntegracao)}" />
 						<p:outputLabel value="Fulltest rede " />
-						<h:outputText value="#{atendimentoBean.defeito.resultadoFulltest.rede}" />
+						<h:outputText
+							value="#{atendimentoBean.defeito.resultadoFulltest.rede}" />
 
 
 					</p:panelGrid>
