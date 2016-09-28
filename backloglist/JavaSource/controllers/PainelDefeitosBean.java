@@ -125,6 +125,8 @@ public class PainelDefeitosBean {
 			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
 				this.listaDefeitos.remove(defeito);
+				
+				this.buscarDefeitosAtivos();
 
 			}
 			
@@ -147,6 +149,8 @@ public class PainelDefeitosBean {
 			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
 				this.listaDefeitos.remove(defeito);
+				
+				this.buscarDefeitosAtivos();
 
 			}
 			
