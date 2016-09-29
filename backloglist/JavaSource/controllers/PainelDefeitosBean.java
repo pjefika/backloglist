@@ -150,7 +150,7 @@ public class PainelDefeitosBean {
 
 				this.listaDefeitos.remove(defeito);
 				
-				this.buscarDefeitosAtivos();
+				this.buscarDefeitosAtivosTv();
 
 			}
 			
