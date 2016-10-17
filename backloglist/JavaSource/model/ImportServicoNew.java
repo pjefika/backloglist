@@ -27,7 +27,6 @@ import entidades.DefeitoTv;
 import entidades.LogIntegracao;
 import entidades.Lote;
 import entidades.LoteTv;
-import entidades.ResultadoFulltest;
 import entidades.Tipificacao;
 import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
@@ -355,10 +354,10 @@ public class ImportServicoNew {
 			if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
 
 				Defeito defeito = new Defeito();
-				ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
+				//ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
 
-				resultadoFulltest.setId(defeitosIntegracao.getSs());
-				resultadoFulltest.setRede(rede);
+				//resultadoFulltest.setId(defeitosIntegracao.getSs());
+				//resultadoFulltest.setRede(rede);
 
 				Date dataIntegracao = new Date();
 
@@ -371,11 +370,11 @@ public class ImportServicoNew {
 				defeito.setDataDeIntegracao(dataIntegracao);
 				defeito.setStatus(TipoStatus.ABERTO);
 				defeito.setEncerradoAdm(false);
-				defeito.setResultadoFulltest(resultadoFulltest);
+				defeito.setResultadoFulltest(rede);
 
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 
-				this.entityManager.persist(resultadoFulltest);
+				//this.entityManager.persist(resultadoFulltest);
 				this.entityManager.merge(defeitosIntegracao);
 				this.entityManager.persist(defeito);
 				//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);

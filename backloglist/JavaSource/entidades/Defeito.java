@@ -58,8 +58,7 @@ public class Defeito{
 	
 	private Boolean encerradoDQTT;
 	
-	@ManyToOne
-	private ResultadoFulltest resultadoFulltest;
+	private String resultadoFulltest;
 	
 	private Date dataDQTT;
 	
@@ -183,14 +182,13 @@ public class Defeito{
 		this.encerradoDQTT = encerradoDQTT;
 	}	
 
-	public ResultadoFulltest getResultadoFulltest() {
+	public String getResultadoFulltest() {
 		return resultadoFulltest;
 	}
 
-
-	public void setResultadoFulltest(ResultadoFulltest resultadoFulltest) {
+	public void setResultadoFulltest(String resultadoFulltest) {
 		this.resultadoFulltest = resultadoFulltest;
-	}	
+	}
 
 	public Date getDataDQTT() {
 		return dataDQTT;
