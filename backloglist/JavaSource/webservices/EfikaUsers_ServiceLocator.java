@@ -22,7 +22,7 @@ public class EfikaUsers_ServiceLocator extends org.apache.axis.client.Service im
     }
 
     // Use to get a proxy class for _8
-    private java.lang.String _8_address = "http://portalefika:80/EfikaWs/EfikaUsers";
+    private java.lang.String _8_address = "http://10.200.35.67:80/EfikaWs/EfikaUsers";
 
     public java.lang.String get_8Address() {
         return _8_address;
