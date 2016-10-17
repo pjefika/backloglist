@@ -357,6 +357,7 @@ public class ImportServicoNew {
 				Defeito defeito = new Defeito();
 				ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
 
+				resultadoFulltest.setId(defeitosIntegracao.getSs());
 				resultadoFulltest.setRede(rede);
 
 				Date dataIntegracao = new Date();
@@ -377,13 +378,13 @@ public class ImportServicoNew {
 				this.entityManager.persist(resultadoFulltest);
 				this.entityManager.merge(defeitosIntegracao);
 				this.entityManager.persist(defeito);
-				salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
+				//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
 
 			}else{			
 
 				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 				this.entityManager.merge(defeitosIntegracao);
-				this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);				
+				//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);				
 
 			}
 
@@ -391,7 +392,7 @@ public class ImportServicoNew {
 
 			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 			this.entityManager.merge(defeitosIntegracao);
-			this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
+			//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
 			
 		}
 		

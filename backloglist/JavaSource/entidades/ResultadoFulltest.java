@@ -1,7 +1,6 @@
 package entidades;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,9 +8,8 @@ import javax.persistence.Table;
 @Table(name="backloglist_ResultadoFulltest_Defeito")
 public class ResultadoFulltest {
 	
-	@Id
-	@GeneratedValue
-	private Integer id;
+	@Id	
+	private String id;
 	
 	private String rede;
 	
@@ -19,14 +17,14 @@ public class ResultadoFulltest {
 		
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-
-	public void setId(Integer id) {
+	
+	public void setId(String id) {
 		this.id = id;
 	}
-
+	
 	public String getRede() {
 		return rede;
 	}

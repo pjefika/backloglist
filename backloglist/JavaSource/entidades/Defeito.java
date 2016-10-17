@@ -62,11 +62,10 @@ public class Defeito{
 	private ResultadoFulltest resultadoFulltest;
 	
 	private Date dataDQTT;
-
+	
 	public Defeito() {
 
 	}
-
 
 	public String getSs() {
 		return ss;
