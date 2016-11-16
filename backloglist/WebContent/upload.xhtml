@@ -62,16 +62,6 @@
 					<h:outputText
 						value="#{relatorioBean.listarDefeitoIntegracaoPorLote(lotes.nome, 'ENCERRADO')}" />
 				</p:column>
-
-				<p:column headerText="Integrados" style="text-align: center;">
-					<h:outputText
-						value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'INTEGRADO')}" />
-				</p:column>
-
-				<p:column headerText="Negativo Fulltest" style="text-align: center;">
-					<h:outputText
-						value="#{relatorioBean.listarLogsDefeitosIntegrados(lotes.nome, 'NEGATIVAFULLTEST')}" />
-				</p:column>
 				
 				<p:column headerText="Ação" style="text-align: center;">
 					<p:commandLink action="#{importBean.pararLote(lotes)}" rendered="#{lotes.status!='PARADO'}">
