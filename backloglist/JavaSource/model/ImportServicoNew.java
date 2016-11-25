@@ -36,448 +36,435 @@ import util.JSFUtil;
 @Stateless
 public class ImportServicoNew {
 
-	@PersistenceContext(unitName="vu")  
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	@EJB
-	private AtendimentoServico atendimentoServico;
+    @EJB
+    private AtendimentoServico atendimentoServico;
 
-	public ImportServicoNew() {
+    public ImportServicoNew() {
 
-	}
+    }
 
-	public void salvaLote(UploadedFile file, UsuarioEfika usuarioEfika) throws Exception{
-		try {
+    public void salvaLote(UploadedFile file, UsuarioEfika usuarioEfika) throws Exception {
+        try {
 
-			byte[] conteudo = file.getContents();
+            byte[] conteudo = file.getContents();
 
-			//String nome = JSFUtil.gerarStringAleatoria(10);
+            //String nome = JSFUtil.gerarStringAleatoria(10);
+            Date date = new Date();
 
-			Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss");
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss");						
+            String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
 
-			String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
+            String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
 
-			String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+            FileOutputStream fos = new FileOutputStream(fullname);
 
-			FileOutputStream fos = new FileOutputStream(fullname);
+            fos.write(conteudo);
+            fos.close();
 
-			fos.write(conteudo);
-			fos.close();
+            this.importCSV(nome);
 
-			this.importCSV(nome);
+        } catch (ParseException e) {
 
-		} catch (ParseException e) {
+            JSFUtil.addErrorMessage(e.getMessage());
 
-			JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-		}
+    }
 
-	}
-	
-	public void salvaLoteTv(UploadedFile file, UsuarioEfika usuarioEfika) throws Exception{
-		
-		try {
-			
-			byte[] conteudo = file.getContents();
+    public void salvaLoteTv(UploadedFile file, UsuarioEfika usuarioEfika) throws Exception {
 
-			//String nome = JSFUtil.gerarStringAleatoria(10);
+        try {
 
-			Date date = new Date();
+            byte[] conteudo = file.getContents();
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss");						
+            //String nome = JSFUtil.gerarStringAleatoria(10);
+            Date date = new Date();
 
-			String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss");
 
-			String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+            String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
 
-			FileOutputStream fos = new FileOutputStream(fullname);
+            String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
 
-			fos.write(conteudo);
-			fos.close();
+            FileOutputStream fos = new FileOutputStream(fullname);
 
-			importCSVTv(nome);
-			
-		} catch (ParseException e) {
-			
-			JSFUtil.addErrorMessage(e.getMessage());
-			
-		}		
-		
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public void importCSVTv(String nomeArquivo) throws Exception {
-		
-		
-		String[] row = null;
-		String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+            fos.write(conteudo);
+            fos.close();
 
-		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
-		List content = csvReader.readAll();
+            this.importCSVTv(nome);
 
-		LoteTv lote = new LoteTv();
+        } catch (ParseException e) {
 
-		Date date = new Date();
+            JSFUtil.addErrorMessage(e.getMessage());
 
-		lote.setNome(nomeArquivo);
-		lote.setHoraIntegrado(date);
-		lote.setStatus(TipoStatus.ATIVO);
-		
-		Integer qntdeIntegrado = 0;
-				
-		for (Object object : content) {
-			
-			DefeitoTv defeitoTv = new DefeitoTv();			
-			Tipificacao tipificacao = new Tipificacao();
-			
-			row = (String[]) object;
-			
-			if (!row[0].isEmpty() && row[0].contains("8-")) {
-				
-				try {
-					
-					String ss = row[0];
+        }
 
-					this.atendimentoServico.consultarSSeDefeitoTv(ss);					
-					
-				} catch (Exception e) {
-					
-					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    }
 
-					Date dataAbertura;
-					Date dataVencimento;
-					
-					if (row[3].isEmpty()) {
+    @SuppressWarnings("rawtypes")
+    public void importCSVTv(String nomeArquivo) throws Exception {
 
-						dataAbertura = new Date();
-						dataVencimento = new Date();
+        String[] row = null;
+        String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
 
-					}else{
+        CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
+        List content = csvReader.readAll();
 
-						dataAbertura = formatter.parse(row[3]);			
-						dataVencimento = formatter.parse(row[4]);
+        LoteTv lote = new LoteTv();
 
-					}
-					
-					Date dataIntegracao = new Date();
-					
-					defeitoTv.setSs(row[0]);
-					defeitoTv.setInstancia(row[2]);
-					tipificacao = this.acaoTipificacao(row[1].trim());
-					defeitoTv.setTipificacao(tipificacao);
-					defeitoTv.setDataDeIntegracao(dataIntegracao);
-					defeitoTv.setDataAbertura(dataAbertura);
-					defeitoTv.setDataVencimento(dataVencimento);
-					defeitoTv.setStatus(TipoStatus.ABERTO);
+        Date date = new Date();
 
-					this.entityManager.persist(defeitoTv);
-					
-					qntdeIntegrado++;
-					
-				}
-				
-			}
-			
-		}
-		
-		lote.setQntdeIntegrado(qntdeIntegrado);
-		
-		this.entityManager.persist(lote);
-		
-		
-		csvReader.close();
-	}
+        lote.setNome(nomeArquivo);
+        lote.setHoraIntegrado(date);
+        lote.setStatus(TipoStatus.ATIVO);
 
-	@SuppressWarnings("rawtypes")
-	public void importCSV(String nomeArquivo) throws Exception {
+        Integer qntdeIntegrado = 0;
 
-		String[] row = null;
-		String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+        for (Object object : content) {
 
-		CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
-		List content = csvReader.readAll();
+            DefeitoTv defeitoTv = new DefeitoTv();
+            Tipificacao tipificacao = new Tipificacao();
 
-		Lote lote = new Lote();
+            row = (String[]) object;
 
-		Date date = new Date();
+            if (!row[0].isEmpty() && row[0].contains("8-")) {
 
-		lote.setNome(nomeArquivo);
-		lote.setHoraIntegrado(date);
-		lote.setStatus(TipoStatus.ATIVO);
+                try {
 
-		this.entityManager.persist(lote);
+                    String ss = row[0];
 
-		for (Object object : content) {
+                    this.atendimentoServico.consultarSSeDefeitoTv(ss);
 
-			DefeitoIntegracao defeito = new DefeitoIntegracao();
-			Tipificacao tipificacao = new Tipificacao();
+                } catch (Exception e) {
 
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-			row = (String[]) object;
+                    Date dataAbertura = new Date();
+                    Date dataVencimento = new Date();
 
-			if (!row[0].isEmpty() && row[0].contains("8-")) {
+                    if (!row[3].isEmpty()) {
 
-				try {
+                        dataAbertura = formatter.parse(row[3]);
 
-					String ss = row[0];
+                    }
+                    
+                    if (!row[4].isEmpty()) {
 
-					this.atendimentoServico.consultarSSIntegracaoEspecifico(ss);
+                        dataVencimento = formatter.parse(row[4]);
 
-				} catch (Exception e) {
+                    }
+                    
+                    Date dataIntegracao = new Date();
 
-					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    defeitoTv.setSs(row[0]);
+                    defeitoTv.setInstancia(row[2]);
+                    tipificacao = this.acaoTipificacao(row[1].trim());
+                    defeitoTv.setTipificacao(tipificacao);
+                    defeitoTv.setDataDeIntegracao(dataIntegracao);
+                    defeitoTv.setDataAbertura(dataAbertura);
+                    defeitoTv.setDataVencimento(dataVencimento);
+                    defeitoTv.setStatus(TipoStatus.ABERTO);
 
-					Date dataAbertura;
-					Date dataVencimento;
+                    this.entityManager.persist(defeitoTv);
 
-					if (row[3].isEmpty()) {
+                    qntdeIntegrado++;
 
-						dataAbertura = new Date();
-						dataVencimento = new Date();
+                }
 
-					}else{
+            }
 
-						dataAbertura = formatter.parse(row[3]);			
-						dataVencimento = formatter.parse(row[4]);
+        }
 
-					}
+        lote.setQntdeIntegrado(qntdeIntegrado);
 
-					defeito.setSs(row[0]);
-					defeito.setInstancia(row[2]);
-					tipificacao = this.acaoTipificacao(row[1].trim());
-					defeito.setTipificacao(tipificacao);
-					defeito.setDataAbertura(dataAbertura);
-					defeito.setDataVencimento(dataVencimento);
-					defeito.setStatus(TipoStatus.ABERTO);
-					defeito.setLote(lote);
+        this.entityManager.persist(lote);
 
-					this.entityManager.persist(defeito);
+        csvReader.close();
+    }
 
-					/*listaDefeitoIntegracao.add(defeito);
+    @SuppressWarnings("rawtypes")
+    public void importCSV(String nomeArquivo) throws Exception {
+
+        String[] row = null;
+        String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+
+        CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
+        List content = csvReader.readAll();
+
+        Lote lote = new Lote();
+
+        Date date = new Date();
+
+        lote.setNome(nomeArquivo);
+        lote.setHoraIntegrado(date);
+        lote.setStatus(TipoStatus.ATIVO);
+
+        this.entityManager.persist(lote);
+
+        for (Object object : content) {
+
+            DefeitoIntegracao defeito = new DefeitoIntegracao();
+            Tipificacao tipificacao = new Tipificacao();
+
+            row = (String[]) object;
+
+            if (!row[0].isEmpty() && row[0].contains("8-")) {
+
+                try {
+
+                    String ss = row[0];
+
+                    this.atendimentoServico.consultarSSIntegracaoEspecifico(ss);
+
+                } catch (Exception e) {
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+                    Date dataAbertura;
+                    Date dataVencimento;
+
+                    if (row[3].isEmpty()) {
+
+                        dataAbertura = new Date();
+                        dataVencimento = new Date();
+
+                    } else {
+
+                        dataAbertura = formatter.parse(row[3]);
+                        dataVencimento = formatter.parse(row[4]);
+
+                    }
+
+                    defeito.setSs(row[0]);
+                    defeito.setInstancia(row[2]);
+                    tipificacao = this.acaoTipificacao(row[1].trim());
+                    defeito.setTipificacao(tipificacao);
+                    defeito.setDataAbertura(dataAbertura);
+                    defeito.setDataVencimento(dataVencimento);
+                    defeito.setStatus(TipoStatus.ABERTO);
+                    defeito.setLote(lote);
+
+                    this.entityManager.persist(defeito);
+
+                    /*listaDefeitoIntegracao.add(defeito);
 
 					this.salvaDefeitosIntegracao(listaDefeitoIntegracao);*/
+                }
 
-				}
+            } else {
 
-			}else{
+            }
 
+        }
 
+        csvReader.close();
+    }
 
-			}
+    public void salvaDefeitosIntegracao(List<DefeitoIntegracao> defeitos) {
 
-		}
+        for (DefeitoIntegracao defeitoIntegracao : defeitos) {
 
+            this.entityManager.persist(defeitoIntegracao);
 
+        }
 
-		csvReader.close();
-	}
+    }
 
-	public void salvaDefeitosIntegracao(List<DefeitoIntegracao> defeitos) {
+    public Tipificacao acaoTipificacao(String nomeTipificacao) {
 
-		for (DefeitoIntegracao defeitoIntegracao : defeitos) {
+        Query query = this.entityManager.createQuery("FROM Tipificacao t WHERE t.nomeTipificacao =:param1");
+        query.setParameter("param1", nomeTipificacao);
 
-			this.entityManager.persist(defeitoIntegracao);
+        Tipificacao tipificacao = new Tipificacao();
 
-		}
+        try {
 
-	}
+            tipificacao = (Tipificacao) query.getSingleResult();
 
-	public Tipificacao acaoTipificacao(String nomeTipificacao) {
+        } catch (Exception e) {
 
-		Query query = this.entityManager.createQuery("FROM Tipificacao t WHERE t.nomeTipificacao =:param1");
-		query.setParameter("param1", nomeTipificacao);
+            tipificacao.setNomeTipificacao(nomeTipificacao);
+            this.entityManager.persist(tipificacao);
 
-		Tipificacao tipificacao = new Tipificacao();	
+        }
 
-		try {
+        return tipificacao;
 
-			tipificacao = (Tipificacao) query.getSingleResult();
+    }
 
-		} catch (Exception e) {
+    public void salvaLogIntegracao(DefeitoIntegracao defeitosIntegracao, TipoLogIntegracao tipoLogIntegracao) {
 
-			tipificacao.setNomeTipificacao(nomeTipificacao);			
-			this.entityManager.persist(tipificacao);		
+        LogIntegracao logIntegracao = new LogIntegracao();
+        Date data = new Date();
 
-		}
+        logIntegracao.setDefeitoIntegracao(defeitosIntegracao);
+        logIntegracao.setHoraAcao(data);
+        logIntegracao.setTipoLogIntegracao(tipoLogIntegracao);
 
-		return tipificacao;		
+        this.entityManager.persist(logIntegracao);
 
-	}
+    }
 
-	public void salvaLogIntegracao(DefeitoIntegracao defeitosIntegracao, TipoLogIntegracao tipoLogIntegracao) {
+    public void fulltest(DefeitoIntegracao defeitosIntegracao) throws Exception {
 
-		LogIntegracao logIntegracao = new LogIntegracao();
-		Date data = new Date();
+        URL link;
 
-		logIntegracao.setDefeitoIntegracao(defeitosIntegracao);
-		logIntegracao.setHoraAcao(data);
-		logIntegracao.setTipoLogIntegracao(tipoLogIntegracao);
+        link = new URL("http://efika/novosite/modulos/backloglist/services/loadInstanciaBackloglist.php?instancia=" + defeitosIntegracao.getInstancia());
 
-		this.entityManager.persist(logIntegracao);
+        BufferedReader in = new BufferedReader(new InputStreamReader(link.openStream()));
 
-	}
+        String inputLine;
+        ArrayList<String> resultado = new ArrayList<String>();
 
-	public void fulltest(DefeitoIntegracao defeitosIntegracao) throws Exception {		
+        while ((inputLine = in.readLine()) != null) {
+            resultado.add(inputLine.trim());
+        }
 
-		URL link;
+        try {
+            String cadastroInicio = "<cadastro>";
+            String cadastroFim = "</cadastro>";
+            String cadastro = resultado.get(4).substring(resultado.get(4).lastIndexOf(cadastroInicio) + cadastroInicio.length(), resultado.get(4).lastIndexOf(cadastroFim));
 
-		link = new URL("http://efika/novosite/modulos/backloglist/services/loadInstanciaBackloglist.php?instancia=" + defeitosIntegracao.getInstancia());
+            String sincronismoInicio = "<sincronismo>";
+            String sincronismoFim = "</sincronismo>";
+            String sincronismo = resultado.get(5).substring(resultado.get(5).lastIndexOf(sincronismoInicio) + sincronismoInicio.length(), resultado.get(5).lastIndexOf(sincronismoFim));
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(link.openStream()));
+            String parametrosInicio = "<parametros>";
+            String parametrosFim = "</parametros>";
+            String parametros = resultado.get(6).substring(resultado.get(6).lastIndexOf(parametrosInicio) + parametrosInicio.length(), resultado.get(6).lastIndexOf(parametrosFim));
 
-		String inputLine;
-		ArrayList<String> resultado = new ArrayList<String>();
+            String redeInicio = "<rede>";
+            String redeFim = "</rede>";
+            String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
 
-		while((inputLine = in.readLine()) != null) {
-			resultado.add(inputLine.trim());
-		}
+            if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")) {
 
-		try {
-			String cadastroInicio = "<cadastro>";
-			String cadastroFim = "</cadastro>";		
-			String cadastro = resultado.get(4).substring(resultado.get(4).lastIndexOf(cadastroInicio) + cadastroInicio.length(), resultado.get(4).lastIndexOf(cadastroFim));
+                Defeito defeito = new Defeito();
+                //ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
 
-			String sincronismoInicio = "<sincronismo>";
-			String sincronismoFim = "</sincronismo>";	
-			String sincronismo = resultado.get(5).substring(resultado.get(5).lastIndexOf(sincronismoInicio) + sincronismoInicio.length(), resultado.get(5).lastIndexOf(sincronismoFim));	
+                //resultadoFulltest.setId(defeitosIntegracao.getSs());
+                //resultadoFulltest.setRede(rede);
+                Date dataIntegracao = new Date();
 
-			String parametrosInicio = "<parametros>";
-			String parametrosFim = "</parametros>";	
-			String parametros = resultado.get(6).substring(resultado.get(6).lastIndexOf(parametrosInicio) + parametrosInicio.length(), resultado.get(6).lastIndexOf(parametrosFim));
+                defeito.setSs(defeitosIntegracao.getSs());
+                defeito.setTipificacao(defeitosIntegracao.getTipificacao());
+                defeito.setInstancia(defeitosIntegracao.getInstancia());
+                defeito.setDataAbertura(defeitosIntegracao.getDataAbertura());
+                defeito.setDataVencimento(defeitosIntegracao.getDataVencimento());
 
-			String redeInicio = "<rede>";
-			String redeFim = "</rede>";
-			String rede = resultado.get(7).substring(resultado.get(7).lastIndexOf(redeInicio) + redeInicio.length(), resultado.get(7).lastIndexOf(redeFim));
+                defeito.setDataDeIntegracao(dataIntegracao);
+                defeito.setStatus(TipoStatus.ABERTO);
+                defeito.setEncerradoAdm(false);
+                defeito.setResultadoFulltest(rede);
 
-			if (cadastro.equalsIgnoreCase("OK") && sincronismo.equalsIgnoreCase("OK") && parametros.equalsIgnoreCase("OK") && !rede.equalsIgnoreCase("NOK")){
+                defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
 
-				Defeito defeito = new Defeito();
-				//ResultadoFulltest resultadoFulltest = new ResultadoFulltest();
+                //this.entityManager.persist(resultadoFulltest);
+                this.entityManager.merge(defeitosIntegracao);
+                this.entityManager.persist(defeito);
+                //this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
 
-				//resultadoFulltest.setId(defeitosIntegracao.getSs());
-				//resultadoFulltest.setRede(rede);
+            } else {
 
-				Date dataIntegracao = new Date();
+                defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
+                this.entityManager.merge(defeitosIntegracao);
+                //this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);				
 
-				defeito.setSs(defeitosIntegracao.getSs());
-				defeito.setTipificacao(defeitosIntegracao.getTipificacao());
-				defeito.setInstancia(defeitosIntegracao.getInstancia());
-				defeito.setDataAbertura(defeitosIntegracao.getDataAbertura());
-				defeito.setDataVencimento(defeitosIntegracao.getDataVencimento());
+            }
 
-				defeito.setDataDeIntegracao(dataIntegracao);
-				defeito.setStatus(TipoStatus.ABERTO);
-				defeito.setEncerradoAdm(false);
-				defeito.setResultadoFulltest(rede);
+        } catch (Exception e) {
 
-				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
+            defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
+            this.entityManager.merge(defeitosIntegracao);
+            //this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
 
-				//this.entityManager.persist(resultadoFulltest);
-				this.entityManager.merge(defeitosIntegracao);
-				this.entityManager.persist(defeito);
-				//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.INTEGRADO);
+        }
 
-			}else{			
+        in.close();
 
-				defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
-				this.entityManager.merge(defeitosIntegracao);
-				//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);				
+    }
 
-			}
+    public void trocaStatusDefeitoIntegracao(DefeitoIntegracao defeitoIntegracao) {
 
-		} catch (Exception e) {
+        try {
 
-			defeitosIntegracao.setStatus(TipoStatus.ENCERRADO);
-			this.entityManager.merge(defeitosIntegracao);
-			//this.salvaLogIntegracao(defeitosIntegracao, TipoLogIntegracao.NEGATIVAFULLTEST);
-			
-		}
-		
-		in.close();
+            defeitoIntegracao.setStatus(TipoStatus.EMTRATAMENTO);
+            this.entityManager.merge(defeitoIntegracao);
 
-	}
+        } catch (Exception e) {
 
-	public void trocaStatusDefeitoIntegracao(DefeitoIntegracao defeitoIntegracao) {
-		
-		try {
-			
-			defeitoIntegracao.setStatus(TipoStatus.EMTRATAMENTO);
-			this.entityManager.merge(defeitoIntegracao);
-			
-		} catch (Exception e) {
+        }
 
-			
-			
-		}	
+    }
 
-	}
+    @SuppressWarnings("unchecked")
+    public List<DefeitoIntegracao> listaLoteEspecifico(Lote lote) {
 
-	@SuppressWarnings("unchecked")
-	public List<DefeitoIntegracao> listaLoteEspecifico(Lote lote) {
+        try {
 
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote =:param1 AND d.status =:param2");
-			query.setParameter("param1", lote);
-			query.setParameter("param2", TipoStatus.ABERTO);
-			return query.getResultList();
-			
-		} catch (Exception e) {
-			
-			return new ArrayList<DefeitoIntegracao>();
-			
-		}
+            Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote =:param1 AND d.status =:param2");
+            query.setParameter("param1", lote);
+            query.setParameter("param2", TipoStatus.ABERTO);
+            return query.getResultList();
 
-	}
-	
-	public void pararLote(List<DefeitoIntegracao> listaDefeitos) {
-		
-		for (DefeitoIntegracao defeitoIntegracao : listaDefeitos) {			
-			
-			defeitoIntegracao.setStatus(TipoStatus.PARADO);		
-			
-			this.entityManager.merge(defeitoIntegracao);			
-			
-		}
-		
-		Lote lote = new Lote();
-		
-		lote = listaDefeitos.get(0).getLote();
-		
-		lote.setStatus(TipoStatus.PARADO);
-		
-		this.entityManager.merge(lote);
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoIntegracao> listaDefeitosParados() {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");
-			query.setParameter("param1", TipoStatus.PARADO);
-			
-			return query.getResultList();
-			
-		} catch (Exception e) {
-			
-			return new ArrayList<DefeitoIntegracao>();
-			
-		}	
-		
-	}
-			
-	public void removeDefeitosParados(List<DefeitoIntegracao> listaDefeito) {
-		
-		for (DefeitoIntegracao defeitoIntegracao : listaDefeito) {
-			
-			this.entityManager.remove(this.entityManager.merge(defeitoIntegracao));
-			
-		}		
-		
-	}
+        } catch (Exception e) {
+
+            return new ArrayList<DefeitoIntegracao>();
+
+        }
+
+    }
+
+    public void pararLote(List<DefeitoIntegracao> listaDefeitos) {
+
+        for (DefeitoIntegracao defeitoIntegracao : listaDefeitos) {
+
+            defeitoIntegracao.setStatus(TipoStatus.PARADO);
+
+            this.entityManager.merge(defeitoIntegracao);
+
+        }
+
+        Lote lote = new Lote();
+
+        lote = listaDefeitos.get(0).getLote();
+
+        lote.setStatus(TipoStatus.PARADO);
+
+        this.entityManager.merge(lote);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<DefeitoIntegracao> listaDefeitosParados() {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.status =:param1");
+            query.setParameter("param1", TipoStatus.PARADO);
+
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<DefeitoIntegracao>();
+
+        }
+
+    }
+
+    public void removeDefeitosParados(List<DefeitoIntegracao> listaDefeito) {
+
+        for (DefeitoIntegracao defeitoIntegracao : listaDefeito) {
+
+            this.entityManager.remove(this.entityManager.merge(defeitoIntegracao));
+
+        }
+
+    }
 
 }
