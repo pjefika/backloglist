@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class MotivoEncerramento{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 
 	@NotEmpty

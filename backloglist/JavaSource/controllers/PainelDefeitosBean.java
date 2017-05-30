@@ -58,8 +58,8 @@ public class PainelDefeitosBean {
 	@EJB
 	private RotinasServicos rotinasServicos;
 
-	@EJB
-	private ImportServicoNew importServicoNew;
+//	@EJB
+//	private ImportServicoNew importServicoNew;
 
 	public PainelDefeitosBean() {
 
@@ -71,7 +71,7 @@ public class PainelDefeitosBean {
 		//buscarDefeitosAtivos();
 		//buscarDefeitosAtivosTv();
 
-		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 70000, 70000);
+		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 1000, 1000);
 		//timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
 		//timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 

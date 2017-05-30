@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class ComentariosDefeitosTv {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 
 	@Lob

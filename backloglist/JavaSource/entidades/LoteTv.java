@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class LoteTv {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 	
 	private String nome;

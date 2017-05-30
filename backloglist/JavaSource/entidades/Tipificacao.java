@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class Tipificacao {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 	
 	private String nomeTipificacao;

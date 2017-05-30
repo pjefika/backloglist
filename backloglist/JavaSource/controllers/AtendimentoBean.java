@@ -15,6 +15,7 @@ import entidades.DefeitoTv;
 import entidades.LogDefeito;
 import entidades.MotivoEncerramento;
 import entidades.TipoStatus;
+import entidades.UsuarioEfika;
 import model.AtendimentoServico;
 import model.LogDefeitoServico;
 import util.JSFUtil;
@@ -99,7 +100,8 @@ public class AtendimentoBean {
 	public void assumirDefeitoTv(DefeitoTv defeito){
 
 		try {
-			this.sessao.setUsuario(this.atendimentoServico.assumirDefeitoTv(defeito, sessao.getUsuario()));
+                        UsuarioEfika u = this.atendimentoServico.assumirDefeitoTv(defeito, sessao.getUsuario());
+			this.sessao.setUsuario(u);
 			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
 			this.redirecionaDetalhesDefeitoTv(defeito);
 

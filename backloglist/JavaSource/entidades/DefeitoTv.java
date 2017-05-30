@@ -23,7 +23,7 @@ public class DefeitoTv {
 
 	@Id
 	@NotEmpty
-	@Length(min=8, max=10, message="Padr„o: 8-AAAAAA")
+	@Length(min=8, max=10, message="Padr√£o: 8-AAAAAA")
 	private String ss;
 
 	@ManyToOne

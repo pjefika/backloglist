@@ -17,7 +17,7 @@ public class ComentariosDefeitos {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;
 	
 	@Lob

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class LogIntegracao {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer id;	
 		
 	private Date horaAcao;
