@@ -5,19 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="backloglist_Log_Integracao")
-public class LogIntegracao {
-	
-	@Id
-	@GeneratedValue
-	private Integer id;	
+public class LogIntegracao extends AbstractEnit{	
 		
 	private Date horaAcao;
 		

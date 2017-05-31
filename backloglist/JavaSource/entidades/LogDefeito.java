@@ -5,19 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="backloglist_Log_Defeito")
-public class LogDefeito{	
-
-	@Id
-	@GeneratedValue
-	private Integer id;
+public class LogDefeito extends AbstractEnit{	
 
 	private Date horaAcao;
 
@@ -39,15 +32,6 @@ public class LogDefeito{
 		this.acao = acao;
 		this.usuario = usuario;
 		this.horaAcao = new Date();
-	}
-
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Date getHoraAcao() {

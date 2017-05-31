@@ -3,18 +3,11 @@ package entidades;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="backloglist_Lote_Integracao_Tv")
-public class LoteTv {
-	
-	@Id
-	@GeneratedValue
-	private Integer id;
+public class LoteTv extends AbstractEnit{
 	
 	private String nome;
 	
@@ -26,14 +19,6 @@ public class LoteTv {
 
 	public LoteTv() {
 		// TODO Auto-generated constructor stub
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getNome() {

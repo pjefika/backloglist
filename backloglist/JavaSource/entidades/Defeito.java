@@ -23,7 +23,7 @@ public class Defeito{
 
 	@Id
 	@NotEmpty
-	@Length(min=8, max=10, message="Padrão: 8-AAAAAA")
+	@Length(min=8, max=10, message="Padrï¿½o: 8-AAAAAA")
 	private String ss;
 	
 	@ManyToOne

@@ -31,6 +31,7 @@ import entidades.Tipificacao;
 import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
 import entidades.UsuarioEfika;
+import javax.transaction.Transactional;
 import util.JSFUtil;
 
 @Stateless
@@ -151,13 +152,13 @@ public class ImportServicoNew {
                         dataAbertura = formatter.parse(row[3]);
 
                     }
-                    
+
                     if (!row[4].isEmpty()) {
 
                         dataVencimento = formatter.parse(row[4]);
 
                     }
-                    
+
                     Date dataIntegracao = new Date();
 
                     defeitoTv.setSs(row[0]);
@@ -196,15 +197,13 @@ public class ImportServicoNew {
         List content = csvReader.readAll();
 
         Lote lote = new Lote();
-
         Date date = new Date();
 
         lote.setNome(nomeArquivo);
         lote.setHoraIntegrado(date);
         lote.setStatus(TipoStatus.ATIVO);
-
         this.entityManager.persist(lote);
-
+                
         for (Object object : content) {
 
             DefeitoIntegracao defeito = new DefeitoIntegracao();
@@ -258,9 +257,7 @@ public class ImportServicoNew {
             } else {
 
             }
-
-        }
-
+        }        
         csvReader.close();
     }
 

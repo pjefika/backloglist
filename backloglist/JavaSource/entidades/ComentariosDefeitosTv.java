@@ -4,86 +4,69 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="backloglist_Comentarios_Defeitos_Tv")
-public class ComentariosDefeitosTv {
+@Table(name = "backloglist_Comentarios_Defeitos_Tv")
+public class ComentariosDefeitosTv extends AbstractEnit {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
+    @Lob
+    private String comentario;
 
-	@Lob
-	private String comentario;
+    @ManyToOne
+    private DefeitoTv defeito;
 
-	@ManyToOne
-	private DefeitoTv defeito;
+    @ManyToOne
+    private UsuarioEfika usuario;
 
-	@ManyToOne
-	private UsuarioEfika usuario;
+    private Date data;
 
-	private Date data;
+    public ComentariosDefeitosTv() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public ComentariosDefeitosTv() {
-		// TODO Auto-generated constructor stub
-	}
+    public String getComentario() {
+        return comentario;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public DefeitoTv getDefeito() {
+        return defeito;
+    }
 
-	public String getComentario() {
-		return comentario;
-	}
+    public void setDefeito(DefeitoTv defeito) {
+        this.defeito = defeito;
+    }
 
-	public void setComentario(String comentario) {
-		this.comentario = comentario;
-	}
+    public UsuarioEfika getUsuario() {
+        return usuario;
+    }
 
-	public DefeitoTv getDefeito() {
-		return defeito;
-	}
+    public void setUsuario(UsuarioEfika usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setDefeito(DefeitoTv defeito) {
-		this.defeito = defeito;
-	}
+    public Date getData() {
+        return data;
+    }
 
-	public UsuarioEfika getUsuario() {
-		return usuario;
-	}
+    public String dataFormatada() {
 
-	public void setUsuario(UsuarioEfika usuario) {
-		this.usuario = usuario;
-	}
+        SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	public Date getData() {
-		return data;
-	}
+        String dataFormatada = formmater.format(getData());
 
-	public String dataFormatada() {
+        return dataFormatada;
 
-		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    }
 
-		String dataFormatada = formmater.format(getData());
-
-		return dataFormatada;
-
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
-
+    public void setData(Date data) {
+        this.data = data;
+    }
 
 }

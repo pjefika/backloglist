@@ -5,19 +5,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="backloglist_Log_Defeito_Tv")
-public class LogDefeitoTv {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+public class LogDefeitoTv extends AbstractEnit{
 
 	private Date horaAcao;
 
@@ -25,7 +18,7 @@ public class LogDefeitoTv {
 	private TipoLog acao;
 
 	@ManyToOne
-	private DefeitoTv defeito;	
+	private DefeitoTv defeitotv;	
 
 	@ManyToOne
 	private UsuarioEfika usuario;
@@ -38,19 +31,11 @@ public class LogDefeitoTv {
 
 	public LogDefeitoTv(DefeitoTv defeito, TipoLog acao, UsuarioEfika usuario) {
 		
-		this.defeito = defeito;
+		this.defeitotv = defeito;
 		this.acao = acao;
 		this.usuario = usuario;
 		this.horaAcao = new Date();
 		
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public Date getHoraAcao() {
@@ -70,11 +55,11 @@ public class LogDefeitoTv {
 	}
 
 	public DefeitoTv getDefeito() {
-		return defeito;
+		return defeitotv;
 	}
 
 	public void setDefeito(DefeitoTv defeito) {
-		this.defeito = defeito;
+		this.defeitotv = defeito;
 	}
 
 	public UsuarioEfika getUsuario() {
