@@ -134,23 +134,22 @@ public class AtendimentoServico {
 
     public UsuarioEfika assumirDefeitoTv(DefeitoTv defeitotv, UsuarioEfika usuario) throws Exception {
 
-        if (!this.consultarSSTv(defeitotv.getSs()).getUsuario().getLogin().isEmpty()) {
+        if (this.consultarSSTv(defeitotv.getSs()).getUsuario() != null) {
 
             throw new Exception("Defeito inexistente ou já está associado para outro usuário!");
 
-        }
-        
+        } 
         if (this.listarDefeitosTvColaborador(usuario).size() >= 5) {
-            throw new Exception("Não é permitido assumir mais de 5 (cinco) defeitos por Usuário!");
-        }
-        
-        defeitotv.setStatus(TipoStatus.EMTRATAMENTO);
-        defeitotv.setUsuario(usuario);        
-        this.entityManager.merge(defeitotv);
+                throw new Exception("Não é permitido assumir mais de 5 (cinco) defeitos por Usuário!");
+            }
 
-        LogDefeitoTv log = new LogDefeitoTv(defeitotv, TipoLog.ASSUMIR, usuario);
+            defeitotv.setStatus(TipoStatus.EMTRATAMENTO);
+            defeitotv.setUsuario(usuario);
+            this.entityManager.merge(defeitotv);
 
-        this.entityManager.persist(log);
+            LogDefeitoTv log = new LogDefeitoTv(defeitotv, TipoLog.ASSUMIR, usuario);
+
+            this.entityManager.persist(log);
 
         return usuario;
 
@@ -184,8 +183,6 @@ public class AtendimentoServico {
 //        return usuario;
 //
 //    }
-
-
     /*
 	 * Finalizar atendimento do defeito.
 	 * */

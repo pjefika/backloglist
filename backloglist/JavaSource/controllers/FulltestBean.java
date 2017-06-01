@@ -19,304 +19,288 @@ import model.ImportServicoNew;
 @Singleton
 public class FulltestBean {
 
-	Timer timerFulltestDefeitosImportados1 = new Timer();
-	Timer timerFulltestDefeitosImportados2 = new Timer();
-	Timer timerFulltestDefeitosImportados3 = new Timer();
-	Timer timerFulltestDefeitosImportados4 = new Timer();
-	Timer timerExcluiDefeitosParados = new Timer();
+    Timer timerFulltestDefeitosImportados1 = new Timer();
+    Timer timerFulltestDefeitosImportados2 = new Timer();
+    Timer timerFulltestDefeitosImportados3 = new Timer();
+    Timer timerFulltestDefeitosImportados4 = new Timer();
+    Timer timerExcluiDefeitosParados = new Timer();
 
-	TimerTask FulltestDefeitosImportados1 = new TimerTask() {
+    TimerTask FulltestDefeitosImportados1 = new TimerTask() {
 
-		@Override
-		public void run() {
+        @Override
+        public void run() {
 
-			try {
+            try {
 
-				consultaSS1();
+                consultaSS1();
 
-			} catch (NullPointerException e) {
+            } catch (NullPointerException e) {
 
-				//System.out.println(e.getMessage());
+                //System.out.println(e.getMessage());
+            }
 
-			}
+        }
+    };
 
-		}
-	};
+    TimerTask FulltestDefeitosImportados2 = new TimerTask() {
 
-	TimerTask FulltestDefeitosImportados2 = new TimerTask() {
+        @Override
+        public void run() {
 
-		@Override
-		public void run() {
+            try {
 
-			try {
+                consultaSS2();
 
-				consultaSS2();
+            } catch (NullPointerException e) {
 
-			} catch (NullPointerException e) {
+                //System.out.println(e.getMessage());
+            }
 
-				//System.out.println(e.getMessage());
+        }
+    };
 
-			}
+    TimerTask FulltestDefeitosImportados3 = new TimerTask() {
 
-		}
-	};
+        @Override
+        public void run() {
 
-	TimerTask FulltestDefeitosImportados3 = new TimerTask() {
+            try {
 
-		@Override
-		public void run() {
+                consultaSS3();
 
-			try {
+            } catch (NullPointerException e) {
 
-				consultaSS3();
+                //System.out.println(e.getMessage());
+            }
 
-			} catch (NullPointerException e) {
+        }
+    };
 
-				//System.out.println(e.getMessage());
+    TimerTask FulltestDefeitosImportados4 = new TimerTask() {
 
-			}
+        @Override
+        public void run() {
 
-		}
-	};
+            try {
 
-	TimerTask FulltestDefeitosImportados4 = new TimerTask() {
+                consultaSS4();
 
-		@Override
-		public void run() {
+            } catch (NullPointerException e) {
 
-			try {
+                //System.out.println(e.getMessage());
+            }
 
-				consultaSS4();
+        }
+    };
 
-			} catch (NullPointerException e) {
+    TimerTask ExcluiDefeitosParados = new TimerTask() {
 
-				//System.out.println(e.getMessage());
+        @Override
+        public void run() {
 
-			}
+            try {
 
-		}
-	};
+                excluirDefeitoParado();
 
-	TimerTask ExcluiDefeitosParados = new TimerTask() {
+            } catch (NullPointerException e) {
 
-		@Override
-		public void run() {
+                //System.out.println(e.getMessage());
+            }
 
-			try {
+        }
+    };
 
-				excluirDefeitoParado();
+    @EJB
+    private AtendimentoServico atendimentoServico;
 
-			} catch (NullPointerException e) {
+    @EJB
+    private ImportServicoNew importServicoNew;
 
-				//System.out.println(e.getMessage());
+    @PostConstruct
+    public void init() {
 
-			}
+        timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 57000, 60000);
+        timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 58000, 60000);
+        timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 59000, 60000);
+        timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 60000, 60000);
 
-		}
-	};
+        timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 10000, 10000);
 
-	@EJB
-	private AtendimentoServico atendimentoServico;	
+    }
 
-	@EJB
-	private ImportServicoNew importServicoNew;
+    public FulltestBean() {
 
-	@PostConstruct
-	public void init() {
+    }
 
-		timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 57000, 60000);
-		timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 58000, 60000);
-		timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 59000, 60000);
-		timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 60000, 60000);
-		
-		timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 10000, 10000);
+    public void iniciaBean() {
 
-	}
+    }
 
-	public FulltestBean() {
-		
-		
-		
-	}
+    /**
+     * Primeira Task
+	 *
+     */
+    public void consultaSS1() {
 
-	public void iniciaBean() {
-		
-		
+        DefeitoIntegracao defeitosIntegracao1 = new DefeitoIntegracao();
 
-	}	
+        try {
 
-	/**
-	 * Primeira Task
-	 **/
+            defeitosIntegracao1 = this.atendimentoServico.consultarSSIntegracao();
 
-	public void consultaSS1() {
+            this.atendimentoServico.consultarSS(defeitosIntegracao1.getSs());
 
-		DefeitoIntegracao defeitosIntegracao1 = new DefeitoIntegracao();
+            this.importServicoNew.salvaLogIntegracao(defeitosIntegracao1, TipoLogIntegracao.DEFEITOEXISTENTE);
+        } catch (Exception e) {
 
-		try {
+            if (!defeitosIntegracao1.getInstancia().isEmpty()) {
 
-			defeitosIntegracao1 = this.atendimentoServico.consultarSSIntegracao();
+                realizarFulltest1(defeitosIntegracao1);
 
-			this.atendimentoServico.consultarSS(defeitosIntegracao1.getSs());
+            }
 
-			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao1, TipoLogIntegracao.DEFEITOEXISTENTE);
-		} catch (Exception e) {			
+        }
 
-			if (!defeitosIntegracao1.getInstancia().isEmpty()) {
+    }
 
-				realizarFulltest1(defeitosIntegracao1);
+    public void realizarFulltest1(DefeitoIntegracao defeitoIntegracao) {
 
-			}
+        try {
+            this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
+            this.importServicoNew.fulltest(defeitoIntegracao);
 
-		}
+        } catch (Exception e) {
 
-	}
+            //e.printStackTrace();
+        }
 
-	public void realizarFulltest1(DefeitoIntegracao defeitoIntegracao) {
+    }
 
-		try {
-			this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
-			this.importServicoNew.fulltest(defeitoIntegracao);
+    /**
+     * Segunda Task
+	 *
+     */
+    public void consultaSS2() {
 
-		} catch (Exception e) {			
+        DefeitoIntegracao defeitosIntegracao2 = new DefeitoIntegracao();
 
-			//e.printStackTrace();
+        try {
 
-		}
+            defeitosIntegracao2 = atendimentoServico.consultarSSIntegracao();
 
-	}
+            this.atendimentoServico.consultarSS(defeitosIntegracao2.getSs());
 
+            this.importServicoNew.salvaLogIntegracao(defeitosIntegracao2, TipoLogIntegracao.DEFEITOEXISTENTE);
 
+        } catch (Exception e) {
 
-	/**
-	 * Segunda Task
-	 **/
-	public void consultaSS2() {
+            if (!defeitosIntegracao2.getInstancia().isEmpty()) {
 
-		DefeitoIntegracao defeitosIntegracao2 = new DefeitoIntegracao();
+                realizarFulltest2(defeitosIntegracao2);
 
-		try {
+            }
 
-			defeitosIntegracao2 = atendimentoServico.consultarSSIntegracao();
+        }
 
-			this.atendimentoServico.consultarSS(defeitosIntegracao2.getSs());
+    }
 
-			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao2, TipoLogIntegracao.DEFEITOEXISTENTE);
+    public void realizarFulltest2(DefeitoIntegracao defeitoIntegracao) {
 
-		} catch (Exception e) {
+        try {
+            this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
+            this.importServicoNew.fulltest(defeitoIntegracao);
 
-			if (!defeitosIntegracao2.getInstancia().isEmpty()) {
+        } catch (Exception e) {
 
-				realizarFulltest2(defeitosIntegracao2);
+            //e.printStackTrace();
+        }
 
-			}
+    }
 
-		}
+    public void consultaSS3() {
 
-	}
+        DefeitoIntegracao defeitosIntegracao3 = new DefeitoIntegracao();
 
-	public void realizarFulltest2(DefeitoIntegracao defeitoIntegracao) {
+        try {
 
-		try {
-			this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
-			this.importServicoNew.fulltest(defeitoIntegracao);
+            defeitosIntegracao3 = atendimentoServico.consultarSSIntegracao();
 
-		} catch (Exception e) {			
+            this.atendimentoServico.consultarSS(defeitosIntegracao3.getSs());
 
-			//e.printStackTrace();
+            this.importServicoNew.salvaLogIntegracao(defeitosIntegracao3, TipoLogIntegracao.DEFEITOEXISTENTE);
 
-		}
+        } catch (Exception e) {
 
-	}
+            if (!defeitosIntegracao3.getInstancia().isEmpty()) {
 
-	public void consultaSS3() {
+                realizarFulltest2(defeitosIntegracao3);
 
-		DefeitoIntegracao defeitosIntegracao3 = new DefeitoIntegracao();
+            }
 
-		try {
+        }
 
-			defeitosIntegracao3 = atendimentoServico.consultarSSIntegracao();
+    }
 
-			this.atendimentoServico.consultarSS(defeitosIntegracao3.getSs());
+    public void realizarFulltest3(DefeitoIntegracao defeitoIntegracao) {
 
-			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao3, TipoLogIntegracao.DEFEITOEXISTENTE);
+        try {
+            this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
+            this.importServicoNew.fulltest(defeitoIntegracao);
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			if (!defeitosIntegracao3.getInstancia().isEmpty()) {
+            //e.printStackTrace();
+        }
 
-				realizarFulltest2(defeitosIntegracao3);
+    }
 
-			}
+    public void consultaSS4() {
 
-		}
+        DefeitoIntegracao defeitosIntegracao4 = new DefeitoIntegracao();
 
-	}
+        try {
 
-	public void realizarFulltest3(DefeitoIntegracao defeitoIntegracao) {
+            defeitosIntegracao4 = atendimentoServico.consultarSSIntegracao();
 
-		try {
-			this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
-			this.importServicoNew.fulltest(defeitoIntegracao);
+            this.atendimentoServico.consultarSS(defeitosIntegracao4.getSs());
 
-		} catch (Exception e) {			
+            this.importServicoNew.salvaLogIntegracao(defeitosIntegracao4, TipoLogIntegracao.DEFEITOEXISTENTE);
 
-			//e.printStackTrace();
+        } catch (Exception e) {
 
-		}
+            if (!defeitosIntegracao4.getInstancia().isEmpty()) {
 
-	}	
-	
-	public void consultaSS4() {
+                realizarFulltest2(defeitosIntegracao4);
 
-		DefeitoIntegracao defeitosIntegracao4 = new DefeitoIntegracao();
+            }
 
-		try {
+        }
 
-			defeitosIntegracao4 = atendimentoServico.consultarSSIntegracao();
+    }
 
-			this.atendimentoServico.consultarSS(defeitosIntegracao4.getSs());
+    public void realizarFulltest4(DefeitoIntegracao defeitoIntegracao) {
 
-			this.importServicoNew.salvaLogIntegracao(defeitosIntegracao4, TipoLogIntegracao.DEFEITOEXISTENTE);
+        try {
+            this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
+            this.importServicoNew.fulltest(defeitoIntegracao);
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			if (!defeitosIntegracao4.getInstancia().isEmpty()) {
+            //e.printStackTrace();
+        }
 
-				realizarFulltest2(defeitosIntegracao4);
+    }
 
-			}
+    public void excluirDefeitoParado() {
 
-		}
+        try {
 
-	}
+            this.importServicoNew.removeDefeitosParados(this.importServicoNew.listaDefeitosParados());
 
-	public void realizarFulltest4(DefeitoIntegracao defeitoIntegracao) {
+        } catch (Exception e) {
 
-		try {
-			this.importServicoNew.trocaStatusDefeitoIntegracao(defeitoIntegracao);
-			this.importServicoNew.fulltest(defeitoIntegracao);
+        }
 
-		} catch (Exception e) {			
-
-			//e.printStackTrace();
-
-		}
-
-	}	
-
-	public void excluirDefeitoParado() {
-		
-		try {
-			
-			this.importServicoNew.removeDefeitosParados(this.importServicoNew.listaDefeitosParados());
-			
-		} catch (Exception e) {
-
-			
-			
-		}	
-
-	}
+    }
 
 }

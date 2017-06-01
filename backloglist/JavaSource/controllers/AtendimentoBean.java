@@ -24,39 +24,39 @@ import util.JSFUtil;
 @ViewScoped
 public class AtendimentoBean {
 
-	@ManagedProperty(value="#{loginBean}")
-	private LoginBean sessao;
+    @ManagedProperty(value = "#{loginBean}")
+    private LoginBean sessao;
 
-	private Defeito defeito;
-		
-	private DefeitoTv defeitoTv;
+    private Defeito defeito;
 
-	private List<Defeito> defeitosDisponiveis;
-	
-	private List<DefeitoTv> defeitosDisponiveisTV;
+    private DefeitoTv defeitoTv;
 
-	private LogDefeito logDefeito;
+    private List<Defeito> defeitosDisponiveis;
 
-	@EJB
-	private AtendimentoServico atendimentoServico;
+    private List<DefeitoTv> defeitosDisponiveisTV;
 
-	@EJB
-	private LogDefeitoServico logDefeitoServico;
+    private LogDefeito logDefeito;
 
-	private String detalhesDefeito;
+    @EJB
+    private AtendimentoServico atendimentoServico;
 
-	public AtendimentoBean() {
+    @EJB
+    private LogDefeitoServico logDefeitoServico;
 
-		this.defeito = new Defeito();
-		this.defeitoTv = new DefeitoTv();
-		this.logDefeito = new LogDefeito();		
+    private String detalhesDefeito;
 
-	}	
+    public AtendimentoBean() {
 
-	/*
+        this.defeito = new Defeito();
+        this.defeitoTv = new DefeitoTv();
+        this.logDefeito = new LogDefeito();
+
+    }
+
+    /*
 	 * Lista todos os defeitos ativos.
 	 * */
-	/*public List<Defeito> listarDefeitosAtivos() {
+ /*public List<Defeito> listarDefeitosAtivos() {
 
 		List<Defeito> lista = this.atendimentoServico.listarDefeitosAtivos();
 
@@ -66,318 +66,316 @@ public class AtendimentoBean {
 
 	}*/
 
-	/*
+ /*
 	 * Lista defeitos atribuidos ao colaborador.
 	 * */
-	public List<Defeito> listarDefeitosColaborador() {
+    public List<Defeito> listarDefeitosColaborador() {
 
-		return this.atendimentoServico.listarDefeitosColaborador(this.sessao.getUsuario());
+        return this.atendimentoServico.listarDefeitosColaborador(this.sessao.getUsuario());
 
-	}
-	
-	public List<DefeitoTv> listarDefeitosTvColaborador() {
+    }
 
-		return this.atendimentoServico.listarDefeitosTvColaborador(this.sessao.getUsuario());
+    public List<DefeitoTv> listarDefeitosTvColaborador() {
 
-	}
+        return this.atendimentoServico.listarDefeitosTvColaborador(this.sessao.getUsuario());
 
-	/*
+    }
+
+    /*
 	 * Assumi o defeito para a matricula.
 	 * */
-	public void assumirDefeito(Defeito defeito){
+    public void assumirDefeito(Defeito defeito) {
 
-		try {
-			this.sessao.setUsuario(this.atendimentoServico.assumirDefeito(defeito, sessao.getUsuario()));
-			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
-			this.redirecionaDetalhesDefeito(defeito);
+        try {
+            this.sessao.setUsuario(this.atendimentoServico.assumirDefeito(defeito, sessao.getUsuario()));
+            JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
+            this.redirecionaDetalhesDefeito(defeito);
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-	}
-	
-	public void assumirDefeitoTv(DefeitoTv defeito){
+    }
 
-		try {
-                        UsuarioEfika u = this.atendimentoServico.assumirDefeitoTv(defeito, sessao.getUsuario());
-			this.sessao.setUsuario(u);
-			JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
-			this.redirecionaDetalhesDefeitoTv(defeito);
+    public void assumirDefeitoTv(DefeitoTv defeito) {
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+        try {
+            UsuarioEfika u = this.atendimentoServico.assumirDefeitoTv(defeito, sessao.getUsuario());
+            this.sessao.setUsuario(u);
+            JSFUtil.addInfoMessage("Defeito " + defeito.getSs() + " associado com sucesso!");
+            this.redirecionaDetalhesDefeitoTv(defeito);
 
-	}
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-	public void redirecionaDetalhesDefeito(Defeito defeito) {
+    }
 
-		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-		try {
-			context.redirect(context.getRequestContextPath() + "/detalhe_defeito.jsf?ss=" + defeito.getSs());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+    public void redirecionaDetalhesDefeito(Defeito defeito) {
 
-	}
-	
-	public void redirecionaDetalhesDefeitoTv(DefeitoTv defeito) {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/detalhe_defeito.jsf?ss=" + defeito.getSs());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-		try {
-			context.redirect(context.getRequestContextPath() + "/detalhe_defeito_tv.jsf?ss=" + defeito.getSs());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+    }
 
-	}
+    public void redirecionaDetalhesDefeitoTv(DefeitoTv defeito) {
 
-	/*
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + "/detalhe_defeito_tv.jsf?ss=" + defeito.getSs());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /*
 	 * Finalizar atendimento do defeito.
-	 * */	
-	public String encerrarDefeito() {		
+	 * */
+    public String encerrarDefeito() {
 
-		try {		
+        try {
 
-			this.atendimentoServico.encerrarDefeito(this.defeito, this.sessao.getUsuario());
-			JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " encerrado com sucesso!");
-			return "busca_defeitos_carrinho.jsf";
-		} catch (Exception e) {		
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
-		}
-	}
-	
-	public String encerrarDefeitoTv() {		
+            this.atendimentoServico.encerrarDefeito(this.defeito, this.sessao.getUsuario());
+            JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " encerrado com sucesso!");
+            return "busca_defeitos_carrinho.jsf";
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
+        }
+    }
 
-		try {		
+    public String encerrarDefeitoTv() {
 
-			this.atendimentoServico.encerrarDefeitoTv(this.defeitoTv, this.sessao.getUsuario());
-			JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " encerrado com sucesso!");
-			return "busca_defeitos_carrinho.jsf";
-		} catch (Exception e) {		
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
-		}
-	}
+        try {
 
-	/*
+            this.atendimentoServico.encerrarDefeitoTv(this.defeitoTv, this.sessao.getUsuario());
+            JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " encerrado com sucesso!");
+            return "busca_defeitos_carrinho.jsf";
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
+        }
+    }
+
+    /*
 	 * Envia defeito para campo.
 	 * */
-	public String enviarCampo() {
+    public String enviarCampo() {
 
-		try {
-			this.atendimentoServico.enviarCampo(this.defeito, this.sessao.getUsuario());
-			JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " enviado a campo.");
-			return "busca_defeitos_carrinho.jsf";
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
-		}
+        try {
+            this.atendimentoServico.enviarCampo(this.defeito, this.sessao.getUsuario());
+            JSFUtil.addInfoMessage("Defeito " + this.defeito.getSs() + " enviado a campo.");
+            return "busca_defeitos_carrinho.jsf";
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
+        }
 
-	}
-	
-	public String enviarCampoTv() {
+    }
 
-		try {
-			this.atendimentoServico.enviarCampoTv(this.defeitoTv, this.sessao.getUsuario());
-			JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " enviado a campo.");
-			return "busca_defeitos_carrinho.jsf";
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
-		}
+    public String enviarCampoTv() {
 
-	}
+        try {
+            this.atendimentoServico.enviarCampoTv(this.defeitoTv, this.sessao.getUsuario());
+            JSFUtil.addInfoMessage("Defeito " + this.defeitoTv.getSs() + " enviado a campo.");
+            return "busca_defeitos_carrinho.jsf";
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
+        }
 
-	public Defeito consultarDefeitoOperadorPorSS() {
+    }
 
-		try {
+    public Defeito consultarDefeitoOperadorPorSS() {
 
-			this.defeito = atendimentoServico.consultarDefeitoOperadorPorSS(this.defeito.getSs(), this.sessao.getUsuario());
-			return this.defeito;
+        try {
 
-		} catch (Exception e) {
+            this.defeito = atendimentoServico.consultarDefeitoOperadorPorSS(this.defeito.getSs(), this.sessao.getUsuario());
+            return this.defeito;
 
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
+        } catch (Exception e) {
 
-		}
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
 
-	}
-	
-	public DefeitoTv consultarDefeitoTvOperadorPorSS() {
+        }
 
-		try {
+    }
 
-			this.defeitoTv = atendimentoServico.consultarDefeitoTvOperadorPorSS(this.defeitoTv.getSs(), this.sessao.getUsuario());
-			return this.defeitoTv;
+    public DefeitoTv consultarDefeitoTvOperadorPorSS() {
 
-		} catch (Exception e) {
+        try {
 
-			JSFUtil.addErrorMessage(e.getMessage());
-			return null;
+            this.defeitoTv = atendimentoServico.consultarDefeitoTvOperadorPorSS(this.defeitoTv.getSs(), this.sessao.getUsuario());
+            return this.defeitoTv;
 
-		}
+        } catch (Exception e) {
 
-	}
+            JSFUtil.addErrorMessage(e.getMessage());
+            return null;
 
-	public List<MotivoEncerramento> listarMotivosEncerramentos() {
+        }
 
-		return this.atendimentoServico.listarMotivoEncerramento();
+    }
 
-	}
+    public List<MotivoEncerramento> listarMotivosEncerramentos() {
 
-	public String voltarDefeitoParaFila() {
+        return this.atendimentoServico.listarMotivoEncerramento();
 
-		this.atendimentoServico.voltarDefeitoParaFila(this.defeito, this.sessao.getUsuario());
-		JSFUtil.addInfoMessage("Defeito retornou a fila!");
-		return "busca_defeitos_carrinho.jsf";
+    }
 
-	}
-	
-	public String voltarDefeitoTvParaFila() {
+    public String voltarDefeitoParaFila() {
 
-		this.atendimentoServico.voltarDefeitoTvParaFila(this.defeitoTv, this.sessao.getUsuario());
-		JSFUtil.addInfoMessage("Defeito retornou a fila!");
-		return "busca_defeitos_carrinho.jsf";
+        this.atendimentoServico.voltarDefeitoParaFila(this.defeito, this.sessao.getUsuario());
+        JSFUtil.addInfoMessage("Defeito retornou a fila!");
+        return "busca_defeitos_carrinho.jsf";
 
-	}	
+    }
 
-	public void realizarFulltest() {
+    public String voltarDefeitoTvParaFila() {
 
-		this.atendimentoServico.realizarFulltest(this.defeito, this.sessao.getUsuario());
-		JSFUtil.addInfoMessage("Comando acionado, por favor aguarde!");
+        this.atendimentoServico.voltarDefeitoTvParaFila(this.defeitoTv, this.sessao.getUsuario());
+        JSFUtil.addInfoMessage("Defeito retornou a fila!");
+        return "busca_defeitos_carrinho.jsf";
 
-	}
+    }
 
-	public Integer contagemRelatorioUsuarioAberto(TipoStatus tipoStatus) {
+    public void realizarFulltest() {
 
-		return this.atendimentoServico.listarRelatorioDoUsuarioAberto(this.sessao.getUsuario(), tipoStatus).size();
+        this.atendimentoServico.realizarFulltest(this.defeito, this.sessao.getUsuario());
+        JSFUtil.addInfoMessage("Comando acionado, por favor aguarde!");
 
-	}	
-	
-	public Integer listarRelatorioDoUsuarioAbertoTv(TipoStatus tipoStatus) {
+    }
 
-		return this.atendimentoServico.listarRelatorioDoUsuarioAbertoTv(this.sessao.getUsuario(), tipoStatus).size();
+    public Integer contagemRelatorioUsuarioAberto(TipoStatus tipoStatus) {
 
-	}	
+        return this.atendimentoServico.listarRelatorioDoUsuarioAberto(this.sessao.getUsuario(), tipoStatus).size();
 
-	public Integer contagemRelatorioUsuario(TipoStatus tipoStatus) {
+    }
 
-		return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
+    public Integer listarRelatorioDoUsuarioAbertoTv(TipoStatus tipoStatus) {
 
-	}
-	
-	public Integer contagemRelatorioUsuarioTv(TipoStatus tipoStatus) {
+        return this.atendimentoServico.listarRelatorioDoUsuarioAbertoTv(this.sessao.getUsuario(), tipoStatus).size();
 
-		return this.atendimentoServico.listarRelatorioDoUsuarioTv(this.sessao.getUsuario(), tipoStatus).size();
+    }
 
-	}
+    public Integer contagemRelatorioUsuario(TipoStatus tipoStatus) {
 
-	public Integer contagemDefeitoEncerradoDQTT() {
+        return this.atendimentoServico.listarRelatorioDoUsuario(this.sessao.getUsuario(), tipoStatus).size();
 
-		return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
+    }
 
-	}
-	
-	public Integer listarDefeitosEncerradosDQTT() {
+    public Integer contagemRelatorioUsuarioTv(TipoStatus tipoStatus) {
 
-		return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
+        return this.atendimentoServico.listarRelatorioDoUsuarioTv(this.sessao.getUsuario(), tipoStatus).size();
 
-	}
-	
-	public Integer listarDefeitosEncerradosDQTTtv() {
+    }
 
-		return this.atendimentoServico.listarDefeitosEncerradosDQTTtv(this.sessao.getUsuario()).size();
+    public Integer contagemDefeitoEncerradoDQTT() {
 
-	}
+        return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
 
-	public void inserirComentario() {
+    }
 
-		try {
+    public Integer listarDefeitosEncerradosDQTT() {
 
-			this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
-			this.detalhesDefeito = null;
+        return this.atendimentoServico.listarDefeitosEncerradosDQTT(this.sessao.getUsuario()).size();
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}		
+    }
 
-	}
-	
-	public void inserirComentarioTv() {
+    public Integer listarDefeitosEncerradosDQTTtv() {
 
-		try {
+        return this.atendimentoServico.listarDefeitosEncerradosDQTTtv(this.sessao.getUsuario()).size();
 
-			this.atendimentoServico.inserirComentarioTv(this.defeitoTv, this.detalhesDefeito);
-			this.detalhesDefeito = null;
+    }
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}		
+    public void inserirComentario() {
 
-	}
-	
-	
+        try {
 
-	public LoginBean getSessao() {
-		return sessao;
-	}
+            this.atendimentoServico.inserirComentario(this.defeito, this.detalhesDefeito);
+            this.detalhesDefeito = null;
 
-	public void setSessao(LoginBean sessao) {
-		this.sessao = sessao;
-	}
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-	public Defeito getDefeito() {
-		return defeito;
-	}
+    }
 
-	public void setDefeito(Defeito defeito) {
-		this.defeito = defeito;
-	}
+    public void inserirComentarioTv() {
 
-	public LogDefeito getLogDefeito() {
-		return logDefeito;
-	}
+        try {
 
-	public void setLogDefeito(LogDefeito logDefeito) {
-		this.logDefeito = logDefeito;
-	}
+            this.atendimentoServico.inserirComentarioTv(this.defeitoTv, this.detalhesDefeito);
+            this.detalhesDefeito = null;
 
-	public List<Defeito> getDefeitosDisponiveis() {
-		return defeitosDisponiveis;
-	}
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-	public void setDefeitosDisponiveis(List<Defeito> defeitosDisponiveis) {
-		this.defeitosDisponiveis = defeitosDisponiveis;
-	}
+    }
 
-	public String getDetalhesDefeito() {
-		return detalhesDefeito;
-	}
+    public LoginBean getSessao() {
+        return sessao;
+    }
 
-	public void setDetalhesDefeito(String detalhesDefeito) {
-		this.detalhesDefeito = detalhesDefeito;
-	}
+    public void setSessao(LoginBean sessao) {
+        this.sessao = sessao;
+    }
 
-	public DefeitoTv getDefeitoTv() {
-		return defeitoTv;
-	}
+    public Defeito getDefeito() {
+        return defeito;
+    }
 
-	public void setDefeitoTv(DefeitoTv defeitoTv) {
-		this.defeitoTv = defeitoTv;
-	}
+    public void setDefeito(Defeito defeito) {
+        this.defeito = defeito;
+    }
 
-	public List<DefeitoTv> getDefeitosDisponiveisTV() {
-		return defeitosDisponiveisTV;
-	}
+    public LogDefeito getLogDefeito() {
+        return logDefeito;
+    }
 
-	public void setDefeitosDisponiveisTV(List<DefeitoTv> defeitosDisponiveisTV) {
-		this.defeitosDisponiveisTV = defeitosDisponiveisTV;
-	}	
+    public void setLogDefeito(LogDefeito logDefeito) {
+        this.logDefeito = logDefeito;
+    }
+
+    public List<Defeito> getDefeitosDisponiveis() {
+        return defeitosDisponiveis;
+    }
+
+    public void setDefeitosDisponiveis(List<Defeito> defeitosDisponiveis) {
+        this.defeitosDisponiveis = defeitosDisponiveis;
+    }
+
+    public String getDetalhesDefeito() {
+        return detalhesDefeito;
+    }
+
+    public void setDetalhesDefeito(String detalhesDefeito) {
+        this.detalhesDefeito = detalhesDefeito;
+    }
+
+    public DefeitoTv getDefeitoTv() {
+        return defeitoTv;
+    }
+
+    public void setDefeitoTv(DefeitoTv defeitoTv) {
+        this.defeitoTv = defeitoTv;
+    }
+
+    public List<DefeitoTv> getDefeitosDisponiveisTV() {
+        return defeitosDisponiveisTV;
+    }
+
+    public void setDefeitosDisponiveisTV(List<DefeitoTv> defeitosDisponiveisTV) {
+        this.defeitosDisponiveisTV = defeitosDisponiveisTV;
+    }
 
 }

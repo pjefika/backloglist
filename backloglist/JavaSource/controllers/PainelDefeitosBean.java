@@ -23,26 +23,25 @@ import util.JSFUtil;
 @Singleton
 public class PainelDefeitosBean {
 
+    public List<Defeito> listaDefeitos;
 
-	public List<Defeito> listaDefeitos;	
-	
-	public List<DefeitoTv> listaDefeitosTv;
+    public List<DefeitoTv> listaDefeitosTv;
 
-	Timer timerBuscaDefeitosAtivos = new Timer();
-	//Timer timerRemoveDefeitoAntigo = new Timer();
+    Timer timerBuscaDefeitosAtivos = new Timer();
+    //Timer timerRemoveDefeitoAntigo = new Timer();
 
-	TimerTask buscaDefeitoAtivos = new TimerTask() {
+    TimerTask buscaDefeitoAtivos = new TimerTask() {
 
-		@Override
-		public void run() {
+        @Override
+        public void run() {
 
-			buscarDefeitosAtivos();
-			buscarDefeitosAtivosTv();
+            buscarDefeitosAtivos();
+            buscarDefeitosAtivosTv();
 
-		}
-	};
+        }
+    };
 
-	/*TimerTask removeDefeitoAntigo = new TimerTask() {
+    /*TimerTask removeDefeitoAntigo = new TimerTask() {
 
 		@Override
 		public void run() {
@@ -51,46 +50,42 @@ public class PainelDefeitosBean {
 
 		}
 	};*/
-	
-	@EJB
-	private AtendimentoServico atendimentoServico;	
+    @EJB
+    private AtendimentoServico atendimentoServico;
 
-	@EJB
-	private RotinasServicos rotinasServicos;
+    @EJB
+    private RotinasServicos rotinasServicos;
 
 //	@EJB
 //	private ImportServicoNew importServicoNew;
+    public PainelDefeitosBean() {
 
-	public PainelDefeitosBean() {
+    }
 
-	}
+    @PostConstruct
+    public void init() {
 
-	@PostConstruct	
-	public void init() {
+        //buscarDefeitosAtivos();
+        //buscarDefeitosAtivosTv();
+        timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 5000, 70000);
+        //timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
+        //timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 
-		//buscarDefeitosAtivos();
-		//buscarDefeitosAtivosTv();
+    }
 
-		timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 1000, 1000);
-		//timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
-		//timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
+    public void buscarDefeitosAtivos() {
 
-	}	
+        this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();
 
+    }
 
-	public void buscarDefeitosAtivos() {
+    public void buscarDefeitosAtivosTv() {
 
-		this.listaDefeitos = this.atendimentoServico.listarDefeitosAtivos();
+        this.listaDefeitosTv = this.atendimentoServico.listarDefeitosAtivosTv();
 
-	}
-	
-	public void buscarDefeitosAtivosTv() {
+    }
 
-		this.listaDefeitosTv = this.atendimentoServico.listarDefeitosAtivosTv();											
-
-	}
-
-	/*public void removeDefeitoAntigo() {
+    /*public void removeDefeitoAntigo() {
 
 		List<Defeito> listaDefeitosAntigos = new ArrayList<Defeito>();
 
@@ -105,75 +100,74 @@ public class PainelDefeitosBean {
 		}
 
 	}*/
+    public void voltaDefeito() {
 
-	public void voltaDefeito() {
+        this.rotinasServicos.voltarDefeitoParaFila(this.rotinasServicos.listarDefeitosAssumidos());
 
-		this.rotinasServicos.voltarDefeitoParaFila(this.rotinasServicos.listarDefeitosAssumidos());		
+    }
 
-	}	
+    public void removeDefeitoAoAssumir(Defeito defeito) {
 
-	public void removeDefeitoAoAssumir(Defeito defeito) {
+        Defeito status = new Defeito();
 
-		Defeito status = new Defeito();		
+        try {
 
-		try {
+            status = this.atendimentoServico.consultarSS(defeito.getSs());
 
-			status = this.atendimentoServico.consultarSS(defeito.getSs());
+            TipoStatus statusValue = status.getStatus();
 
-			TipoStatus statusValue = status.getStatus();
+            if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
-			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
+                this.listaDefeitos.remove(defeito);
 
-				this.listaDefeitos.remove(defeito);
-				
-				this.buscarDefeitosAtivos();
+                this.buscarDefeitosAtivos();
 
-			}
-			
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+            }
 
-	}
-	
-	public void removeDefeitoAoAssumirTv(DefeitoTv defeito) {
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-		DefeitoTv status = new DefeitoTv();		
+    }
 
-		try {
+    public void removeDefeitoAoAssumirTv(DefeitoTv defeito) {
 
-			status = this.atendimentoServico.consultarSSTv(defeito.getSs());
+        DefeitoTv status = new DefeitoTv();
 
-			TipoStatus statusValue = status.getStatus();
+        try {
 
-			if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
+            status = this.atendimentoServico.consultarSSTv(defeito.getSs());
 
-				this.listaDefeitos.remove(defeito);
-				
-				this.buscarDefeitosAtivosTv();
+            TipoStatus statusValue = status.getStatus();
 
-			}
-			
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+            if (statusValue.equals(TipoStatus.EMTRATAMENTO)) {
 
-	}
+                this.listaDefeitos.remove(defeito);
 
-	public List<Defeito> getListaDefeitos() {
-		return listaDefeitos;
-	}
+                this.buscarDefeitosAtivosTv();
 
-	public void setListaDefeitos(List<Defeito> listaDefeitos) {
-		this.listaDefeitos = listaDefeitos;
-	}
+            }
 
-	public List<DefeitoTv> getListaDefeitosTv() {
-		return listaDefeitosTv;
-	}
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-	public void setListaDefeitosTv(List<DefeitoTv> listaDefeitosTv) {
-		this.listaDefeitosTv = listaDefeitosTv;
-	}
-	
+    }
+
+    public List<Defeito> getListaDefeitos() {
+        return listaDefeitos;
+    }
+
+    public void setListaDefeitos(List<Defeito> listaDefeitos) {
+        this.listaDefeitos = listaDefeitos;
+    }
+
+    public List<DefeitoTv> getListaDefeitosTv() {
+        return listaDefeitosTv;
+    }
+
+    public void setListaDefeitosTv(List<DefeitoTv> listaDefeitosTv) {
+        this.listaDefeitosTv = listaDefeitosTv;
+    }
+
 }

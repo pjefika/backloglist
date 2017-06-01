@@ -203,7 +203,7 @@ public class ImportServicoNew {
         lote.setHoraIntegrado(date);
         lote.setStatus(TipoStatus.ATIVO);
         this.entityManager.persist(lote);
-                
+
         for (Object object : content) {
 
             DefeitoIntegracao defeito = new DefeitoIntegracao();
@@ -257,7 +257,7 @@ public class ImportServicoNew {
             } else {
 
             }
-        }        
+        }
         csvReader.close();
     }
 
@@ -456,10 +456,12 @@ public class ImportServicoNew {
 
     public void removeDefeitosParados(List<DefeitoIntegracao> listaDefeito) {
 
-        for (DefeitoIntegracao defeitoIntegracao : listaDefeito) {
+        if (listaDefeito.size() > 0) {
+            for (DefeitoIntegracao defeitoIntegracao : listaDefeito) {
 
-            this.entityManager.remove(this.entityManager.merge(defeitoIntegracao));
+                this.entityManager.remove(this.entityManager.merge(defeitoIntegracao));
 
+            }
         }
 
     }
