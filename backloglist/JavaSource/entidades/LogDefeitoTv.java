@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="backloglist_Log_Defeito_Tv")
+@Table(name="backloglist_Log_Defeito_Tv_2")
 public class LogDefeitoTv extends AbstractEnit{
 
 	private Date horaAcao;
@@ -18,7 +18,7 @@ public class LogDefeitoTv extends AbstractEnit{
 	private TipoLog acao;
 
 	@ManyToOne
-	private DefeitoTv defeitotv;	
+	private DefeitoTv defeito;	
 
 	@ManyToOne
 	private UsuarioEfika usuario;
@@ -31,7 +31,7 @@ public class LogDefeitoTv extends AbstractEnit{
 
 	public LogDefeitoTv(DefeitoTv defeito, TipoLog acao, UsuarioEfika usuario) {
 		
-		this.defeitotv = defeito;
+		this.defeito = defeito;
 		this.acao = acao;
 		this.usuario = usuario;
 		this.horaAcao = new Date();
@@ -55,11 +55,11 @@ public class LogDefeitoTv extends AbstractEnit{
 	}
 
 	public DefeitoTv getDefeito() {
-		return defeitotv;
+		return defeito;
 	}
 
 	public void setDefeito(DefeitoTv defeito) {
-		this.defeitotv = defeito;
+		this.defeito = defeito;
 	}
 
 	public UsuarioEfika getUsuario() {

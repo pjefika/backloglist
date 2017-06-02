@@ -10,85 +10,86 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="backloglist_Defeito_Integracao")
+@Table(name = "backloglist_Defeito_Integracao_2")
 public class DefeitoIntegracao {
-	
-	@Id
-	private String ss;
-	
-	@ManyToOne
-	private Tipificacao tipificacao;
-	
-	private String instancia;
-	
-	private Date dataAbertura;
-	
-	private Date dataVencimento;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoStatus status;
-	
-	@ManyToOne
-	private Lote lote;
 
-	public DefeitoIntegracao() {
-		
-	}
+    @Id
+    private String ss;
 
-	public String getSs() {
-		return ss;
-	}
+//	@ManyToOne
+//	private Tipificacao tipificacao;
+    private String tipificacao;
 
-	public void setSs(String ss) {
-		this.ss = ss;
-	}	
+    private String instancia;
 
-	public Tipificacao getTipificacao() {
-		return tipificacao;
-	}
+    private Date dataAbertura;
 
-	public void setTipificacao(Tipificacao tipificacao) {
-		this.tipificacao = tipificacao;
-	}
+    private Date dataVencimento;
 
-	public String getInstancia() {
-		return instancia;
-	}
+    @Enumerated(EnumType.STRING)
+    private TipoStatus status;
 
-	public void setInstancia(String instancia) {
-		this.instancia = instancia;
-	}
+    @ManyToOne
+    private Lote lote;
 
-	public Date getDataAbertura() {
-		return dataAbertura;
-	}
+    public DefeitoIntegracao() {
 
-	public void setDataAbertura(Date dataAbertura) {
-		this.dataAbertura = dataAbertura;
-	}
+    }
 
-	public Date getDataVencimento() {
-		return dataVencimento;
-	}
+    public String getSs() {
+        return ss;
+    }
 
-	public void setDataVencimento(Date dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
+    public void setSs(String ss) {
+        this.ss = ss;
+    }
 
-	public TipoStatus getStatus() {
-		return status;
-	}
+    public String getTipificacao() {
+        return tipificacao;
+    }
 
-	public void setStatus(TipoStatus status) {
-		this.status = status;
-	}
+    public void setTipificacao(String tipificacao) {
+        this.tipificacao = tipificacao;
+    }
 
-	public Lote getLote() {
-		return lote;
-	}
+    public String getInstancia() {
+        return instancia;
+    }
 
-	public void setLote(Lote lote) {
-		this.lote = lote;
-	}
+    public void setInstancia(String instancia) {
+        this.instancia = instancia;
+    }
+
+    public Date getDataAbertura() {
+        return dataAbertura;
+    }
+
+    public void setDataAbertura(Date dataAbertura) {
+        this.dataAbertura = dataAbertura;
+    }
+
+    public Date getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public TipoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TipoStatus status) {
+        this.status = status;
+    }
+
+    public Lote getLote() {
+        return lote;
+    }
+
+    public void setLote(Lote lote) {
+        this.lote = lote;
+    }
 
 }

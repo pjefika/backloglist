@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "backloglist_Defeito_Tv")
+@Table(name = "backloglist_Defeito_Tv_2")
 public class DefeitoTv {
 
     @Id
@@ -26,8 +26,9 @@ public class DefeitoTv {
     @Length(min = 8, max = 10, message = "Padrão: 8-AAAAAA")
     private String ss;
 
-    @ManyToOne
-    private Tipificacao tipificacao;
+//    @ManyToOne
+//    private Tipificacao tipificacao;
+    private String tipificacao;
 
     private String instancia;
 
@@ -48,7 +49,7 @@ public class DefeitoTv {
     @OneToOne
     private MotivoEncerramento motivoEncerramento;
 
-    @OneToMany(mappedBy = "defeitotv")
+    @OneToMany(mappedBy = "defeito")
     private List<LogDefeitoTv> logs;
 
     @OneToMany(mappedBy = "defeito", fetch = FetchType.EAGER)
@@ -72,11 +73,11 @@ public class DefeitoTv {
         this.ss = ss;
     }
 
-    public Tipificacao getTipificacao() {
+    public String getTipificacao() {
         return tipificacao;
     }
 
-    public void setTipificacao(Tipificacao tipificacao) {
+    public void setTipificacao(String tipificacao) {
         this.tipificacao = tipificacao;
     }
 

@@ -27,11 +27,9 @@ import entidades.DefeitoTv;
 import entidades.LogIntegracao;
 import entidades.Lote;
 import entidades.LoteTv;
-import entidades.Tipificacao;
 import entidades.TipoLogIntegracao;
 import entidades.TipoStatus;
 import entidades.UsuarioEfika;
-import javax.transaction.Transactional;
 import util.JSFUtil;
 
 @Stateless
@@ -128,8 +126,6 @@ public class ImportServicoNew {
         for (Object object : content) {
 
             DefeitoTv defeitoTv = new DefeitoTv();
-            Tipificacao tipificacao = new Tipificacao();
-
             row = (String[]) object;
 
             if (!row[0].isEmpty() && row[0].contains("8-")) {
@@ -163,8 +159,7 @@ public class ImportServicoNew {
 
                     defeitoTv.setSs(row[0]);
                     defeitoTv.setInstancia(row[2]);
-                    tipificacao = this.acaoTipificacao(row[1].trim());
-                    defeitoTv.setTipificacao(tipificacao);
+                    defeitoTv.setTipificacao(row[1].trim());
                     defeitoTv.setDataDeIntegracao(dataIntegracao);
                     defeitoTv.setDataAbertura(dataAbertura);
                     defeitoTv.setDataVencimento(dataVencimento);
@@ -207,8 +202,6 @@ public class ImportServicoNew {
         for (Object object : content) {
 
             DefeitoIntegracao defeito = new DefeitoIntegracao();
-            Tipificacao tipificacao = new Tipificacao();
-
             row = (String[]) object;
 
             if (!row[0].isEmpty() && row[0].contains("8-")) {
@@ -240,8 +233,7 @@ public class ImportServicoNew {
 
                     defeito.setSs(row[0]);
                     defeito.setInstancia(row[2]);
-                    tipificacao = this.acaoTipificacao(row[1].trim());
-                    defeito.setTipificacao(tipificacao);
+                    defeito.setTipificacao(row[1].trim());
                     defeito.setDataAbertura(dataAbertura);
                     defeito.setDataVencimento(dataVencimento);
                     defeito.setStatus(TipoStatus.ABERTO);
@@ -271,27 +263,27 @@ public class ImportServicoNew {
 
     }
 
-    public Tipificacao acaoTipificacao(String nomeTipificacao) {
-
-        Query query = this.entityManager.createQuery("FROM Tipificacao t WHERE t.nomeTipificacao =:param1");
-        query.setParameter("param1", nomeTipificacao);
-
-        Tipificacao tipificacao = new Tipificacao();
-
-        try {
-
-            tipificacao = (Tipificacao) query.getSingleResult();
-
-        } catch (Exception e) {
-
-            tipificacao.setNomeTipificacao(nomeTipificacao);
-            this.entityManager.persist(tipificacao);
-
-        }
-
-        return tipificacao;
-
-    }
+//    public Tipificacao acaoTipificacao(String nomeTipificacao) {
+//
+//        Query query = this.entityManager.createQuery("FROM Tipificacao t WHERE t.nomeTipificacao =:param1");
+//        query.setParameter("param1", nomeTipificacao);
+//
+//        Tipificacao tipificacao = new Tipificacao();
+//
+//        try {
+//
+//            tipificacao = (Tipificacao) query.getSingleResult();
+//
+//        } catch (Exception e) {
+//
+//            tipificacao.setNomeTipificacao(nomeTipificacao);
+//            this.entityManager.persist(tipificacao);
+//
+//        }
+//
+//        return tipificacao;
+//
+//    }
 
     public void salvaLogIntegracao(DefeitoIntegracao defeitosIntegracao, TipoLogIntegracao tipoLogIntegracao) {
 

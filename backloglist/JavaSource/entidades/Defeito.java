@@ -18,234 +18,236 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="backloglist_Defeito")
-public class Defeito{
+@Table(name = "backloglist_Defeito_2")
+public class Defeito {
 
-	@Id
-	@NotEmpty
-	@Length(min=8, max=10, message="Padr�o: 8-AAAAAA")
-	private String ss;
-	
-	@ManyToOne
-	private Tipificacao tipificacao;
-	
-	private String instancia;
-	
-	private Date dataAbertura;
+    @Id
+    @NotEmpty
+    @Length(min = 8, max = 10, message = "Padr�o: 8-AAAAAA")
+    private String ss;
+//	@ManyToOne
+//	private Tipificacao tipificacao;        
 
-	private Date dataVencimento;
-	
-	private Date dataDeIntegracao;
+    private String tipificacao;
 
-	private Date dataEncerrado;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoStatus status;
-	
-	@ManyToOne
-	private UsuarioEfika usuario;
+    private String instancia;
 
-	@OneToOne
-	private MotivoEncerramento motivoEncerramento;
+    private Date dataAbertura;
 
-	@OneToMany(mappedBy="defeito")
-	private List<LogDefeito> logs;
-	
-	@OneToMany(mappedBy="defeito", fetch=FetchType.EAGER)
-	private List<ComentariosDefeitos> comentarios;
-	
-	private Boolean encerradoAdm;
-	
-	private Boolean encerradoDQTT;
-	
-	private String resultadoFulltest;
-	
-	private Date dataDQTT;
-	
-	public Defeito() {
+    private Date dataVencimento;
 
-	}
+    private Date dataDeIntegracao;
 
-	public String getSs() {
-		return ss;
-	}
+    private Date dataEncerrado;
 
-	public void setSs(String ss) {
-		this.ss = ss;
-	}	
+    @Enumerated(EnumType.STRING)
+    private TipoStatus status;
 
-	public Tipificacao getTipificacao() {
-		return tipificacao;
-	}
-	
-	public void setTipificacao(Tipificacao tipificacao) {
-		this.tipificacao = tipificacao;
-	}
-	
-	public Date getDataAbertura() {
-		return dataAbertura;
-	}
+    @ManyToOne
+    private UsuarioEfika usuario;
 
-	public void setDataAbertura(Date dataAbertura) {
-		this.dataAbertura = dataAbertura;
-	}
+    @OneToOne
+    private MotivoEncerramento motivoEncerramento;
 
-	public Date getDataVencimento() {
-		return dataVencimento;
-	}
+    @OneToMany(mappedBy = "defeito")
+    private List<LogDefeito> logs;
 
-	public void setDataVencimento(Date dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
+    @OneToMany(mappedBy = "defeito", fetch = FetchType.EAGER)
+    private List<ComentariosDefeitos> comentarios;
 
-	public TipoStatus getStatus() {
-		return status;
-	}
+    private Boolean encerradoAdm;
 
+    private Boolean encerradoDQTT;
 
-	public void setStatus(TipoStatus status) {
-		this.status = status;
-	}
+    private String resultadoFulltest;
 
-	public UsuarioEfika getUsuario() {
-		return usuario;
-	}
+    private Date dataDQTT;
 
-	public void setUsuario(UsuarioEfika usuario) {
-		this.usuario = usuario;
-	}
+    public Defeito() {
 
-	public MotivoEncerramento getMotivoEncerramento() {
-		return motivoEncerramento;
-	}
+    }
 
-	public void setMotivoEncerramento(MotivoEncerramento motivoEncerramento) {
-		this.motivoEncerramento = motivoEncerramento;
-	}
+    public String getSs() {
+        return ss;
+    }
 
-	public List<LogDefeito> getLogs() {
-		return logs;
-	}
+    public void setSs(String ss) {
+        this.ss = ss;
+    }
 
-	public void setLogs(List<LogDefeito> logs) {
-		this.logs = logs;
-	}	
+    public String getTipificacao() {
+        return tipificacao;
+    }
 
-	public Date getDataEncerrado() {
-		return dataEncerrado;
-	}
+    public void setTipificacao(String tipificacao) {
+        this.tipificacao = tipificacao;
+    }
 
-	public void setDataEncerrado(Date dataEncerrado) {
-		this.dataEncerrado = dataEncerrado;
-	}	
+    public Date getDataAbertura() {
+        return dataAbertura;
+    }
 
-	public Date getDataDeIntegracao() {
-		return dataDeIntegracao;
-	}
+    public void setDataAbertura(Date dataAbertura) {
+        this.dataAbertura = dataAbertura;
+    }
 
-	public void setDataDeIntegracao(Date dataDeIntegracao) {
-		this.dataDeIntegracao = dataDeIntegracao;
-	}	
+    public Date getDataVencimento() {
+        return dataVencimento;
+    }
 
-	public String getInstancia() {
-		return instancia;
-	}
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
 
-	public void setInstancia(String instancia) {
-		this.instancia = instancia;
-	}
+    public TipoStatus getStatus() {
+        return status;
+    }
 
-	public List<ComentariosDefeitos> getComentarios() {
-		return comentarios;
-	}
+    public void setStatus(TipoStatus status) {
+        this.status = status;
+    }
 
+    public UsuarioEfika getUsuario() {
+        return usuario;
+    }
 
-	public void setComentarios(List<ComentariosDefeitos> comentarios) {
-		this.comentarios = comentarios;
-	}
+    public void setUsuario(UsuarioEfika usuario) {
+        this.usuario = usuario;
+    }
 
-	public Boolean getEncerradoAdm() {
-		return encerradoAdm;
-	}
+    public MotivoEncerramento getMotivoEncerramento() {
+        return motivoEncerramento;
+    }
 
+    public void setMotivoEncerramento(MotivoEncerramento motivoEncerramento) {
+        this.motivoEncerramento = motivoEncerramento;
+    }
 
-	public void setEncerradoAdm(Boolean encerradoAdm) {
-		this.encerradoAdm = encerradoAdm;
-	}
+    public List<LogDefeito> getLogs() {
+        return logs;
+    }
 
-	public Boolean getEncerradoDQTT() {
-		return encerradoDQTT;
-	}
+    public void setLogs(List<LogDefeito> logs) {
+        this.logs = logs;
+    }
 
+    public Date getDataEncerrado() {
+        return dataEncerrado;
+    }
 
-	public void setEncerradoDQTT(Boolean encerradoDQTT) {
-		this.encerradoDQTT = encerradoDQTT;
-	}	
+    public void setDataEncerrado(Date dataEncerrado) {
+        this.dataEncerrado = dataEncerrado;
+    }
 
-	public String getResultadoFulltest() {
-		return resultadoFulltest;
-	}
+    public Date getDataDeIntegracao() {
+        return dataDeIntegracao;
+    }
 
-	public void setResultadoFulltest(String resultadoFulltest) {
-		this.resultadoFulltest = resultadoFulltest;
-	}
+    public void setDataDeIntegracao(Date dataDeIntegracao) {
+        this.dataDeIntegracao = dataDeIntegracao;
+    }
 
-	public Date getDataDQTT() {
-		return dataDQTT;
-	}
-	
-	public String dataDQTTFormatada() {
-		
-		SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				
-		String dataFormatada;
+    public String getInstancia() {
+        return instancia;
+    }
 
-		if (getDataDQTT() == null) {
-			
-			dataFormatada = "";			
-			
-		}else{
-			
-			dataFormatada = formmater.format(getDataDQTT());
-			
-		}
+    public void setInstancia(String instancia) {
+        this.instancia = instancia;
+    }
 
-		return dataFormatada;
-		
-	}
+    public List<ComentariosDefeitos> getComentarios() {
+        return comentarios;
+    }
 
-	public void setDataDQTT(Date dataDQTT) {
-		this.dataDQTT = dataDQTT;
-	}
+    public void setComentarios(List<ComentariosDefeitos> comentarios) {
+        this.comentarios = comentarios;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((ss == null) ? 0 : ss.hashCode());
-		return result;
-	}
+    public Boolean getEncerradoAdm() {
+        return encerradoAdm;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Defeito other = (Defeito) obj;
-		if (ss == null) {
-			if (other.ss != null)
-				return false;
-		} else if (!ss.equals(other.ss))
-			return false;
-		return true;
-	}
+    public void setEncerradoAdm(Boolean encerradoAdm) {
+        this.encerradoAdm = encerradoAdm;
+    }
 
-	@Override
-	public String toString() {
-		return "Defeito [ss=" + ss + "]";
-	}
+    public Boolean getEncerradoDQTT() {
+        return encerradoDQTT;
+    }
+
+    public void setEncerradoDQTT(Boolean encerradoDQTT) {
+        this.encerradoDQTT = encerradoDQTT;
+    }
+
+    public String getResultadoFulltest() {
+        return resultadoFulltest;
+    }
+
+    public void setResultadoFulltest(String resultadoFulltest) {
+        this.resultadoFulltest = resultadoFulltest;
+    }
+
+    public Date getDataDQTT() {
+        return dataDQTT;
+    }
+
+    public String dataDQTTFormatada() {
+
+        SimpleDateFormat formmater = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        String dataFormatada;
+
+        if (getDataDQTT() == null) {
+
+            dataFormatada = "";
+
+        } else {
+
+            dataFormatada = formmater.format(getDataDQTT());
+
+        }
+
+        return dataFormatada;
+
+    }
+
+    public void setDataDQTT(Date dataDQTT) {
+        this.dataDQTT = dataDQTT;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((ss == null) ? 0 : ss.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Defeito other = (Defeito) obj;
+        if (ss == null) {
+            if (other.ss != null) {
+                return false;
+            }
+        } else if (!ss.equals(other.ss)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Defeito [ss=" + ss + "]";
+    }
 
 }

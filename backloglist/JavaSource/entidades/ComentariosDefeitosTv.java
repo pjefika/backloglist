@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "backloglist_Comentarios_Defeitos_Tv")
+@Table(name = "backloglist_Comentarios_Defeitos_Tv_2")
 public class ComentariosDefeitosTv extends AbstractEnit {
 
     @Lob

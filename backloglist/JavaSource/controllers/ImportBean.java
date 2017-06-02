@@ -10,7 +10,6 @@ import org.primefaces.model.UploadedFile;
 
 import entidades.Defeito;
 import entidades.Lote;
-import entidades.Tipificacao;
 import model.ImportServico;
 import model.ImportServicoNew;
 import util.JSFUtil;
@@ -19,105 +18,104 @@ import util.JSFUtil;
 @ViewScoped
 public class ImportBean {
 
-	@ManagedProperty(value="#{loginBean}")
-	private LoginBean sessao;
+    @ManagedProperty(value = "#{loginBean}")
+    private LoginBean sessao;
 
-	private Defeito defeito;
+    private Defeito defeito;
 
-	private Tipificacao tipificacao;
+    private String tipificacao;
 
-	private String nomeTipificacao;
+    private String nomeTipificacao;
 
-	@EJB
-	private ImportServico importServico;
+    @EJB
+    private ImportServico importServico;
 
-	@EJB
-	private ImportServicoNew importServicoNew;
+    @EJB
+    private ImportServicoNew importServicoNew;
 
-	public ImportBean() {
+    public ImportBean() {
 
-		this.defeito = new Defeito();
-		this.tipificacao = new Tipificacao();
+        this.defeito = new Defeito();
 
-	}
+    }
 
-	public void importarDefeito() {
+//    public void importarDefeito() {
+//
+//        try {
+//
+//            this.defeito.setTipificacao(this.tipificacao);
+//
+//            this.importServico.importarDefeito(this.defeito);
+//
+//        } catch (Exception e) {
+//            JSFUtil.addErrorMessage(e.getMessage());
+//        }
+//
+//    }
 
-		try {
+//    public void validaTipificacao() {
+//
+//        this.tipificacao = this.importServico.acaoTipificacao(this.nomeTipificacao);
+//
+//    }
 
-			this.defeito.setTipificacao(this.tipificacao);
+    public void uploadFile(FileUploadEvent event) {
 
-			this.importServico.importarDefeito(this.defeito);
+        UploadedFile file = event.getFile();
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}		
+        try {
 
-	}
+            this.importServicoNew.salvaLote(file, this.sessao.getUsuario());
 
-	public void validaTipificacao() {
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-		this.tipificacao = this.importServico.acaoTipificacao(this.nomeTipificacao);
+    }
 
-	}
+    public void uploadFileTv(FileUploadEvent event) {
 
-	public void uploadFile(FileUploadEvent event) {
+        UploadedFile file = event.getFile();
 
-		UploadedFile file = event.getFile();
+        try {
 
-		try {
+            this.importServicoNew.salvaLoteTv(file, this.sessao.getUsuario());
 
-			this.importServicoNew.salvaLote(file, this.sessao.getUsuario());
+        } catch (Exception e) {
+            JSFUtil.addErrorMessage(e.getMessage());
+        }
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+    }
 
-	}
+    public void pararLote(Lote lote) {
 
-	public void uploadFileTv(FileUploadEvent event) {
+        this.importServicoNew.pararLote(this.importServicoNew.listaLoteEspecifico(lote));
 
-		UploadedFile file = event.getFile();
+        JSFUtil.addInfoMessage("Lote parado com sucesso.");
 
-		try {
+    }
 
-			this.importServicoNew.salvaLoteTv(file, this.sessao.getUsuario());
+    public Defeito getDefeito() {
+        return defeito;
+    }
 
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage(e.getMessage());
-		}
+    public void setDefeito(Defeito defeito) {
+        this.defeito = defeito;
+    }
 
-	}
+    public String getNomeTipificacao() {
+        return nomeTipificacao;
+    }
 
-	public void pararLote(Lote lote) {
+    public void setNomeTipificacao(String nomeTipificacao) {
+        this.nomeTipificacao = nomeTipificacao;
+    }
 
-		this.importServicoNew.pararLote(this.importServicoNew.listaLoteEspecifico(lote));
+    public LoginBean getSessao() {
+        return sessao;
+    }
 
-		JSFUtil.addInfoMessage("Lote parado com sucesso.");
-
-	}
-
-	public Defeito getDefeito() {
-		return defeito;
-	}
-
-	public void setDefeito(Defeito defeito) {
-		this.defeito = defeito;
-	}
-
-	public String getNomeTipificacao() {
-		return nomeTipificacao;
-	}
-
-	public void setNomeTipificacao(String nomeTipificacao) {
-		this.nomeTipificacao = nomeTipificacao;
-	}
-
-	public LoginBean getSessao() {
-		return sessao;
-	}
-
-	public void setSessao(LoginBean sessao) {
-		this.sessao = sessao;
-	}
+    public void setSessao(LoginBean sessao) {
+        this.sessao = sessao;
+    }
 }
