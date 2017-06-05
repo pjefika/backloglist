@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="backloglist_Log_Defeito_Tv_2")
+@Table(name="backloglist_Log_Defeito_Tv_3")
 public class LogDefeitoTv extends AbstractEnit{
 
 	private Date horaAcao;

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="backloglist_Lote_Integracao")
+@Table(name="backloglist_Lote_Integracao_3")
 public class Lote extends AbstractEnit{
 	
 	private String nome;

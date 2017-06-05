@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "backloglist_Defeito_2")
+@Table(name = "backloglist_Defeito_3")
 public class Defeito {
 
     @Id
