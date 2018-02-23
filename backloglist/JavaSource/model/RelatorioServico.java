@@ -23,256 +23,256 @@ import entidades.TipoStatus;
 @Stateless
 public class RelatorioServico {
 
-	@PersistenceContext(unitName="vu")  
-	private EntityManager entityManager;
+    @PersistenceContext(unitName = "vu")
+    private EntityManager entityManager;
 
-	public RelatorioServico() {
+    public RelatorioServico() {
 
-	}
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<Defeito> listarDefeitosEncerrado(Date dataInicio, Date dataFim) {	
+    @SuppressWarnings("unchecked")
+    public List<Defeito> listarDefeitosEncerrado(Date dataInicio, Date dataFim) {
 
-		try {			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND d.status !=:param3");
-			query.setParameter("param1", dataInicio, TemporalType.DATE);
-			query.setParameter("param2", dataFim, TemporalType.DATE);
-			query.setParameter("param3", TipoStatus.REMOVIDO);
-			return query.getResultList();
-		} catch (Exception e) {
-			return new ArrayList<Defeito>();
-		}
+        try {
+            Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND d.status !=:param3");
+            query.setParameter("param1", dataInicio, TemporalType.DATE);
+            query.setParameter("param2", dataFim, TemporalType.DATE);
+            query.setParameter("param3", TipoStatus.REMOVIDO);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<Defeito>();
+        }
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoTv> listarDefeitosEncerradoTv(Date dataInicio, Date dataFim) {	
+    }
 
-		try {			
-			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND d.status !=:param3");
-			query.setParameter("param1", dataInicio, TemporalType.DATE);
-			query.setParameter("param2", dataFim, TemporalType.DATE);
-			query.setParameter("param3", TipoStatus.REMOVIDO);
-			return query.getResultList();
-		} catch (Exception e) {
-			return new ArrayList<DefeitoTv>();
-		}
+    @SuppressWarnings("unchecked")
+    public List<DefeitoTv> listarDefeitosEncerradoTv(Date dataInicio, Date dataFim) {
 
-	}
+        try {
+            Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.dataEncerrado BETWEEN :param1 AND :param2 AND d.status !=:param3");
+            query.setParameter("param1", dataInicio, TemporalType.DATE);
+            query.setParameter("param2", dataFim, TemporalType.DATE);
+            query.setParameter("param3", TipoStatus.REMOVIDO);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<DefeitoTv>();
+        }
 
-	@SuppressWarnings("unchecked")
-	public List<Defeito> listarDefeitosPorMotivo(MotivoEncerramento motivo) {
+    }
 
-		try {
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.motivoEncerramento =:param1 AND d.dataEncerrado > CURRENT_DATE");
-			query.setParameter("param1", motivo);
-			return query.getResultList();
-		} catch (Exception e) {
-			return new ArrayList<Defeito>();
-		}
+    @SuppressWarnings("unchecked")
+    public List<Defeito> listarDefeitosPorMotivo(MotivoEncerramento motivo) {
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoTv> listarDefeitosPorMotivoTv(MotivoEncerramento motivo) {
+        try {
+            Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.motivoEncerramento =:param1 AND d.dataEncerrado > CURRENT_DATE");
+            query.setParameter("param1", motivo);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<Defeito>();
+        }
 
-		try {
-			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.motivoEncerramento =:param1 AND d.dataEncerrado > CURRENT_DATE");
-			query.setParameter("param1", motivo);
-			return query.getResultList();
-		} catch (Exception e) {
-			return new ArrayList<DefeitoTv>();
-		}
+    }
 
-	}
+    @SuppressWarnings("unchecked")
+    public List<DefeitoTv> listarDefeitosPorMotivoTv(MotivoEncerramento motivo) {
 
-	@SuppressWarnings("unchecked")
-	public List<Defeito> ListarTodoOsDefeitos(TipoStatus tipoStatus) {
+        try {
+            Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.motivoEncerramento =:param1 AND d.dataEncerrado > CURRENT_DATE");
+            query.setParameter("param1", motivo);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<DefeitoTv>();
+        }
 
-		try {
+    }
 
-			if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)){
+    @SuppressWarnings("unchecked")
+    public List<Defeito> ListarTodoOsDefeitos(TipoStatus tipoStatus) {
 
-				Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
-				query.setParameter("param1", tipoStatus);
-				return query.getResultList();
+        try {
 
-			}else{
+            if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)) {
 
-				Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1");
-				query.setParameter("param1", tipoStatus);
-				return query.getResultList();
+                Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
+                query.setParameter("param1", tipoStatus);
+                return query.getResultList();
 
-			}			
+            } else {
 
-		} catch (Exception e) {
-			return new ArrayList<Defeito>();
-		}
+                Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.status =:param1");
+                query.setParameter("param1", tipoStatus);
+                return query.getResultList();
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoTv> ListarTodoOsDefeitosTv(TipoStatus tipoStatus) {
+            }
 
-		try {
+        } catch (Exception e) {
+            return new ArrayList<Defeito>();
+        }
 
-			if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)){
+    }
 
-				Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
-				query.setParameter("param1", tipoStatus);
-				return query.getResultList();
+    @SuppressWarnings("unchecked")
+    public List<DefeitoTv> ListarTodoOsDefeitosTv(TipoStatus tipoStatus) {
 
-			}else{
+        try {
 
-				Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1");
-				query.setParameter("param1", tipoStatus);
-				return query.getResultList();
+            if (tipoStatus.equals(TipoStatus.ENCERRADO) || tipoStatus.equals(TipoStatus.ENVIADOACAMPO) || tipoStatus.equals(TipoStatus.VENCIDOSLA)) {
 
-			}			
+                Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1 AND d.dataEncerrado > CURRENT_DATE");
+                query.setParameter("param1", tipoStatus);
+                return query.getResultList();
 
-		} catch (Exception e) {
-			return new ArrayList<DefeitoTv>();
-		}
+            } else {
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Defeito> listarDefeitoEncerradosDQTT() {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1 AND d.dataEncerrado > CURRENT_DATE");
-			query.setParameter("param1", true);
-			return query.getResultList();
-			
-		} catch (Exception e) {
-			return new ArrayList<Defeito>();
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoTv> listarDefeitoEncerradosDQTTtv() {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1 AND d.dataEncerrado > CURRENT_DATE");
-			query.setParameter("param1", true);
-			return query.getResultList();
-			
-		} catch (Exception e) {
-			return new ArrayList<DefeitoTv>();
-		}
-		
-	}
+                Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.status =:param1");
+                query.setParameter("param1", tipoStatus);
+                return query.getResultList();
 
-	@SuppressWarnings("unchecked")
-	public List<DefeitoIntegracao> listarDefeitoIntegracaoPorLote(String nomeLote, String acao) {
+            }
 
-		try {
+        } catch (Exception e) {
+            return new ArrayList<DefeitoTv>();
+        }
 
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote.nome =:param1 AND d.status =:param2");
-			query.setParameter("param1", nomeLote);
+    }
 
-			if (acao.equalsIgnoreCase("ABERTO")){
+    @SuppressWarnings("unchecked")
+    public List<Defeito> listarDefeitoEncerradosDQTT() {
 
-				query.setParameter("param2", TipoStatus.ABERTO);
+        try {
 
-			}else{
-				
-				query.setParameter("param2", TipoStatus.ENCERRADO);
-				
-			}
-			
-			return query.getResultList();
+            Query query = this.entityManager.createQuery("FROM Defeito d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1 AND d.dataEncerrado > CURRENT_DATE");
+            query.setParameter("param1", true);
+            return query.getResultList();
 
-		} catch (Exception e) {
+        } catch (Exception e) {
+            return new ArrayList<Defeito>();
+        }
 
-			return new ArrayList<DefeitoIntegracao>();
+    }
 
-		}
+    @SuppressWarnings("unchecked")
+    public List<DefeitoTv> listarDefeitoEncerradosDQTTtv() {
 
-	}
+        try {
 
-	@SuppressWarnings("unchecked")
-	public List<Lote> listarLotes() {
+            Query query = this.entityManager.createQuery("FROM DefeitoTv d WHERE d.encerradoAdm =:param1 AND d.encerradoDQTT =:param1 AND d.dataEncerrado > CURRENT_DATE");
+            query.setParameter("param1", true);
+            return query.getResultList();
 
-		try {
+        } catch (Exception e) {
+            return new ArrayList<DefeitoTv>();
+        }
 
-			Query query = this.entityManager.createQuery("FROM Lote l ORDER BY l.horaIntegrado DESC");
-			query.setMaxResults(5);
-			return query.getResultList();
+    }
 
-		} catch (Exception e) {
+    @SuppressWarnings("unchecked")
+    public List<DefeitoIntegracao> listarDefeitoIntegracaoPorLote(String nomeLote, String acao) {
 
-			return new ArrayList<Lote>();
+        try {
 
-		}
+            Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote.nome =:param1 AND d.status =:param2");
+            query.setParameter("param1", nomeLote);
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<LoteTv> listarLotesTv() {
+            if (acao.equalsIgnoreCase("ABERTO")) {
 
-		try {
+                query.setParameter("param2", TipoStatus.ABERTO);
 
-			Query query = this.entityManager.createQuery("FROM LoteTv l ORDER BY l.horaIntegrado DESC");
-			query.setMaxResults(5);
-			return query.getResultList();
+            } else {
 
-		} catch (Exception e) {
+                query.setParameter("param2", TipoStatus.ENCERRADO);
 
-			return new ArrayList<LoteTv>();
+            }
 
-		}
+            return query.getResultList();
 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<LogIntegracao> listarLogsDefeitosIntegrados(String lote, String acao) {		
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM LogIntegracao l WHERE l.defeitoIntegracao.lote.nome =:param1 AND l.tipoLogIntegracao =:param2");
-			
-			query.setParameter("param1", lote);
-			
-			if (acao.equalsIgnoreCase("INTEGRADO")){
-				
-				query.setParameter("param2", TipoLogIntegracao.INTEGRADO);
-				
-			}else if(acao.equalsIgnoreCase("NEGATIVAFULLTEST")){
-				
-				query.setParameter("param2", TipoLogIntegracao.NEGATIVAFULLTEST);
-				
-			}
-			
-			return query.getResultList();
-			
-		} catch (Exception e) {
-			
-			return new ArrayList<LogIntegracao>();
-			
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<DefeitoIntegracao> listarFulltestDefeitoEmTratamento(String lote) {
-		
-		try {
-			
-			Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote =:param1 AND d.status =:param2");
-			query.setParameter("param1", lote);
-			query.setParameter("param2", TipoStatus.EMTRATAMENTO);
-			return query.getResultList(); 
-			
-		} catch (Exception e) {
-			
-			return new ArrayList<DefeitoIntegracao>();
-			
-		}
-		
-	}
+        } catch (Exception e) {
+
+            return new ArrayList<DefeitoIntegracao>();
+
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Lote> listarLotes() {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM Lote l ORDER BY l.horaIntegrado DESC");
+            query.setMaxResults(5);
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<Lote>();
+
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<LoteTv> listarLotesTv() {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM LoteTv l ORDER BY l.horaIntegrado DESC");
+            query.setMaxResults(5);
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<LoteTv>();
+
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<LogIntegracao> listarLogsDefeitosIntegrados(String lote, String acao) {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM LogIntegracao l WHERE l.defeitoIntegracao.lote.nome =:param1 AND l.tipoLogIntegracao =:param2");
+
+            query.setParameter("param1", lote);
+
+            if (acao.equalsIgnoreCase("INTEGRADO")) {
+
+                query.setParameter("param2", TipoLogIntegracao.INTEGRADO);
+
+            } else if (acao.equalsIgnoreCase("NEGATIVAFULLTEST")) {
+
+                query.setParameter("param2", TipoLogIntegracao.NEGATIVAFULLTEST);
+
+            }
+
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<LogIntegracao>();
+
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<DefeitoIntegracao> listarFulltestDefeitoEmTratamento(String lote) {
+
+        try {
+
+            Query query = this.entityManager.createQuery("FROM DefeitoIntegracao d WHERE d.lote =:param1 AND d.status =:param2");
+            query.setParameter("param1", lote);
+            query.setParameter("param2", TipoStatus.EMTRATAMENTO);
+            return query.getResultList();
+
+        } catch (Exception e) {
+
+            return new ArrayList<DefeitoIntegracao>();
+
+        }
+
+    }
 
 }
