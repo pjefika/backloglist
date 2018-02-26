@@ -14,7 +14,6 @@ import entidades.Defeito;
 import entidades.DefeitoTv;
 import entidades.TipoStatus;
 import model.AtendimentoServico;
-import model.ImportServicoNew;
 import model.RotinasServicos;
 import util.JSFUtil;
 
@@ -67,7 +66,7 @@ public class PainelDefeitosBean {
 
         //buscarDefeitosAtivos();
         //buscarDefeitosAtivosTv();
-        timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 5000, 70000);
+        timerBuscaDefeitosAtivos.scheduleAtFixedRate(buscaDefeitoAtivos, 5000, 80000);
         //timerRemoveDefeitoAntigo.scheduleAtFixedRate(removeDefeitoAntigo, 30000, 30000);
         //timerVoltaDefeitoParaFila.scheduleAtFixedRate(voltaDefeitoParaFila, 5000, 5000);
 

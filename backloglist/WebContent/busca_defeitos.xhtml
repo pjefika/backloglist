@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-<ui:composition template="/recursos/template/template.xhtml">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/recursos/template/template.xhtml">
 
-	<ui:define name="tituloPagina">
-		 Lista de defeito
-	</ui:define>
-	<ui:define name="tituloPrincipal">
-		<i class="fa fa-list-ul"> </i> Lista de defeito</ui:define>
-	<ui:define name="tituloSecundario"></ui:define>
+        <ui:define name="tituloPagina">
+            Lista de defeito
+        </ui:define>
+        <ui:define name="tituloPrincipal">
+            <i class="fa fa-list-ul"> </i> Lista de defeito</ui:define>
+        <ui:define name="tituloSecundario"></ui:define>
 
-	<ui:define name="botoesAcao"></ui:define>
+        <ui:define name="botoesAcao"></ui:define>
 
-	<ui:define name="eventos">
-		<f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
-	</ui:define>
+        <ui:define name="eventos">
+            <f:event listener="#{loginBean.validarLogin()}" type="preRenderView" />
+        </ui:define>
 
-	<ui:define name="conteudo">
+        <ui:define name="conteudo">
 
-		<p:poll interval="10" update="defeitosData" />
+            <p:poll interval="60" update="defeitosData" />
 
-		<p:dataTable id="defeitosData" var="def" selectionMode="single"
-			rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
-			emptyMessage="Não há defeitos disponiveis"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters} {RowsPerPageDropdown}"
-			paginator="true" style="margin-bottom:20px" rows="10" 
-			currentPageReportTemplate="[{startRecord} de {endRecord}]"
-			filteredValue="#{atendimentoBean.defeitosDisponiveis}" rowsPerPageTemplate="10, 15, 50">
+            <p:dataTable id="defeitosData" var="def" selectionMode="single"
+                         rowKey="#{def.ss}" value="#{painelDefeitosBean.listaDefeitos}"
+                         emptyMessage="Não há defeitos disponiveis"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters} {RowsPerPageDropdown}"
+                         paginator="true" style="margin-bottom:20px" rows="10" 
+                         currentPageReportTemplate="[{startRecord} de {endRecord}]"
+                         filteredValue="#{atendimentoBean.defeitosDisponiveis}" rowsPerPageTemplate="10, 15, 50">
 
-			<f:facet name="{Exporters}">
-				<h:commandLink>
-					<i class="fa fa-download"></i> 
-						Exportar base
-						<p:dataExporter type="xls" target="defeitosData"
-						fileName="Defeitos_Disponiveis" />
-				</h:commandLink>
-			</f:facet>
+                <f:facet name="{Exporters}">
+                    <h:commandLink>
+                        <i class="fa fa-download"></i> 
+                        Exportar base
+                        <p:dataExporter type="xls" target="defeitosData"
+                                        fileName="Defeitos_Disponiveis" />
+                    </h:commandLink>
+                </f:facet>
 
-			<p:column headerText="SS">
-				<h:outputText value="#{def.ss}" />
-			</p:column>
+                <p:column headerText="SS">
+                    <h:outputText value="#{def.ss}" />
+                </p:column>
 
-			<p:column headerText="Instância">
-				<h:outputText value="#{def.instancia}" />
-			</p:column>
+                <p:column headerText="Instância">
+                    <h:outputText value="#{def.instancia}" />
+                </p:column>
 
-			<p:column headerText="Tipificação"
-				filterBy="#{def.tipificacao}"
-				filterMatchMode="contains">
-				<h:outputText value="#{def.tipificacao}" />
-			</p:column>
+                <p:column headerText="Tipificação"
+                          filterBy="#{def.tipificacao}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{def.tipificacao}" />
+                </p:column>
 
-			<p:column headerText="Data integração"
-				sortBy="#{relatorioBean.formatarData(def.dataDeIntegracao)}">
-				<h:outputText
-					value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
-			</p:column>
+                <p:column headerText="Data integração"
+                          sortBy="#{relatorioBean.formatarData(def.dataDeIntegracao)}">
+                    <h:outputText
+                        value="#{relatorioBean.formatarData(def.dataDeIntegracao)}" />
+                </p:column>
 
-			<p:column headerText="Fulltest rede"
-				sortBy="#{def.resultadoFulltest}">
-				<h:outputText value="#{def.resultadoFulltest}" />
-			</p:column>
+                <p:column headerText="Fulltest rede"
+                          sortBy="#{def.resultadoFulltest}">
+                    <h:outputText value="#{def.resultadoFulltest}" />
+                </p:column>
 
-			<p:column headerText="Ação" style="text-align: center;">
+                <p:column headerText="Ação" style="text-align: center;">
 
-				<p:commandButton id="assumi_defeito" value="Assumir" ajax="false">
+                    <p:commandButton id="assumi_defeito" value="Assumir" ajax="false">
 
-					<f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}"
-						for="assumi_defeito" />
+                        <f:actionListener binding="#{atendimentoBean.assumirDefeito(def)}"
+                                          for="assumi_defeito" />
 
-					<f:actionListener
-						binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}"
-						for="assumi_defeito" />
+                        <f:actionListener
+                            binding="#{painelDefeitosBean.removeDefeitoAoAssumir(def)}"
+                            for="assumi_defeito" />
 
-				</p:commandButton>
-			</p:column>
+                    </p:commandButton>
+                </p:column>
 
-		</p:dataTable>
+            </p:dataTable>
 
-	</ui:define>
+        </ui:define>
 
-</ui:composition>
+    </ui:composition>
 </html>
