@@ -125,6 +125,8 @@ public class ImportServicoNew {
 
         for (Object object : content) {
 
+            Thread.sleep(500);
+
             DefeitoTv defeitoTv = new DefeitoTv();
             row = (String[]) object;
 
@@ -201,6 +203,8 @@ public class ImportServicoNew {
 
         for (Object object : content) {
 
+            Thread.sleep(500);
+
             DefeitoIntegracao defeito = new DefeitoIntegracao();
             row = (String[]) object;
 
@@ -242,11 +246,8 @@ public class ImportServicoNew {
                     this.entityManager.persist(defeito);
 
                     /*listaDefeitoIntegracao.add(defeito);
-
-					this.salvaDefeitosIntegracao(listaDefeitoIntegracao);*/
+                    this.salvaDefeitosIntegracao(listaDefeitoIntegracao);*/
                 }
-
-            } else {
 
             }
         }
@@ -284,7 +285,6 @@ public class ImportServicoNew {
 //        return tipificacao;
 //
 //    }
-
     public void salvaLogIntegracao(DefeitoIntegracao defeitosIntegracao, TipoLogIntegracao tipoLogIntegracao) {
 
         LogIntegracao logIntegracao = new LogIntegracao();

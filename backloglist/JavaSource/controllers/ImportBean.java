@@ -10,7 +10,6 @@ import org.primefaces.model.UploadedFile;
 
 import entidades.Defeito;
 import entidades.Lote;
-import model.ImportServico;
 import model.ImportServicoNew;
 import util.JSFUtil;
 
@@ -26,9 +25,6 @@ public class ImportBean {
     private String tipificacao;
 
     private String nomeTipificacao;
-
-    @EJB
-    private ImportServico importServico;
 
     @EJB
     private ImportServicoNew importServicoNew;
@@ -52,13 +48,11 @@ public class ImportBean {
 //        }
 //
 //    }
-
 //    public void validaTipificacao() {
 //
 //        this.tipificacao = this.importServico.acaoTipificacao(this.nomeTipificacao);
 //
 //    }
-
     public void uploadFile(FileUploadEvent event) {
 
         UploadedFile file = event.getFile();
