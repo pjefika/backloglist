@@ -57,7 +57,7 @@ public class ImportServicoNew {
 
             String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
 
-            String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+            String fullname = "/var/backloglist_files/" + nome + ".csv";
 
             FileOutputStream fos = new FileOutputStream(fullname);
 
@@ -87,7 +87,7 @@ public class ImportServicoNew {
 
             String nome = usuarioEfika.getLogin() + "-" + dateFormat.format(date);
 
-            String fullname = "C:\\UploadedFiles\\" + nome + ".csv";
+            String fullname = "/var/backloglist_files/" + nome + ".csv";
 
             FileOutputStream fos = new FileOutputStream(fullname);
 
@@ -108,7 +108,7 @@ public class ImportServicoNew {
     public void importCSVTv(String nomeArquivo) throws Exception {
 
         String[] row = null;
-        String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+        String csvFilename = "/var/backloglist_files/" + nomeArquivo + ".csv";
 
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
         List content = csvReader.readAll();
@@ -188,7 +188,7 @@ public class ImportServicoNew {
     public void importCSV(String nomeArquivo) throws Exception {
 
         String[] row = null;
-        String csvFilename = "C:\\UploadedFiles\\" + nomeArquivo + ".csv";
+        String csvFilename = "/var/backloglist_files/" + nomeArquivo + ".csv";
 
         CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ';');
         List content = csvReader.readAll();

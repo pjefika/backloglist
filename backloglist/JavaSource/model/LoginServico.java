@@ -31,7 +31,7 @@ public class LoginServico {
 
 		if (usuarioWS == null){
 
-			throw new Exception("Usu·rio n„o encontrado, se vocÍ n„o possui login de acesso utilize a opÁ„o \"Solicite o seu acesso\" na pagina http://efika/web");
+			throw new Exception("Usu√°rio n√£o encontrado, se voc√™ n√£o possui login de acesso utilize a op√ß√£o \"Solicite o seu acesso\" na p√°gina http://efika/web");
 
 		}	
 
@@ -45,7 +45,7 @@ public class LoginServico {
 
 		if (!auth) {
 
-			throw new Exception("Login e senha incorretos, se vocÍ esqueceu da sua senha utilize a opÁ„o \"Esqueci minha senha\" na pagina http://efika/web");
+			throw new Exception("Login e senha incorretos, se voc√™ esqueceu da sua senha utilize a op√ß√£o \"Esqueci minha senha\" na p√°gina http://efika/web");
 
 		}
 

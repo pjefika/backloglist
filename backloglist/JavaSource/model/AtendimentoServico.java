@@ -66,7 +66,7 @@ public class AtendimentoServico {
     }
 
     /*
-	 * Montar lista com todos os defeitos ativos que est�o assumidos pelo colaborador.
+	 * Montar lista com todos os defeitos ativos que estão assumidos pelo colaborador.
 	 * */
     @SuppressWarnings("unchecked")
     public List<Defeito> listarDefeitosColaborador(UsuarioEfika usuario) {
@@ -117,7 +117,7 @@ public class AtendimentoServico {
         usuario.setAssumidos(this.listarDefeitosColaborador(usuario));
 
         if (usuario.getAssumidos().size() >= 2) {
-            throw new Exception("N�o � permitido assumir mais de 2 (dois) defeitos por Usu�rio!");
+            throw new Exception("Não ã permitido assumir mais de 2 (dois) defeitos por Usuãrio!");
         }
 
         defeito.setStatus(TipoStatus.EMTRATAMENTO);
@@ -175,7 +175,7 @@ public class AtendimentoServico {
             this.entityManager.persist(log);
         } catch (Exception e) {
 
-            throw new Exception("Por favor selecione o motivo, se n�o existir motivo contate o administrador!");
+            throw new Exception("Por favor selecione o motivo, se não existir motivo contate o administrador!");
 
         }
 
@@ -199,7 +199,7 @@ public class AtendimentoServico {
             this.entityManager.persist(log);
         } catch (Exception e) {
 
-            throw new Exception("Por favor selecione o motivo, se n�o existir motivo contate o administrador!");
+            throw new Exception("Por favor selecione o motivo, se não existir motivo contate o administrador!");
 
         }
 
@@ -254,7 +254,7 @@ public class AtendimentoServico {
 
         } catch (Exception e) {
 
-            throw new Exception("Este defeito n�o exite ou n�o est� atribuido a sua matricula.");
+            throw new Exception("Este defeito não exite ou não estã atribuido a sua matricula.");
 
         }
 
@@ -273,14 +273,14 @@ public class AtendimentoServico {
 
         } catch (Exception e) {
 
-            throw new Exception("Este defeito n�o exite ou n�o est� atribuido a sua matricula.");
+            throw new Exception("Este defeito não exite ou não estã atribuido a sua matricula.");
 
         }
 
     }
 
     /**
-     * Consulta Entidade Defeito por id SS (sem crit�rios);
+     * Consulta Entidade Defeito por id SS (sem critãrios);
      *
      * @param ss
      * @return Defeito
@@ -294,7 +294,7 @@ public class AtendimentoServico {
             query.setParameter("param1", ss);
             return (Defeito) query.getSingleResult();
         } catch (NoResultException e) {
-            throw new Exception("Este defeito n�o foi integrado na ferramenta.");
+            throw new Exception("Este defeito não foi integrado na ferramenta.");
         }
 
     }
@@ -306,7 +306,7 @@ public class AtendimentoServico {
             query.setParameter("param1", ss);
             return (DefeitoTv) query.getSingleResult();
         } catch (NoResultException e) {
-            throw new Exception("Este defeito n�o foi integrado na ferramenta.");
+            throw new Exception("Este defeito não foi integrado na ferramenta.");
         }
 
     }
@@ -322,7 +322,7 @@ public class AtendimentoServico {
 
         } catch (Exception e) {
 
-            throw new Exception("N�o possui defeitos para serem integrados!");
+            throw new Exception("Não possui defeitos para serem integrados!");
 
         }
 
@@ -335,7 +335,7 @@ public class AtendimentoServico {
             query.setParameter("param1", ss);
             return (DefeitoIntegracao) query.getSingleResult();
         } catch (NoResultException e) {
-            throw new Exception("Este defeito n�o foi integrado na ferramenta.");
+            throw new Exception("Este defeito não foi integrado na ferramenta.");
         }
 
     }
@@ -350,7 +350,7 @@ public class AtendimentoServico {
 
         } catch (Exception e) {
 
-            throw new Exception("Este defeito n�o foi integrado na ferramenta.");
+            throw new Exception("Este defeito não foi integrado na ferramenta.");
 
         }
 

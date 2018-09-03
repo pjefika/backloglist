@@ -120,9 +120,9 @@ public class FulltestBean {
     public void init() {
 
         timerFulltestDefeitosImportados1.scheduleAtFixedRate(FulltestDefeitosImportados1, 57000, 60000);
-        timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 58000, 60000);
-        timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 59000, 60000);
-        timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 60000, 60000);
+//        timerFulltestDefeitosImportados2.scheduleAtFixedRate(FulltestDefeitosImportados2, 58000, 60000);
+//        timerFulltestDefeitosImportados3.scheduleAtFixedRate(FulltestDefeitosImportados3, 59000, 60000);
+//        timerFulltestDefeitosImportados4.scheduleAtFixedRate(FulltestDefeitosImportados4, 60000, 60000);
 
         timerExcluiDefeitosParados.schedule(ExcluiDefeitosParados, 10000, 10000);
 
